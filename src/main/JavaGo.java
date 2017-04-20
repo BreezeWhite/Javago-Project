@@ -1,4 +1,5 @@
 package main;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +9,9 @@ import entities.characters.Player;
 import events.Event;
 import events.EventListener;
 import graphics.Screen;
+import graphics.UIManager;
 import graphics.layers.Layer;
+import graphics.layers.World;
 import inputs.Keyboard;
 import inputs.Mouse;
 import mathematics.Vector2d;
@@ -32,25 +35,30 @@ public class JavaGo implements Runnable, EventListener {
 		screen.addMouseMotionListener(mouse);
 		battle = new TestBattle("/textures/battles/test_level.png");
 		battle.add(new Player(battle, new Vector2d(1100, 900), keyboard));
-		player = battle.getClientPlayer(); // Should be the player we just added.
+		player = battle.getClientPlayer(); // Should be the player we just
+											// added.
 		addLayer(battle);
 
 	}
-	
+
 	public void addLayer(Layer layer) {
 		layers.add(layer);
 	}
 
+	public void clearLayers() {
+		layers.clear();
+	}
+
 	@Override
 	public void onEvent(Event event) {
-		for(int i = layers.size() - 1; i >= 0; --i) {
+		for (int i = layers.size() - 1; i >= 0; --i) {
 			layers.get(i).onEvent(event);
 		}
 	}
 
 	public void render() {
 		battle.setOffset(getPlayerCentricOffset());
-		for(int i = 0; i < layers.size(); ++i) {
+		for (int i = 0; i < layers.size(); ++i) {
 			layers.get(i).render(screen);
 		}
 		screen.render();
@@ -65,6 +73,19 @@ public class JavaGo implements Runnable, EventListener {
 		int numFrames = 0;
 		int numTicks = 0;
 		while (executing) {
+			// We would like UIManager to be able to update JavaGo (this), with
+			// the capability to display multiple menus simultaneously.
+
+			// UIManager should be able to switch among menus by manipulating
+			// JavaGo's layers (i.e., calling javaGo.clearLayers() and
+			// javaGo.addLayer()).
+
+			// JavaGo (this) must know when to start gameplay. How can UIManager
+			// tell JavaGo when to start gameplay?
+			UIManager uiManager = new UIManager(this);
+			while(uiManager.isOpen()) {
+				render();
+			}
 			long timeNS = System.nanoTime();
 			delta += (timeNS - prevTimeNS) / rate;
 			prevTimeNS = timeNS;
@@ -75,7 +96,7 @@ public class JavaGo implements Runnable, EventListener {
 			}
 			render();
 			++numFrames;
-			if(System.currentTimeMillis() - prevTimeMS > 1000) {
+			if (System.currentTimeMillis() - prevTimeMS > 1000) {
 				prevTimeMS += 1000;
 				screen.setTitle(TITLE + " | " + numTicks + " ups, " + numFrames + " fps");
 				numFrames = numTicks = 0;
@@ -101,7 +122,8 @@ public class JavaGo implements Runnable, EventListener {
 
 	private boolean executing = false;
 	private Battle battle;
-	private static final int defaultScreenWidth = 500, defaultScreenHeight = (int)((double)defaultScreenWidth * 9.0 / 16.0);
+	private static final int defaultScreenWidth = 500,
+			defaultScreenHeight = (int) ((double) defaultScreenWidth * 9.0 / 16.0);
 	private Keyboard keyboard;
 	private List<Layer> layers = new ArrayList<Layer>();
 	private Mouse mouse;
@@ -110,11 +132,12 @@ public class JavaGo implements Runnable, EventListener {
 	private Thread thread;
 
 	private Vector2i getPlayerCentricOffset() {
-		return new Vector2i(player.getCoordinates().add(new Vector2d(player.getWidth() >> 1, player.getHeight() >> 1)).subtract(screen.getDimensionsD().multiply(0.5)));
+		return new Vector2i(player.getCoordinates().add(new Vector2d(player.getWidth() >> 1, player.getHeight() >> 1))
+				.subtract(screen.getDimensionsD().multiply(0.5)));
 	}
 
 	private void tick() {
-		for(int i = 0; i < layers.size(); ++i) {
+		for (int i = 0; i < layers.size(); ++i) {
 			layers.get(i).update();
 		}
 	}

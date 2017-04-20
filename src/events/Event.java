@@ -5,7 +5,8 @@ public abstract class Event {
 	public enum Type {
 		MOUSE_PRESSED,
 		MOUSE_RELEASED,
-		MOUSE_MOVED
+		MOUSE_MOVED,
+		MENU_CHANGE
 	}
 	
 	public Type getType() {

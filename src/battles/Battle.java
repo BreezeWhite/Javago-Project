@@ -79,6 +79,7 @@ public abstract class Battle extends Layer {
 		this.offset = new Vector2i(offset);
 	}
 
+	@Override
 	public void update() {
 		for (int i = 0; i < players.size(); ++i) {
 			players.get(i).update();
