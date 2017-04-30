@@ -5,9 +5,8 @@ import java.awt.event.ActionListener;
 import javax.swing.UIManager;
 import ui.MyButton.MyButton;
 
+/*世界地圖物件，進入遊戲後，除開場動畫外的第一個畫面*/
 public class UI_WorldMap extends UI{
-	/*世界地圖物件，進入遊戲後，除開場動畫外的第一個畫面*/
-	
 	private int numIsland;
 	private UIManager manager;
 	
@@ -33,6 +32,6 @@ public class UI_WorldMap extends UI{
 			//screen.add(islands[i]);
 			islands[i].addActionListener((ActionListener) manager);
 		}
-		//And other works for arranging the screen
+		/*And other works for arranging the screen*/
 	}
 }
