@@ -14,10 +14,10 @@ import inputs.Mouse;
 import mathematics.Vector2d;
 import mathematics.Vector2i;
 
-// ³o­ÓÃş§O¥]§t main ¤èªk¡A³o¸Ìªºµ{¦¡½X¤£­n¼g¤Ó¦h¥H«O«ù¥DÃş§OªºÂ²¼ä¡C
+// é€™å€‹é¡åˆ¥åŒ…å« main æ–¹æ³•ï¼Œé€™è£¡çš„ç¨‹å¼ç¢¼ä¸è¦å¯«å¤ªå¤šä»¥ä¿æŒä¸»é¡åˆ¥çš„ç°¡æ½”ã€‚
 public class JavaGo implements Runnable, EventListener {
 
-	// ¥Î¨ÓÅã¥Ü¦b¹CÀ¸µøµ¡ªº¼ĞÃD¦C¡C
+	// ç”¨ä¾†é¡¯ç¤ºåœ¨éŠæˆ²è¦–çª—çš„æ¨™é¡Œåˆ—ã€‚
 	public static final String TITLE = "JavaGo Project";
 
 	public static void main(String[] args) {
@@ -26,41 +26,41 @@ public class JavaGo implements Runnable, EventListener {
 	}
 
 	public JavaGo() {
-		// ªì©l¤Æ¹CÀ¸µøµ¡¡C
+		// åˆå§‹åŒ–éŠæˆ²è¦–çª—ã€‚
 		screen = new Screen(defaultScreenWidth, defaultScreenHeight, 2);
 		
-		// ªì©l¤ÆÁä½L¨Æ¥óºÊÅ¥¾¹µM«á§â¥¦¥[¤Jscreen¡C
+		// åˆå§‹åŒ–éµç›¤äº‹ä»¶ç›£è½å™¨ç„¶å¾ŒæŠŠå®ƒåŠ å…¥screenã€‚
 		keyboard = new Keyboard();
 		screen.addKeyListener(keyboard);
 
-		// ªì©l¤Æ·Æ¹«¨Æ¥óºÊÅ¥¾¹µM«á§â¥¦¥[¤Jscreen¡C
+		// åˆå§‹åŒ–æ»‘é¼ äº‹ä»¶ç›£è½å™¨ç„¶å¾ŒæŠŠå®ƒåŠ å…¥screenã€‚
 		mouse = new Mouse(this);
 		screen.addMouseListener(mouse);
 		screen.addMouseMotionListener(mouse);
 
-		// ªì©l¤Æ²Ä¤@¯Å¡C¡]¥H«á¤£·|ª½±µ¶}©l¶]¹CÀ¸¡A·|¥ı¶}¨Ï¥ÎªÌ¤¶­±¡C¡^
+		// åˆå§‹åŒ–ç¬¬ä¸€ç´šã€‚ï¼ˆä»¥å¾Œä¸æœƒç›´æ¥é–‹å§‹è·‘éŠæˆ²ï¼Œæœƒå…ˆé–‹ä½¿ç”¨è€…ä»‹é¢ã€‚ï¼‰
 		battle = new TestBattle("/textures/battles/test_level.png");
 		
-		// §â³o»O¹q¸£ªºª±®a¥[¤J²Ä¤@¯Å¡C¡]Vector2d ¬O®y¼ĞÃş§O¡C¡^
+		// æŠŠé€™è‡ºé›»è…¦çš„ç©å®¶åŠ å…¥ç¬¬ä¸€ç´šã€‚ï¼ˆVector2d æ˜¯åº§æ¨™é¡åˆ¥ã€‚ï¼‰
 		battle.add(new Player(battle, new Vector2d(1100, 900), keyboard));
 
-		// ªì©l¤Æª±®a¡C¡]Client player: ¥Î¤áª±®aºİ¡C¡^
+		// åˆå§‹åŒ–ç©å®¶ã€‚ï¼ˆClient player: ç”¨æˆ¶ç©å®¶ç«¯ã€‚ï¼‰
 		player = battle.getClientPlayer();
 
-		// Layer ¬°¼hªºÃş§O¡Cµe­±¤W¦³¤£¦PªºLayers¡A
-		// ¦Ó¥B¨C¤@­ÓLayer­t³d³B²z·Æ¹«©MÁä½L¨Æ¥ó¡C
-		// Layer ªº¥\¯à³B²zµe­±¤W¤£¦Pªº¥\¯à¡A¦p¿ï³æ¡B¹CÀ¸µe­±µ¥µ¥¡C
-		// ¬°¤°»ò­n¤À¼h¦¸©O¡H¦]¬°§AÂIÀ»¿ï³æ¼h¦¸®É¡Aµ´¹ï¤£§Æ±æ³Q¹CÀ¸¼h¦¸µø¬°®gÀ»«ü¥O¡C
+		// Layer ç‚ºå±¤çš„é¡åˆ¥ã€‚ç•«é¢ä¸Šæœ‰ä¸åŒçš„Layersï¼Œ
+		// è€Œä¸”æ¯ä¸€å€‹Layerè² è²¬è™•ç†æ»‘é¼ å’Œéµç›¤äº‹ä»¶ã€‚
+		// Layer çš„åŠŸèƒ½è™•ç†ç•«é¢ä¸Šä¸åŒçš„åŠŸèƒ½ï¼Œå¦‚é¸å–®ã€éŠæˆ²ç•«é¢ç­‰ç­‰ã€‚
+		// ç‚ºä»€éº¼è¦åˆ†å±¤æ¬¡å‘¢ï¼Ÿå› ç‚ºä½ é»æ“Šé¸å–®å±¤æ¬¡æ™‚ï¼Œçµ•å°ä¸å¸Œæœ›è¢«éŠæˆ²å±¤æ¬¡è¦–ç‚ºå°„æ“ŠæŒ‡ä»¤ã€‚
 		addLayer(battle);
 
 	}
 	
-	// ¦bµe­±³Ì¤W­±¥[¤W·sªº¤@¼h¡C
+	// åœ¨ç•«é¢æœ€ä¸Šé¢åŠ ä¸Šæ–°çš„ä¸€å±¤ã€‚
 	public void addLayer(Layer layer) {
 		layers.add(layer);
 	}
 
-	// ±q³Ì¤W­±ªº¨º¤@¼h¶}©l¡A§â¨Æ¥ó¶Ç¨ì©Ò¦³ªº¼h¦¸¡C
+	// å¾æœ€ä¸Šé¢çš„é‚£ä¸€å±¤é–‹å§‹ï¼ŒæŠŠäº‹ä»¶å‚³åˆ°æ‰€æœ‰çš„å±¤æ¬¡ã€‚
 	@Override
 	public void onEvent(Event event) {
 		for(int i = layers.size() - 1; i >= 0; --i) {
@@ -68,10 +68,10 @@ public class JavaGo implements Runnable, EventListener {
 		}
 	}
 
-	// §âª±®a³]¬°¿Ã¹õ¤¤¤ßªº¦ì¸m¡C
-	// ¥s©Ò¦³ªº¼h¦¸¶Ç©Ò¦³¥]§t¥iµeªºª«¥ó¨ìscreen¥h¡A
-	// ±µ¤U¨Ó¡Ascreen·|§â©Ò¦³¥iµeª«¥óªº¹³¯À¸ê®Æ½Æ»s¨ì¥¦ªº¦¨­û pixelMap[]¡C
-	// ³Ì«á¡A¥H screen.render() ¥s screen §â pixelMap[] ¸Ìªº¸ê®Æµe¨ì¿Ã¹õ¤W¡C
+	// æŠŠç©å®¶è¨­ç‚ºè¢å¹•ä¸­å¿ƒçš„ä½ç½®ã€‚
+	// å«æ‰€æœ‰çš„å±¤æ¬¡å‚³æ‰€æœ‰åŒ…å«å¯ç•«çš„ç‰©ä»¶åˆ°screenå»ï¼Œ
+	// æ¥ä¸‹ä¾†ï¼ŒscreenæœƒæŠŠæ‰€æœ‰å¯ç•«ç‰©ä»¶çš„åƒç´ è³‡æ–™è¤‡è£½åˆ°å®ƒçš„æˆå“¡ pixelMap[]ã€‚
+	// æœ€å¾Œï¼Œä»¥ screen.render() å« screen æŠŠ pixelMap[] è£¡çš„è³‡æ–™ç•«åˆ°è¢å¹•ä¸Šã€‚
 	public void render() {
 		battle.setOffset(getPlayerCentricOffset());
 		for(int i = 0; i < layers.size(); ++i) {
@@ -80,17 +80,17 @@ public class JavaGo implements Runnable, EventListener {
 		screen.render();
 	}
 
-	// ·í javaGo.start() ©I¥s thread.start() ®É¡A run() ´N·|³Q©I¥s¤F¡C
+	// ç•¶ javaGo.start() å‘¼å« thread.start() æ™‚ï¼Œ run() å°±æœƒè¢«å‘¼å«äº†ã€‚
 	@Override
 	public void run() {
-		long prevTimeNS = System.nanoTime(); // ²{¦bªº®É¶¡¡]©`¬í¡^¡C
-		long prevTimeMS = System.currentTimeMillis(); // ²{¦bªº®É¶¡¡]²@¬í¡^¡C
-		final double rate = 1000000000.0 / 60.0; // ¤@¬íªº¤»¤Q¤À¤§¤@¡C
-		double delta = 0; // ®É¶¡ªº¼wº¸¶ğ¡]ÅÜ¤Æ¡^¡C
-		int numFrames = 0; // ´Vªº­p¼Æ¾¹¡C
-		int numTicks = 0; // tick() ©I¥s¦¸¼Æªº­p¼Æ¾¹¡C
+		long prevTimeNS = System.nanoTime(); // ç¾åœ¨çš„æ™‚é–“ï¼ˆå¥ˆç§’ï¼‰ã€‚
+		long prevTimeMS = System.currentTimeMillis(); // ç¾åœ¨çš„æ™‚é–“ï¼ˆæ¯«ç§’ï¼‰ã€‚
+		final double rate = 1000000000.0 / 60.0; // ä¸€ç§’çš„å…­ååˆ†ä¹‹ä¸€ã€‚
+		double delta = 0; // æ™‚é–“çš„å¾·çˆ¾å¡”ï¼ˆè®ŠåŒ–ï¼‰ã€‚
+		int numFrames = 0; // å¹€çš„è¨ˆæ•¸å™¨ã€‚
+		int numTicks = 0; // tick() å‘¼å«æ¬¡æ•¸çš„è¨ˆæ•¸å™¨ã€‚
 		while (executing) {
-			long timeNS = System.nanoTime(); // ²{¦bªº®É¶¡¡]©`¬í¡^¡C
+			long timeNS = System.nanoTime(); // ç¾åœ¨çš„æ™‚é–“ï¼ˆå¥ˆç§’ï¼‰ã€‚
 			delta += (timeNS - prevTimeNS) / rate;
 			prevTimeNS = timeNS;
 			while (delta > 1.0) {
@@ -112,7 +112,7 @@ public class JavaGo implements Runnable, EventListener {
 	public synchronized void start() {
 		executing = true;
 		thread = new Thread(this, "Display");
-		thread.start(); // ³o­Ó¤èªk·|©I¥s¥»Ãş§Oªº run() ¤èªk¡C;
+		thread.start(); // é€™å€‹æ–¹æ³•æœƒå‘¼å«æœ¬é¡åˆ¥çš„ run() æ–¹æ³•ã€‚;
 	}
 
 	public synchronized void stop() {
