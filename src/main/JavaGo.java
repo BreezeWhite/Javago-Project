@@ -2,16 +2,15 @@ package main;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import battles.Battle;
 import battles.TestBattle;
 import entities.characters.Player;
 import events.Event;
 import events.EventListener;
 import graphics.Screen;
-import graphics.UIManager;
+import ui.UIManager;
+import ui.UIInterface.*;
 import graphics.layers.Layer;
-import graphics.layers.World;
 import inputs.Keyboard;
 import inputs.Mouse;
 import mathematics.Vector2d;
@@ -72,20 +71,14 @@ public class JavaGo implements Runnable, EventListener {
 		double delta = 0;
 		int numFrames = 0;
 		int numTicks = 0;
+		
+		//UIManager will handle all the UI screen
+		//and will not end until entering the battle
+		UIManager uiManager = new UIManager();
+		uiManager.Start(new UI_World());
+		
 		while (executing) {
-			// We would like UIManager to be able to update JavaGo (this), with
-			// the capability to display multiple menus simultaneously.
-
-			// UIManager should be able to switch among menus by manipulating
-			// JavaGo's layers (i.e., calling javaGo.clearLayers() and
-			// javaGo.addLayer()).
-
-			// JavaGo (this) must know when to start gameplay. How can UIManager
-			// tell JavaGo when to start gameplay?
-			UIManager uiManager = new UIManager(this);
-			while(uiManager.isOpen()) {
-				render();
-			}
+			/*The part of handling battle*/
 			long timeNS = System.nanoTime();
 			delta += (timeNS - prevTimeNS) / rate;
 			prevTimeNS = timeNS;
@@ -101,6 +94,9 @@ public class JavaGo implements Runnable, EventListener {
 				screen.setTitle(TITLE + " | " + numTicks + " ups, " + numFrames + " fps");
 				numFrames = numTicks = 0;
 			}
+			
+			//戰鬥結束後，顯示獎勵畫面，然後進入下一次的UI畫面循環
+			uiManager.Start(new BattleEnd(uiManager,IslandName.ElfinIsland));
 		}
 		stop();
 	}
