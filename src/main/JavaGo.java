@@ -8,6 +8,7 @@ import entities.characters.Player;
 import events.Event;
 import events.EventListener;
 import graphics.Screen;
+import ui.MyButton.MyButton;
 import ui.UIManager;
 import ui.UIInterface.*;
 import graphics.layers.Layer;
@@ -33,9 +34,13 @@ public class JavaGo implements Runnable, EventListener {
 		screen.addMouseListener(mouse);
 		screen.addMouseMotionListener(mouse);
 		battle = new TestBattle("/textures/battles/test_level.png");
-		battle.add(new Player(battle, new Vector2d(1100, 900), keyboard));
+		battle.add(new Player(battle, new Vector2d(1100, 900), 25, keyboard));
 		player = battle.getClientPlayer(); // Should be the player we just
 											// added.
+		
+		//UIManager will handle all the UI screen
+		//and will not end until entering the battle
+		uiManager = new UIManager();
 		addLayer(battle);
 
 	}
@@ -71,12 +76,8 @@ public class JavaGo implements Runnable, EventListener {
 		double delta = 0;
 		int numFrames = 0;
 		int numTicks = 0;
-		
-		//UIManager will handle all the UI screen
-		//and will not end until entering the battle
-		UIManager uiManager = new UIManager();
 		uiManager.Start(new UI_World());
-		
+		MyButton b = new MyButton("Blah", null);
 		while (executing) {
 			/*The part of handling battle*/
 			long timeNS = System.nanoTime();
@@ -88,16 +89,19 @@ public class JavaGo implements Runnable, EventListener {
 				--delta;
 			}
 			render();
+			screen.render(b);
 			++numFrames;
 			if (System.currentTimeMillis() - prevTimeMS > 1000) {
 				prevTimeMS += 1000;
 				screen.setTitle(TITLE + " | " + numTicks + " ups, " + numFrames + " fps");
 				numFrames = numTicks = 0;
 			}
-			
-			//戰鬥結束後，顯示獎勵畫面，然後進入下一次的UI畫面循環
-			uiManager.Start(new BattleEnd(uiManager,IslandName.ElfinIsland));
+			if(player.getHP() <= 0) {
+				executing = false;
+			}
 		}
+		//戰鬥結束後，顯示獎勵畫面，然後進入下一次的UI畫面循環
+		uiManager.Start(new BattleEnd(uiManager,IslandName.ElfinIsland));
 		stop();
 	}
 
@@ -126,6 +130,7 @@ public class JavaGo implements Runnable, EventListener {
 	private Player player;
 	private Screen screen;
 	private Thread thread;
+	private UIManager uiManager;
 
 	private Vector2i getPlayerCentricOffset() {
 		return new Vector2i(player.getCoordinates().add(new Vector2d(player.getWidth() >> 1, player.getHeight() >> 1))

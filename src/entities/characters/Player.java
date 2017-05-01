@@ -14,9 +14,13 @@ import mathematics.Vector2d;
 
 public class Player extends Character implements EventListener {
 
-	public Player(Battle battle, Vector2d position, Keyboard keyboard) {
-		super(battle, position, Sprite.getVoid());
+	public Player(Battle battle, Vector2d position, int hp, Keyboard keyboard) {
+		super(battle, position, Sprite.getVoid(), hp);
 		this.keyboard = keyboard;
+	}
+
+	public int getHP() {
+		return hp;
 	}
 
 	@Override
@@ -38,6 +42,7 @@ public class Player extends Character implements EventListener {
 	public void update() {
 		if (walking) {
 			animatedSprite.update();
+			hp -= 5;
 		} else {
 			animatedSprite.setFrame(0);
 		}

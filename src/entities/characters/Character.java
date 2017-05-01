@@ -14,8 +14,9 @@ public abstract class Character extends Entity {
 
 	protected Direction direction;
 
-	protected Character(Battle battle, Vector2d position, Sprite sprite) {
+	protected Character(Battle battle, Vector2d position, Sprite sprite, int hp) {
 		super(battle, position, sprite);
+		this.hp = hp;
 	}
 
 	public void move(double deltaX, double deltaY) {
@@ -91,6 +92,7 @@ public abstract class Character extends Entity {
 	@Override
 	public abstract void update();
 
+	protected int hp = 0;
 	protected int reloadTime = 0;
 	protected double speed = 2;
 	protected boolean walking = false;

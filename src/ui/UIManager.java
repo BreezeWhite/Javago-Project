@@ -17,7 +17,7 @@ public class UIManager implements ActionListener{
 	/*當還未進入戰鬥時需停留在UIManager內部*/
 	public void Start(UI state){
 		cur_state=state;
-		this.Start();
+		Start();
 	}
 	public void Start(){
 		//使用while迴圈以停留在UIManager內部

@@ -4,8 +4,11 @@ import java.awt.Canvas;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.awt.geom.Area;
+import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
@@ -15,6 +18,7 @@ import javax.swing.JFrame;
 import main.JavaGo;
 import mathematics.Vector2d;
 import mathematics.Vector2i;
+import ui.MyButton.ProtoButton;
 
 public class Screen extends Canvas {
 
@@ -94,9 +98,18 @@ public class Screen extends Canvas {
 			return;
 		}
 		Graphics graphics = bufferStrategy.getDrawGraphics();
+		graphics.fill
 		graphics.drawImage(image, 0, 0, getWidth(), getHeight(), null);
 		graphics.dispose();
 		bufferStrategy.show();
+	}
+	
+	public void render(ProtoButton protoButton) {
+		Graphics2D g2 = (Graphics2D) graphics;
+		g2.fill(new Area(new RoundRectangle2D.Double(
+			      0d, 0d, m_dWidthFill, m_dHeightFill, 
+			      dArcLengthFill, dArcLengthFill)));
+		protoButton.setBounds(50, 50, 50, 50);
 	}
 
 	public void render(Sprite sprite, Vector2i position, boolean fixed) {
