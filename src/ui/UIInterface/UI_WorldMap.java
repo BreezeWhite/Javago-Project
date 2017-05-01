@@ -1,8 +1,6 @@
 package ui.UIInterface;
 
-import java.awt.event.ActionListener;
-
-import javax.swing.UIManager;
+import ui.UIManager;
 import ui.MyButton.MyButton;
 
 /*世界地圖物件，進入遊戲後，除開場動畫外的第一個畫面*/
@@ -19,8 +17,8 @@ public class UI_WorldMap extends UI{
 		numIsland=4; //Total number of islands
 		islands=new MyButton[numIsland];
 		
-		//island[0]=new MyButton("Name1",new island1());
-		//island[1]=new MyButton("Name2",new island2());
+		//island[0]=new MyButton("Name1",new island1(IslandName.RobotIsland));
+		//island[1]=new MyButton("Name2",new island2(IslandName.OrcsIsland));
 		//...
 		
 		
@@ -30,7 +28,7 @@ public class UI_WorldMap extends UI{
 	public void printScreen(){
 		for(int i=0;i<numIsland;++i){
 			//screen.add(islands[i]);
-			islands[i].addActionListener((ActionListener) manager);
+			islands[i].addActionListener(manager);
 		}
 		/*And other works for arranging the screen*/
 	}
