@@ -1,8 +1,3 @@
-/battles/
-/entities/
-/events/
-/graphics/
-/inputs/
+/server/
+/network/
 /main/
-/mathematics/
-/tiles/

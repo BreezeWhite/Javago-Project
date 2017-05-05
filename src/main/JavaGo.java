@@ -13,6 +13,8 @@ import inputs.Keyboard;
 import inputs.Mouse;
 import mathematics.Vector2d;
 import mathematics.Vector2i;
+import network.Client;
+import server.Server;
 
 // 這個類別包含 main 方法，這裡的程式碼不要寫太多以保持主類別的簡潔。
 public class JavaGo implements Runnable, EventListener {
@@ -26,6 +28,12 @@ public class JavaGo implements Runnable, EventListener {
 	}
 
 	public JavaGo() {
+		// 測試伺服器和用戶端的程式碼。
+		Server server = new Server(37855 /* 隨便挑的埠 */);
+		server.start();
+		Client client = new Client("localhost", 37855);
+		client.connect();
+		
 		// 初始化遊戲視窗。
 		screen = new Screen(defaultScreenWidth, defaultScreenHeight, 2);
 		
