@@ -1,18 +1,12 @@
 package graphics;
 
 import java.awt.Canvas;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 
-import javax.swing.JFrame;
-
-import main.JavaGo;
 import mathematics.Vector2d;
 import mathematics.Vector2i;
 
@@ -22,46 +16,6 @@ public class Screen extends Canvas {
 		this.scale = scale;
 		// Height is calculated to obtain a 16:9 aspect ratio.
 		resize(new Dimension(width * scale, height * scale));
-
-		frame = new JFrame();
-		frame.setResizable(true);
-		frame.setTitle(JavaGo.TITLE);
-		frame.add(this); // Fills from with this instance of Screen, which is a
-							// subclass of Canvas, which in turn is a subclass
-							// of Component.
-		frame.pack(); // Resizes frame to be same size as Component added above.
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setLocationRelativeTo(null);
-		frame.addComponentListener(new ComponentListener() 
-		{  
-		        // This method is called after the component's size changes
-		        public void componentResized(ComponentEvent evt) {
-		            Component c = (Component)evt.getSource();
-		    
-		            // Get new size
-		            Dimension newSize = c.getSize();
-		            resize(newSize);
-		        }
-
-				@Override
-				public void componentHidden(ComponentEvent arg0) {
-					// TODO Auto-generated method stub
-					
-				}
-
-				@Override
-				public void componentMoved(ComponentEvent arg0) {
-					// TODO Auto-generated method stub
-					
-				}
-
-				@Override
-				public void componentShown(ComponentEvent arg0) {
-					// TODO Auto-generated method stub
-					
-				}
-		});
-		frame.setVisible(true);
 		requestFocus();
 	}
 
@@ -138,13 +92,8 @@ public class Screen extends Canvas {
 		this.offset = offset;
 	}
 
-	public void setTitle(String title) {
-		frame.setTitle(title);
-	}
-
 	private Dimension dimensions;
 	private Dimension scaledDimensions;
-	private JFrame frame;
 	private BufferedImage image;
 	private int[] pixelMap;
 	private int scale;
