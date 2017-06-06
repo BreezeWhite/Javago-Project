@@ -29,7 +29,7 @@ public class JavaGo implements Runnable, EventListener {
 	private JavaGo() {
 		// 初始化遊戲視窗。
 		window = Window.getInstance();
-		window.changeTo(IslandSelector.getInstance());
+		window.changeTo(IslandSelector.getInstance(), true);
 		screen = window.getScreen();
 
 		// 初始化鍵盤事件監聽器然後把它加入screen。

@@ -32,7 +32,7 @@ public class RobotIslandBattleSelector extends JPanel {
 		});
 		add(level1, c);
 
-		++c.gridx;
+		++c.gridy;
 		JButton level2 = new JButton("機械島關卡二");
 		level2.addActionListener(new ActionListener() {
 			@Override
