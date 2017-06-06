@@ -30,9 +30,9 @@ public class RobotIslandBattleSelector extends JPanel {
 				JavaGo.getInstance().start();
 			}
 		});
-		add(level1);
+		add(level1, c);
 
-		++c.gridy;
+		++c.gridx;
 		JButton level2 = new JButton("機械島關卡二");
 		level2.addActionListener(new ActionListener() {
 			@Override
@@ -41,7 +41,7 @@ public class RobotIslandBattleSelector extends JPanel {
 				JavaGo.getInstance().start();
 			}
 		});
-		add(level2);
+		add(level2, c);
 
 		++c.gridy;
 		JButton level3 = new JButton("機械島關卡三");
@@ -52,7 +52,7 @@ public class RobotIslandBattleSelector extends JPanel {
 				JavaGo.getInstance().start();
 			}
 		});
-		add(level3);
+		add(level3, c);
 	}
 
 	private static final long serialVersionUID = 1L;

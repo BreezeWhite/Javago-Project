@@ -30,7 +30,7 @@ public class FairyIslandBattleSelector extends JPanel {
 				JavaGo.getInstance().start();
 			}
 		});
-		add(level1);
+		add(level1, c);
 
 		++c.gridy;
 		JButton level2 = new JButton("精靈島關卡二");
@@ -41,7 +41,7 @@ public class FairyIslandBattleSelector extends JPanel {
 				JavaGo.getInstance().start();
 			}
 		});
-		add(level2);
+		add(level2, c);
 
 		++c.gridy;
 		JButton level3 = new JButton("精靈島關卡三");
@@ -52,7 +52,7 @@ public class FairyIslandBattleSelector extends JPanel {
 				JavaGo.getInstance().start();
 			}
 		});
-		add(level3);
+		add(level3, c);
 	}
 
 	private static final long serialVersionUID = 1L;

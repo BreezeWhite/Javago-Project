@@ -11,7 +11,6 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JPanel;
 
 import graphics.Screen;
 import main.JavaGo;
@@ -76,17 +75,17 @@ public class Window extends JFrame {
 		setVisible(true);
 	}
 
-	public void changeTo(Component nextJPanel) {
+	public void changeTo(Component nextComponent) {
 		if (curComponent != null) {
 			remove(curComponent);
-			curComponent = nextJPanel;
+			curComponent = nextComponent;
 			add(curComponent);
 			pack();
 		} else {
-			curComponent = nextJPanel;
+			curComponent = nextComponent;
 			add(curComponent);
 			pack();
-			setLocationRelativeTo(null);
+			setLocationRelativeTo(null); // Centre window.
 		}
 	}
 
