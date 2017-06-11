@@ -1,21 +1,20 @@
 package main;
-import java.util.ArrayList;
-import java.util.List;
 
 import battles.Battle;
 import battles.TestBattle;
-import entities.characters.Player;
+import entities.characters.players.GladiatorCat;
+import entities.characters.players.Player;
+import entities.characters.players.SharkPlane;
 import events.Event;
 import events.EventListener;
 import graphics.Screen;
-import graphics.layers.Layer;
 import inputs.Keyboard;
 import inputs.Mouse;
 import mathematics.Vector2d;
 import mathematics.Vector2i;
 
 // 這個類別包含 main 方法，這裡的程式碼不要寫太多以保持主類別的簡潔。
-public class JavaGo implements Runnable, EventListener {
+	public class JavaGo implements Runnable, EventListener {
 
 	// 用來顯示在遊戲視窗的標題列。
 	public static final String TITLE = "JavaGo Project";
@@ -26,46 +25,35 @@ public class JavaGo implements Runnable, EventListener {
 	}
 
 	public JavaGo() {
+		
+		// 初始化鍵盤事件監聽器。
+		keyboard = new Keyboard();
+
+		// 初始化第一級。（以後不會直接開始跑遊戲，會先開使用者介面。）
+		battle = new TestBattle("/textures/battles/test_level.png");
+		
+		// 把這臺電腦的玩家加入第一級。（Vector2d 是座標類別。）
+		battle.add(new SharkPlane(battle, new Vector2d(1100, 900), keyboard));
+
+		// 初始化玩家。（Client player: 用戶玩家端。）
+		player = battle.getClientPlayer();
+
 		// 初始化遊戲視窗。
 		screen = new Screen(defaultScreenWidth, defaultScreenHeight, 2);
 		
-		// 初始化鍵盤事件監聽器然後把它加入screen。
-		keyboard = new Keyboard();
+		// 把鍵盤事件監聽器它加入screen。
 		screen.addKeyListener(keyboard);
 
 		// 初始化滑鼠事件監聽器然後把它加入screen。
 		mouse = new Mouse(this);
 		screen.addMouseListener(mouse);
 		screen.addMouseMotionListener(mouse);
-
-		// 初始化第一級。（以後不會直接開始跑遊戲，會先開使用者介面。）
-		battle = new TestBattle("/textures/battles/test_level.png");
-		
-		// 把這臺電腦的玩家加入第一級。（Vector2d 是座標類別。）
-		battle.add(new Player(battle, new Vector2d(1100, 900), keyboard));
-
-		// 初始化玩家。（Client player: 用戶玩家端。）
-		player = battle.getClientPlayer();
-
-		// Layer 為層的類別。畫面上有不同的Layers，
-		// 而且每一個Layer負責處理滑鼠和鍵盤事件。
-		// Layer 的功能處理畫面上不同的功能，如選單、遊戲畫面等等。
-		// 為什麼要分層次呢？因為你點擊選單層次時，絕對不希望被遊戲層次視為射擊指令。
-		addLayer(battle);
-
-	}
-	
-	// 在畫面最上面加上新的一層。
-	public void addLayer(Layer layer) {
-		layers.add(layer);
 	}
 
 	// 從最上面的那一層開始，把事件傳到所有的層次。
 	@Override
 	public void onEvent(Event event) {
-		for(int i = layers.size() - 1; i >= 0; --i) {
-			layers.get(i).onEvent(event);
-		}
+		battle.onEvent(event);
 	}
 
 	// 把玩家設為螢幕中心的位置。
@@ -74,9 +62,7 @@ public class JavaGo implements Runnable, EventListener {
 	// 最後，以 screen.render() 叫 screen 把 pixelMap[] 裡的資料畫到螢幕上。
 	public void render() {
 		battle.setOffset(getPlayerCentricOffset());
-		for(int i = 0; i < layers.size(); ++i) {
-			layers.get(i).render(screen);
-		}
+		battle.render(screen);
 		screen.render();
 	}
 
@@ -128,7 +114,6 @@ public class JavaGo implements Runnable, EventListener {
 	private Battle battle;
 	private static final int defaultScreenWidth = 500, defaultScreenHeight = (int)((double)defaultScreenWidth * 9.0 / 16.0);
 	private Keyboard keyboard;
-	private List<Layer> layers = new ArrayList<Layer>();
 	private Mouse mouse;
 	private Player player;
 	private Screen screen;
@@ -139,9 +124,7 @@ public class JavaGo implements Runnable, EventListener {
 	}
 
 	private void tick() {
-		for(int i = 0; i < layers.size(); ++i) {
-			layers.get(i).update();
-		}
+		battle.update();
 	}
 
 }

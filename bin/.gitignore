@@ -1,8 +1,6 @@
 /battles/
-/entities/
-/events/
 /graphics/
-/inputs/
 /main/
-/mathematics/
+/entities/
 /tiles/
+/inputs/

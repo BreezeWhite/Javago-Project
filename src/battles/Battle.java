@@ -8,15 +8,15 @@ import java.util.List;
 import javax.imageio.ImageIO;
 
 import entities.Entity;
-import entities.characters.Player;
+import entities.characters.players.Player;
 import events.Event;
+import events.EventListener;
 import graphics.Screen;
-import graphics.layers.Layer;
 import mathematics.Vector2d;
 import mathematics.Vector2i;
 import tiles.Tile;
 
-public abstract class Battle extends Layer {
+public abstract class Battle implements EventListener {
 
 	public void add(Entity entity) {
 		if (entity instanceof Player) {
@@ -52,7 +52,6 @@ public abstract class Battle extends Layer {
 		getClientPlayer().onEvent(event);
 	}
 
-	@Override
 	public void render(Screen screen) {
 		screen.clear(0xFF000000);
 		final int screenWidth = screen.getDimensions().getX();
@@ -123,11 +122,11 @@ public abstract class Battle extends Layer {
 		}
 		switch (tiles[tilesIndex]) {
 		case 0xFF00FF00:
-			return Tile.grassA;
+			return Tile.grass;
 		case 0xFFFFFF00:
-			return Tile.grassB;
+			return Tile.grass;
 		case 0xFF7F7F00:
-			return Tile.pathA;
+			return Tile.grass;
 		default:
 			return Tile.voidTile;
 		}

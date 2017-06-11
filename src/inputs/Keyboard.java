@@ -8,15 +8,31 @@ public class Keyboard implements KeyListener {
 	private boolean[] keys = new boolean[65535];
 	
 	public boolean downPressed() {
-		return keys[KeyEvent.VK_DOWN] || keys[KeyEvent.VK_S];
+		return keys[KeyEvent.VK_DOWN];
+	}
+	
+	public boolean ePressed() {
+		return keys[KeyEvent.VK_E];
 	}
 	
 	public boolean leftPressed() {
-		return keys[KeyEvent.VK_LEFT] || keys[KeyEvent.VK_A];
+		return keys[KeyEvent.VK_LEFT];
+	}
+	
+	public boolean qPressed() {
+		return keys[KeyEvent.VK_Q];
 	}
 	
 	public boolean rightPressed() {
-		return keys[KeyEvent.VK_RIGHT] || keys[KeyEvent.VK_D];
+		return keys[KeyEvent.VK_RIGHT];
+	}
+	
+	public boolean rPressed() {
+		return keys[KeyEvent.VK_R];
+	}
+	
+	public boolean wPressed() {
+		return keys[KeyEvent.VK_W];
 	}
 	
 	public void update() {
