@@ -1,6 +1,7 @@
 package entities.characters.players;
 
 import battles.Battle;
+import entities.Projectile;
 import graphics.AnimatedSprite;
 import graphics.AnimatedSpriteSet;
 import graphics.SpriteSheet;
@@ -26,7 +27,10 @@ public class SharkPlane extends Player {
 	@Override
 	public void update() {
 		if(!usingAbility) {
-			if(keyboard.rPressed()) { // Machine gun.
+			if(keyboard.rPressed() && timeToNextShot <= 0) { // Machine gun.
+				Projectile projectile = new Projectile(battle, new Vector2d(x, y), SpriteSheet.projectiles.getSprites()[1], Math.toRadians(90), 5, 5000, 5);
+				battle.add(projectile);
+				timeToNextShot = reloadTime;
 			}
 			else if(keyboard.ePressed()) { // Missile.
 			}

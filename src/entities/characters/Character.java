@@ -12,11 +12,16 @@ public abstract class Character extends Entity {
 	}
 
 	@Override
-	public abstract void update();
+	public void update() {
+		if(timeToNextShot > 0) {
+			--timeToNextShot;
+		}
+	}
 
 	protected int hp = 100;
-	protected int reloadTime = 0;
 	protected double speed = 2;
+	protected int timeToNextShot = 0;
+	protected int reloadTime = 20;
 	protected boolean walking = false;
 
 }

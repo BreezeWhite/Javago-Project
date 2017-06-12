@@ -12,6 +12,8 @@ public class SpriteSheet {
 
 	public static final SpriteSheet faerieIsland = new SpriteSheet(new SpriteSheet("/textures/sheets/islands/faerie_island.png"), new Vector2i(0, 0), new Vector2i(23, 29), new Vector2i(Tile.WIDTH, Tile.HEIGHT));
 
+	public static final SpriteSheet projectiles = new SpriteSheet(new SpriteSheet("/textures/sheets/projectiles/projectiles.png"), new Vector2i(0, 0), new Vector2i(3, 3), new Vector2i(16, 16));
+
 	public static final Vector2i warriorDimensions = new Vector2i(72, 72);
 	public static final SpriteSheet warrior = new SpriteSheet(new SpriteSheet("/textures/sheets/players/warrior.png"), new Vector2i(0, 0), new Vector2i(10, 12), warriorDimensions);
 	public static final SpriteSheet warriorUp = new SpriteSheet(warrior, new Vector2i(0, 0), new Vector2i(1, 5), warriorDimensions);

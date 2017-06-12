@@ -38,6 +38,7 @@ public abstract class Player extends Character implements EventListener {
 
 	@Override
 	public void update() {
+		super.update();
 		if(usingAbility) {
 			sprite = abilityAnimation.getSprite();
 			move(abilityDeltaX, abilityDeltaY);
@@ -52,8 +53,8 @@ public abstract class Player extends Character implements EventListener {
 			} else {
 				animatedSpriteSet.setFrame(defaultFrame);
 			}
-			if (reloadTime > 0) {
-				--reloadTime;
+			if (timeToNextShot > 0) {
+				--timeToNextShot;
 			}
 			double deltaX = 0, deltaY = 0;
 			if (keyboard.upPressed()) {

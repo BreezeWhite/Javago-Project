@@ -7,12 +7,12 @@ import mathematics.Vector2d;
 public class Projectile extends Entity {
 	protected final double xOrigin, yOrigin;
 	protected double angle;
-	protected double x, y;
 	protected double nx, ny;
 	protected double distance;
 	protected double speed, range, damage;
 
-	public Projectile(Battle battle, Vector2d position, Sprite sprite, double angle, double speed, int range, int damage) {
+	public Projectile(Battle battle, Vector2d position, Sprite sprite, double angle, double speed, int range,
+			int damage) {
 		super(battle, position, sprite);
 		xOrigin = position.getX();
 		yOrigin = position.getY();
@@ -26,14 +26,14 @@ public class Projectile extends Entity {
 
 	@Override
 	public void update() {
-		if (!collision((int)(x + nx), (int)(y + ny))) {
+		if (!collision((int) (x + nx), (int) (y + ny))) {
 			x += nx;
 			y += ny;
 			if (distance() > range) {
 				remove();
 			}
 		} else {
-			//battle.add(new ParticleSpawner((int)x, (int)y, 50, 10, level));
+			// battle.add(new ParticleSpawner((int)x, (int)y, 50, 10, level));
 			remove();
 		}
 	}

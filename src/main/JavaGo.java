@@ -33,7 +33,7 @@ import mathematics.Vector2i;
 		battle = new TestBattle("/textures/battles/test_level.png");
 		
 		// 把這臺電腦的玩家加入第一級。（Vector2d 是座標類別。）
-		battle.add(new SharkPlane(battle, new Vector2d(1100, 900), keyboard));
+		battle.add(new GladiatorCat(battle, new Vector2d(1100, 900), keyboard));
 
 		// 初始化玩家。（Client player: 用戶玩家端。）
 		player = battle.getClientPlayer();
