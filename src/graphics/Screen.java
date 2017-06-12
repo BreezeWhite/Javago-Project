@@ -117,7 +117,34 @@ public class Screen extends Canvas {
 						}
 						final int index = yAbsolute * dimensions.width + xAbsolute;
 						final int colour = sprite.getPixel(x, y);
-						if (index > -1 && index < pixelMap.length && colour != 0x00000000) {
+						if (index > -1 && index < pixelMap.length) {
+							pixelMap[index] = colour;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	public void render(Sprite sprite, Vector2i position, boolean fixed, int clearColour) {
+		position = new Vector2i(position);
+		if (!fixed) {
+			position.subtract(offset);
+		}
+		final int spriteHeight = sprite.getHeight();
+		final int spriteWidth = sprite.getWidth();
+		for (int y = 0; y < spriteHeight; ++y) {
+			final int yAbsolute = y + position.getY();
+			if (yAbsolute > -1 && yAbsolute < dimensions.height) {
+				for (int x = 0; x < spriteWidth; ++x) {
+					int xAbsolute = x + position.getX();
+					if (xAbsolute >= -sprite.getWidth() && xAbsolute < dimensions.width) {
+						if(xAbsolute < 0) {
+							xAbsolute = 0;
+						}
+						final int index = yAbsolute * dimensions.width + xAbsolute;
+						final int colour = sprite.getPixel(x, y);
+						if (index > -1 && index < pixelMap.length && colour != clearColour) {
 							pixelMap[index] = colour;
 						}
 					}

@@ -8,16 +8,16 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 
 public class Client {
-	
+
 	public enum Error {
 		NONE, INVALID_HOST, SOCKET_EXCEPTION
 	}
-	
+
 	public Client(String serverIPString, int port) {
 		this.serverIPString = serverIPString;
 		this.port = port;
 	}
-	
+
 	public boolean connect() {
 		try {
 			serverIP = InetAddress.getByName(serverIPString);
@@ -27,8 +27,8 @@ public class Client {
 			return false;
 		}
 		try {
-			// ¤£»İ­n«ü©w¤@­Ó¯S©wªº°ğ¡C
-			// ©M¦øªA¾¹·¾³q®É·|¦³ªğ¦^¦ì§}¡C
+			// ä¸éœ€è¦æŒ‡å®šä¸€å€‹ç‰¹å®šçš„åŸ ã€‚
+			// å’Œä¼ºæœå™¨æºé€šæ™‚æœƒæœ‰è¿”å›ä½å€ã€‚
 			socket = new DatagramSocket();
 		} catch (SocketException e) {
 			e.printStackTrace();
@@ -36,14 +36,14 @@ public class Client {
 			return false;
 		}
 		sendConnectionPacket();
-		// µ¥¦øªA¾¹ªº¦^À³¡C
+		// ç­‰ä¼ºæœå™¨çš„å›æ‡‰ã€‚
 		return true;
 	}
-	
+
 	public Error getErrorCode() {
 		return errorCode;
 	}
-	
+
 	public void send(byte[] data) {
 		assert (socket.isConnected());
 		DatagramPacket packet = new DatagramPacket(data, data.length, serverIP, port);
@@ -53,16 +53,16 @@ public class Client {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void sendConnectionPacket() {
 		byte[] data = "ConnectionPacket".getBytes();
 		send(data);
 	}
-	
+
 	private Error errorCode = Error.NONE;
 	private String serverIPString;
 	private int port;
 	private InetAddress serverIP;
 	private DatagramSocket socket;
-	
+
 }

@@ -1,3 +1,14 @@
+<<<<<<< HEAD
 /server/
 /network/
+=======
+/battles/
+/graphics/
+>>>>>>> refs/heads/milestone_one
 /main/
+<<<<<<< HEAD
+=======
+/entities/
+/tiles/
+/inputs/
+>>>>>>> refs/heads/milestone_one

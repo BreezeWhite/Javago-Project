@@ -9,32 +9,9 @@ public class Sprite {
 		return voidSprite;
 	}
 
-	public static Sprite getGrassA() {
-		return SpriteSheet.grassAndStonePath.getSprites()[21*9 + 3];
+	public static Sprite getInvisible() {
+		return invisibleSprite;
 	}
-
-	public static Sprite getGrassB() {
-		return SpriteSheet.grassAndStonePath.getSprites()[21*9 + 9];
-	}
-
-	public static Sprite getPathA() {
-		return SpriteSheet.grassAndStonePath.getSprites()[21*3 + 3];
-	}
-	/*public static Sprite getAstroTurf() {
-		return SpriteSheet.grassAndWater.getSprites()[0];
-	}
-	public static Sprite getTallGrass() {
-		return SpriteSheet.grassAndWater.getSprites()[1];
-	}
-	public static Sprite getBrownishGrass() {
-		return SpriteSheet.grassAndWater.getSprites()[2];
-	}
-	public static Sprite getLakeWater() {
-		return SpriteSheet.grassAndWater.getSprites()[3];
-	}
-	public static Sprite getDryGrass() {
-		return SpriteSheet.grassAndWater.getSprites()[4];
-	}*/
 
 	public Sprite(Vector2i dimensions) {
 		WIDTH = dimensions.getX();
@@ -72,5 +49,6 @@ public class Sprite {
 	private final int WIDTH, HEIGHT;
 
 	private static final Sprite voidSprite = new Sprite(new Vector2i(Tile.WIDTH, Tile.HEIGHT), 0xFFFFFFFF);
+	private static final Sprite invisibleSprite = new Sprite(new Vector2i(1, 1), 0x00FFFFFF);
 
 }

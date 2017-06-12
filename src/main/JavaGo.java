@@ -1,14 +1,16 @@
 package main;
-import java.util.ArrayList;
-import java.util.List;
 
 import battles.Battle;
 import battles.TestBattle;
-import entities.characters.Player;
+import entities.characters.Viking;
+import entities.characters.players.FatNerd;
+import entities.characters.players.GladiatorCat;
+import entities.characters.players.Leprechaun;
+import entities.characters.players.Player;
+import entities.characters.players.SharkPlane;
 import events.Event;
 import events.EventListener;
 import graphics.Screen;
-import graphics.layers.Layer;
 import inputs.Keyboard;
 import inputs.Mouse;
 import mathematics.Vector2d;
@@ -16,11 +18,12 @@ import mathematics.Vector2i;
 import network.Client;
 import server.Server;
 
-// ³o­ÓÃş§O¥]§t main ¤èªk¡A³o¸Ìªºµ{¦¡½X¤£­n¼g¤Ó¦h¥H«O«ù¥DÃş§OªºÂ²¼ä¡C
+// é€™å€‹é¡åˆ¥åŒ…å« main æ–¹æ³•ï¼Œé€™è£¡çš„ç¨‹å¼ç¢¼ä¸è¦å¯«å¤ªå¤šä»¥ä¿æŒä¸»é¡åˆ¥çš„ç°¡æ½”ã€‚
 public class JavaGo implements Runnable, EventListener {
 
-	// ¥Î¨ÓÅã¥Ü¦b¹CÀ¸µøµ¡ªº¼ĞÃD¦C¡C
+	// ç”¨ä¾†é¡¯ç¤ºåœ¨éŠæˆ²è¦–çª—çš„æ¨™é¡Œåˆ—ã€‚
 	public static final String TITLE = "JavaGo Project";
+	public static final boolean IS_SERVER = true;
 
 	public static void main(String[] args) {
 		JavaGo javaGo = new JavaGo();
@@ -28,77 +31,70 @@ public class JavaGo implements Runnable, EventListener {
 	}
 
 	public JavaGo() {
-		// ´ú¸Õ¦øªA¾¹©M¥Î¤áºİªºµ{¦¡½X¡C
-		Server server = new Server(37855 /* ÀH«K¬Dªº°ğ */);
-		server.start();
-		Client client = new Client("localhost", 37855);
-		client.connect();
-		
-		// ªì©l¤Æ¹CÀ¸µøµ¡¡C
-		screen = new Screen(defaultScreenWidth, defaultScreenHeight, 2);
-		
-		// ªì©l¤ÆÁä½L¨Æ¥óºÊÅ¥¾¹µM«á§â¥¦¥[¤Jscreen¡C
+		if (IS_SERVER) {
+			// æ¸¬è©¦ä¼ºæœå™¨å’Œç”¨æˆ¶ç«¯çš„ç¨‹å¼ç¢¼ã€‚
+			Server server = new Server(37855 /* éš¨ä¾¿æŒ‘çš„åŸ  */);
+			server.start();
+			Client client = new Client("localhost", 37855);
+			client.connect();
+		} else {
+			Client client = new Client("localhost", 37855);
+			client.connect();
+		}
+
+		// åˆå§‹åŒ–éµç›¤äº‹ä»¶ç›£è½å™¨ã€‚
 		keyboard = new Keyboard();
+
+		// åˆå§‹åŒ–ç¬¬ä¸€ç´šã€‚ï¼ˆä»¥å¾Œä¸æœƒç›´æ¥é–‹å§‹è·‘éŠæˆ²ï¼Œæœƒå…ˆé–‹ä½¿ç”¨è€…ä»‹é¢ã€‚ï¼‰
+		battle = new TestBattle("/textures/battles/test_level.png");
+
+		// æŠŠé€™è‡ºé›»è…¦çš„ç©å®¶åŠ å…¥ç¬¬ä¸€ç´šã€‚ï¼ˆVector2d æ˜¯åº§æ¨™é¡åˆ¥ã€‚ï¼‰
+		final int PLAYER_X = 1100, PLAYER_Y = 900;
+		battle.add(new GladiatorCat(battle, new Vector2d(PLAYER_X, PLAYER_Y), keyboard));
+		battle.add(new Viking(battle, new Vector2d(PLAYER_X, PLAYER_Y - 100)));
+
+		// åˆå§‹åŒ–ç©å®¶ã€‚ï¼ˆClient player: ç”¨æˆ¶ç©å®¶ç«¯ã€‚ï¼‰
+		player = battle.getClientPlayer();
+
+		// åˆå§‹åŒ–éŠæˆ²è¦–çª—ã€‚
+		screen = new Screen(defaultScreenWidth, defaultScreenHeight, 2);
+
+		// æŠŠéµç›¤äº‹ä»¶ç›£è½å™¨å®ƒåŠ å…¥screenã€‚
 		screen.addKeyListener(keyboard);
 
-		// ªì©l¤Æ·Æ¹«¨Æ¥óºÊÅ¥¾¹µM«á§â¥¦¥[¤Jscreen¡C
+		// åˆå§‹åŒ–æ»‘é¼ äº‹ä»¶ç›£è½å™¨ç„¶å¾ŒæŠŠå®ƒåŠ å…¥screenã€‚
 		mouse = new Mouse(this);
 		screen.addMouseListener(mouse);
 		screen.addMouseMotionListener(mouse);
-
-		// ªì©l¤Æ²Ä¤@¯Å¡C¡]¥H«á¤£·|ª½±µ¶}©l¶]¹CÀ¸¡A·|¥ı¶}¨Ï¥ÎªÌ¤¶­±¡C¡^
-		battle = new TestBattle("/textures/battles/test_level.png");
-		
-		// §â³o»O¹q¸£ªºª±®a¥[¤J²Ä¤@¯Å¡C¡]Vector2d ¬O®y¼ĞÃş§O¡C¡^
-		battle.add(new Player(battle, new Vector2d(1100, 900), keyboard));
-
-		// ªì©l¤Æª±®a¡C¡]Client player: ¥Î¤áª±®aºİ¡C¡^
-		player = battle.getClientPlayer();
-
-		// Layer ¬°¼hªºÃş§O¡Cµe­±¤W¦³¤£¦PªºLayers¡A
-		// ¦Ó¥B¨C¤@­ÓLayer­t³d³B²z·Æ¹«©MÁä½L¨Æ¥ó¡C
-		// Layer ªº¥\¯à³B²zµe­±¤W¤£¦Pªº¥\¯à¡A¦p¿ï³æ¡B¹CÀ¸µe­±µ¥µ¥¡C
-		// ¬°¤°»ò­n¤À¼h¦¸©O¡H¦]¬°§AÂIÀ»¿ï³æ¼h¦¸®É¡Aµ´¹ï¤£§Æ±æ³Q¹CÀ¸¼h¦¸µø¬°®gÀ»«ü¥O¡C
-		addLayer(battle);
-
-	}
-	
-	// ¦bµe­±³Ì¤W­±¥[¤W·sªº¤@¼h¡C
-	public void addLayer(Layer layer) {
-		layers.add(layer);
 	}
 
-	// ±q³Ì¤W­±ªº¨º¤@¼h¶}©l¡A§â¨Æ¥ó¶Ç¨ì©Ò¦³ªº¼h¦¸¡C
+	// å¾æœ€ä¸Šé¢çš„é‚£ä¸€å±¤é–‹å§‹ï¼ŒæŠŠäº‹ä»¶å‚³åˆ°æ‰€æœ‰çš„å±¤æ¬¡ã€‚
 	@Override
 	public void onEvent(Event event) {
-		for(int i = layers.size() - 1; i >= 0; --i) {
-			layers.get(i).onEvent(event);
-		}
+		battle.onEvent(event);
 	}
 
-	// §âª±®a³]¬°¿Ã¹õ¤¤¤ßªº¦ì¸m¡C
-	// ¥s©Ò¦³ªº¼h¦¸¶Ç©Ò¦³¥]§t¥iµeªºª«¥ó¨ìscreen¥h¡A
-	// ±µ¤U¨Ó¡Ascreen·|§â©Ò¦³¥iµeª«¥óªº¹³¯À¸ê®Æ½Æ»s¨ì¥¦ªº¦¨­û pixelMap[]¡C
-	// ³Ì«á¡A¥H screen.render() ¥s screen §â pixelMap[] ¸Ìªº¸ê®Æµe¨ì¿Ã¹õ¤W¡C
+	// æŠŠç©å®¶è¨­ç‚ºè¢å¹•ä¸­å¿ƒçš„ä½ç½®ã€‚
+	// å«æ‰€æœ‰çš„å±¤æ¬¡å‚³æ‰€æœ‰åŒ…å«å¯ç•«çš„ç‰©ä»¶åˆ°screenå»ï¼Œ
+	// æ¥ä¸‹ä¾†ï¼ŒscreenæœƒæŠŠæ‰€æœ‰å¯ç•«ç‰©ä»¶çš„åƒç´ è³‡æ–™è¤‡è£½åˆ°å®ƒçš„æˆå“¡ pixelMap[]ã€‚
+	// æœ€å¾Œï¼Œä»¥ screen.render() å« screen æŠŠ pixelMap[] è£¡çš„è³‡æ–™ç•«åˆ°è¢å¹•ä¸Šã€‚
 	public void render() {
 		battle.setOffset(getPlayerCentricOffset());
-		for(int i = 0; i < layers.size(); ++i) {
-			layers.get(i).render(screen);
-		}
+		battle.render(screen);
 		screen.render();
 	}
 
-	// ·í javaGo.start() ©I¥s thread.start() ®É¡A run() ´N·|³Q©I¥s¤F¡C
+	// ç•¶ javaGo.start() å‘¼å« thread.start() æ™‚ï¼Œ run() å°±æœƒè¢«å‘¼å«äº†ã€‚
 	@Override
 	public void run() {
-		long prevTimeNS = System.nanoTime(); // ²{¦bªº®É¶¡¡]©`¬í¡^¡C
-		long prevTimeMS = System.currentTimeMillis(); // ²{¦bªº®É¶¡¡]²@¬í¡^¡C
-		final double rate = 1000000000.0 / 60.0; // ¤@¬íªº¤»¤Q¤À¤§¤@¡C
-		double delta = 0; // ®É¶¡ªº¼wº¸¶ğ¡]ÅÜ¤Æ¡^¡C
-		int numFrames = 0; // ´Vªº­p¼Æ¾¹¡C
-		int numTicks = 0; // tick() ©I¥s¦¸¼Æªº­p¼Æ¾¹¡C
+		long prevTimeNS = System.nanoTime(); // ç¾åœ¨çš„æ™‚é–“ï¼ˆå¥ˆç§’ï¼‰ã€‚
+		long prevTimeMS = System.currentTimeMillis(); // ç¾åœ¨çš„æ™‚é–“ï¼ˆæ¯«ç§’ï¼‰ã€‚
+		final double rate = 1000000000.0 / 60.0; // ä¸€ç§’çš„å…­ååˆ†ä¹‹ä¸€ã€‚
+		double delta = 0; // æ™‚é–“çš„å¾·çˆ¾å¡”ï¼ˆè®ŠåŒ–ï¼‰ã€‚
+		int numFrames = 0; // å¹€çš„è¨ˆæ•¸å™¨ã€‚
+		int numTicks = 0; // tick() å‘¼å«æ¬¡æ•¸çš„è¨ˆæ•¸å™¨ã€‚
 		while (executing) {
-			long timeNS = System.nanoTime(); // ²{¦bªº®É¶¡¡]©`¬í¡^¡C
+			long timeNS = System.nanoTime(); // ç¾åœ¨çš„æ™‚é–“ï¼ˆå¥ˆç§’ï¼‰ã€‚
 			delta += (timeNS - prevTimeNS) / rate;
 			prevTimeNS = timeNS;
 			while (delta > 1.0) {
@@ -108,7 +104,7 @@ public class JavaGo implements Runnable, EventListener {
 			}
 			render();
 			++numFrames;
-			if(System.currentTimeMillis() - prevTimeMS > 1000) {
+			if (System.currentTimeMillis() - prevTimeMS > 1000) {
 				prevTimeMS += 1000;
 				screen.setTitle(TITLE + " | " + numTicks + " ups, " + numFrames + " fps");
 				numFrames = numTicks = 0;
@@ -120,7 +116,7 @@ public class JavaGo implements Runnable, EventListener {
 	public synchronized void start() {
 		executing = true;
 		thread = new Thread(this, "Display");
-		thread.start(); // ³o­Ó¤èªk·|©I¥s¥»Ãş§Oªº run() ¤èªk¡C;
+		thread.start(); // é€™å€‹æ–¹æ³•æœƒå‘¼å«æœ¬é¡åˆ¥çš„ run() æ–¹æ³•ã€‚;
 	}
 
 	public synchronized void stop() {
@@ -134,22 +130,24 @@ public class JavaGo implements Runnable, EventListener {
 
 	private boolean executing = false;
 	private Battle battle;
-	private static final int defaultScreenWidth = 500, defaultScreenHeight = (int)((double)defaultScreenWidth * 9.0 / 16.0);
+	private static final int defaultScreenWidth = 500,
+			defaultScreenHeight = (int) ((double) defaultScreenWidth * 9.0 / 16.0);
 	private Keyboard keyboard;
-	private List<Layer> layers = new ArrayList<Layer>();
 	private Mouse mouse;
 	private Player player;
 	private Screen screen;
 	private Thread thread;
 
 	private Vector2i getPlayerCentricOffset() {
-		return new Vector2i(player.getCoordinates().add(new Vector2d(player.getWidth() >> 1, player.getHeight() >> 1)).subtract(screen.getDimensionsD().multiply(0.5)));
+		return new Vector2i(player.getCoordinates().add(new Vector2d(player.getWidth() >> 1, player.getHeight() >> 1))
+				.subtract(screen.getDimensionsD().multiply(0.5)));
 	}
 
 	private void tick() {
-		for(int i = 0; i < layers.size(); ++i) {
-			layers.get(i).update();
+		if (player.isRemoved()) {
+			player = battle.getClientPlayer();
 		}
+		battle.update();
 	}
 
 }
