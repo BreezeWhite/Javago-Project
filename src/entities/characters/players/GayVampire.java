@@ -19,6 +19,26 @@ public class GayVampire extends Player {
 						new AnimatedSprite(SpriteSheet.gayVampireDimensions, SpriteSheet.gayVampireDownLeft, 6),
 						new AnimatedSprite(SpriteSheet.gayVampireDimensions, SpriteSheet.gayVampireLeft, 6),
 						new AnimatedSprite(SpriteSheet.gayVampireDimensions, SpriteSheet.gayVampireUpLeft, 6)));
+		defaultFrame = 0;
+		reloadTime = 100;
+		speed = 2;
 	}
 
+	@Override
+	public void update() {
+		if (!usingAbility) {
+			if (timeToNextShot <= 0) {
+				if (keyboard.rPressed()) { // Suck.
+					timeToNextShot = reloadTime;
+				} else if (keyboard.ePressed()) { // Make fun of outfit.
+					timeToNextShot = reloadTime;
+				} else if (keyboard.wPressed()) { // Shine.
+					timeToNextShot = reloadTime;
+				} else if (keyboard.qPressed()) { // Rainbow bat.
+					timeToNextShot = reloadTime;
+				}
+			}
+		}
+		super.update();
+	}
 }

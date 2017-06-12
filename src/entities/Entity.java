@@ -11,11 +11,7 @@ import tiles.Tile;
 
 public abstract class Entity {
 
-	public enum Direction {
-		UP, UP_RIGHT, RIGHT, DOWN_RIGHT, DOWN, DOWN_LEFT, LEFT, UP_LEFT
-	}
-
-	public Direction direction;
+	public Direction direction = Direction.DOWN;
 
 	protected Entity(Battle battle, Vector2d position, Sprite sprite) {
 		x = position.getX();
@@ -55,7 +51,7 @@ public abstract class Entity {
 	protected Sprite sprite;
 	protected double x, y;
 
-	private boolean removed = false;
+	protected boolean removed = false;
 
 	public void move(double deltaX, double deltaY) {
 		if (deltaX > 0) {

@@ -19,6 +19,27 @@ public class FatNerd extends Player {
 						new AnimatedSprite(SpriteSheet.fatNerdDimensions, SpriteSheet.fatNerdDownLeft, 3),
 						new AnimatedSprite(SpriteSheet.fatNerdDimensions, SpriteSheet.fatNerdLeft, 3),
 						new AnimatedSprite(SpriteSheet.fatNerdDimensions, SpriteSheet.fatNerdUpLeft, 3)));
+		defaultFrame = 0;
+		reloadTime = 100;
+		speed = 2;
+	}
+
+	@Override
+	public void update() {
+		if (!usingAbility) {
+			if (timeToNextShot <= 0) {
+				if (keyboard.rPressed()) { // Duck.
+					timeToNextShot = reloadTime;
+				} else if (keyboard.ePressed()) { // Helper.
+					timeToNextShot = reloadTime;
+				} else if (keyboard.wPressed()) { // DoS attack.
+					timeToNextShot = reloadTime;
+				} else if (keyboard.qPressed()) { // Cyber warfare.
+					timeToNextShot = reloadTime;
+				}
+			}
+		}
+		super.update();
 	}
 
 }

@@ -9,6 +9,10 @@ public class Sprite {
 		return voidSprite;
 	}
 
+	public static Sprite getInvisible() {
+		return invisibleSprite;
+	}
+
 	public Sprite(Vector2i dimensions) {
 		WIDTH = dimensions.getX();
 		HEIGHT = dimensions.getY();
@@ -45,5 +49,6 @@ public class Sprite {
 	private final int WIDTH, HEIGHT;
 
 	private static final Sprite voidSprite = new Sprite(new Vector2i(Tile.WIDTH, Tile.HEIGHT), 0xFFFFFFFF);
+	private static final Sprite invisibleSprite = new Sprite(new Vector2i(1, 1), 0x00FFFFFF);
 
 }

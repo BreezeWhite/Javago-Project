@@ -8,7 +8,6 @@ public class Projectile extends Entity {
 	protected final double xOrigin, yOrigin;
 	protected double angle;
 	protected double nx, ny;
-	protected double distance;
 	protected double speed, range, damage;
 
 	public Projectile(Battle battle, Vector2d position, Sprite sprite, double angle, double speed, int range,
@@ -26,7 +25,7 @@ public class Projectile extends Entity {
 
 	@Override
 	public void update() {
-		if (!collision((int) (x + nx), (int) (y + ny))) {
+		if (!collision((int) nx, (int) ny)) {
 			x += nx;
 			y += ny;
 			if (distance() > range) {

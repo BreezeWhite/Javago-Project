@@ -39,7 +39,7 @@ public class Keyboard implements KeyListener {
 	}
 	
 	public boolean upPressed() {
-		return keys[KeyEvent.VK_UP] || keys[KeyEvent.VK_W];
+		return keys[KeyEvent.VK_UP];
 	}
 	
 	@Override

@@ -1,6 +1,6 @@
 package graphics;
 
-import entities.Entity.Direction;
+import entities.Direction;
 
 public class AnimatedSpriteSet {
 

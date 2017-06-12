@@ -12,7 +12,12 @@ public class SpriteSheet {
 
 	public static final SpriteSheet faerieIsland = new SpriteSheet(new SpriteSheet("/textures/sheets/islands/faerie_island.png"), new Vector2i(0, 0), new Vector2i(23, 29), new Vector2i(Tile.WIDTH, Tile.HEIGHT));
 
-	public static final SpriteSheet projectiles = new SpriteSheet(new SpriteSheet("/textures/sheets/projectiles/projectiles.png"), new Vector2i(0, 0), new Vector2i(3, 3), new Vector2i(16, 16));
+	public static final SpriteSheet miscellaneousProjectiles = new SpriteSheet(new SpriteSheet("/textures/sheets/projectiles/miscellaneous.png"), new Vector2i(0, 0), new Vector2i(3, 3), new Vector2i(16, 16));
+	public static final SpriteSheet redMissile = new SpriteSheet(new SpriteSheet("/textures/sheets/projectiles/red_missile.png"), new Vector2i(0, 0), new Vector2i(3, 3), new Vector2i(16, 16));
+	public static final SpriteSheet blueMissile = new SpriteSheet(new SpriteSheet("/textures/sheets/projectiles/blue_missile.png"), new Vector2i(0, 0), new Vector2i(3, 3), new Vector2i(16, 16));
+
+	public static final Vector2i explosionDimensions = new Vector2i(100, 100);
+	public static final SpriteSheet explosion = new SpriteSheet(new SpriteSheet("/textures/sheets/players/explosion.png"), new Vector2i(0, 0), new Vector2i(9, 9), explosionDimensions);
 
 	public static final Vector2i warriorDimensions = new Vector2i(72, 72);
 	public static final SpriteSheet warrior = new SpriteSheet(new SpriteSheet("/textures/sheets/players/warrior.png"), new Vector2i(0, 0), new Vector2i(10, 12), warriorDimensions);
@@ -82,6 +87,17 @@ public class SpriteSheet {
 	public static final SpriteSheet gayVampireDownLeft = new SpriteSheet(gayVampire, new Vector2i(0, 4), new Vector2i(6, 1), gayVampireDimensions);
 	public static final SpriteSheet gayVampireLeft = new SpriteSheet(gayVampire, new Vector2i(0, 1), new Vector2i(6, 1), gayVampireDimensions);
 	public static final SpriteSheet gayVampireUpLeft = new SpriteSheet(gayVampire, new Vector2i(0, 6), new Vector2i(6, 1), gayVampireDimensions);
+
+	public static final Vector2i minionDimensions = new Vector2i(64, 64);
+	public static final SpriteSheet minion = new SpriteSheet(new SpriteSheet("/textures/sheets/players/minion.png"), new Vector2i(0, 0), new Vector2i(7, 8), minionDimensions);
+	public static final SpriteSheet minionUp = new SpriteSheet(minion, new Vector2i(0, 3), new Vector2i(7, 1), minionDimensions);
+	public static final SpriteSheet minionUpRight = new SpriteSheet(minion, new Vector2i(0, 3), new Vector2i(7, 1), minionDimensions);
+	public static final SpriteSheet minionRight = new SpriteSheet(minion, new Vector2i(0, 1), new Vector2i(7, 1), minionDimensions);
+	public static final SpriteSheet minionDownRight = new SpriteSheet(minion, new Vector2i(0, 0), new Vector2i(7, 1), minionDimensions);
+	public static final SpriteSheet minionDown = new SpriteSheet(minion, new Vector2i(0, 0), new Vector2i(7, 1), minionDimensions);
+	public static final SpriteSheet minionDownLeft = new SpriteSheet(minion, new Vector2i(0, 0), new Vector2i(7, 1), minionDimensions);
+	public static final SpriteSheet minionLeft = new SpriteSheet(minion, new Vector2i(0, 2), new Vector2i(7, 1), minionDimensions);
+	public static final SpriteSheet minionUpLeft = new SpriteSheet(minion, new Vector2i(0, 3), new Vector2i(7, 1), minionDimensions);
 
 	public SpriteSheet(SpriteSheet spriteSheet, Vector2i offset, Vector2i spriteSheetDimensions,
 			Vector2i spriteDimensions) {

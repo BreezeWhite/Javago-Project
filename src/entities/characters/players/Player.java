@@ -7,7 +7,6 @@ import events.EventDespatcher;
 import events.EventListener;
 import events.types.MousePressedEvent;
 import events.types.MouseReleasedEvent;
-import graphics.AnimatedSprite;
 import graphics.AnimatedSpriteSet;
 import graphics.Sprite;
 import inputs.Keyboard;
@@ -16,9 +15,18 @@ import mathematics.Vector2d;
 public abstract class Player extends Character implements EventListener {
 
 	public Player(Battle battle, Vector2d position, Keyboard keyboard, AnimatedSpriteSet animatedSpriteSet) {
-		super(battle, position, Sprite.getVoid());
+		super(battle, position, Sprite.getInvisible(), animatedSpriteSet);
 		this.keyboard = keyboard;
-		this.animatedSpriteSet = animatedSpriteSet;
+	}
+
+	// Player with static sprite.
+	public Player(Battle battle, Vector2d position, Keyboard keyboard, Sprite sprite) {
+		super(battle, position, sprite, null);
+		this.keyboard = keyboard;
+	}
+
+	public Keyboard getKeyboard() {
+		return keyboard;
 	}
 
 	@Override
@@ -38,56 +46,23 @@ public abstract class Player extends Character implements EventListener {
 
 	@Override
 	public void update() {
+		deltaX = 0;
+		deltaY = 0;
+		if (keyboard.upPressed()) {
+			deltaY -= speed;
+		}
+		if (keyboard.leftPressed()) {
+			deltaX -= speed;
+		}
+		if (keyboard.downPressed()) {
+			deltaY += speed;
+		}
+		if (keyboard.rightPressed()) {
+			deltaX += speed;
+		}
 		super.update();
-		if(usingAbility) {
-			sprite = abilityAnimation.getSprite();
-			move(abilityDeltaX, abilityDeltaY);
-			if(abilityAnimation.update() >= abilityAnimationRepetitions) {
-				usingAbility = false;
-			}
-		}
-		else {
-			animatedSpriteSet.setDirection(direction);
-			if (walking) {
-				animatedSpriteSet.update();
-			} else {
-				animatedSpriteSet.setFrame(defaultFrame);
-			}
-			if (timeToNextShot > 0) {
-				--timeToNextShot;
-			}
-			double deltaX = 0, deltaY = 0;
-			if (keyboard.upPressed()) {
-				deltaY -= speed;
-			}
-			if (keyboard.leftPressed()) {
-				deltaX -= speed;
-			}
-			if (keyboard.downPressed()) {
-				deltaY += speed;
-			}
-			if (keyboard.rightPressed()) {
-				deltaX += speed;
-			}
-			if (deltaX != 0 || deltaY != 0) {
-				move(deltaX, deltaY);
-				if (!walking) {
-					walking = true;
-				}
-			} else {
-				walking = false;
-			}
-			sprite = animatedSpriteSet.getSprite();
-		}
 	}
 
-	private AnimatedSpriteSet animatedSpriteSet;
-	protected AnimatedSprite abilityAnimation;
-	protected int abilityAnimationRepetitions = 1;
-	protected double abilityDeltaX = 0, abilityDeltaY = 0;
-	protected int defaultFrame = 0;
 	protected Keyboard keyboard;
-	protected boolean usingAbility = false;
-	private boolean walking = false;
 
 }

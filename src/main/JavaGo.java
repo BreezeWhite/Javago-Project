@@ -2,7 +2,9 @@ package main;
 
 import battles.Battle;
 import battles.TestBattle;
+import entities.characters.players.FatNerd;
 import entities.characters.players.GladiatorCat;
+import entities.characters.players.Leprechaun;
 import entities.characters.players.Player;
 import entities.characters.players.SharkPlane;
 import events.Event;
@@ -25,7 +27,7 @@ import mathematics.Vector2i;
 	}
 
 	public JavaGo() {
-		
+
 		// 初始化鍵盤事件監聽器。
 		keyboard = new Keyboard();
 
@@ -124,6 +126,9 @@ import mathematics.Vector2i;
 	}
 
 	private void tick() {
+		if(player.isRemoved()) {
+			player = battle.getClientPlayer();
+		}
 		battle.update();
 	}
 

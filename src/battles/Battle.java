@@ -3,11 +3,14 @@ package battles;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.imageio.ImageIO;
 
 import entities.Entity;
+import entities.characters.players.Observer;
 import entities.characters.players.Player;
 import events.Event;
 import events.EventListener;
@@ -24,6 +27,64 @@ public abstract class Battle implements EventListener {
 		} else {
 			entities.add(entity);
 		}
+	}
+
+	public List<Node> findPath(Vector2i start, Vector2i goal) {
+		List<Node> openList = new ArrayList<Node>();
+		List<Node> closedList = new ArrayList<Node>();
+		Node current = new Node(start, null, 0, getDistance(start, goal));
+		openList.add(current);
+		while (openList.size() > 0) {
+			Collections.sort(openList, nodeSorter);
+			current = openList.get(0);
+			if (current.tile.equals(goal)) {
+				// Reconstruct path.
+				List<Node> path = new ArrayList<Node>();
+				while (current.parent != null) {
+					path.add(current);
+					current = current.parent;
+				}
+				openList.clear(); // Necessary?
+				closedList.clear(); // Necessary?
+				return path;
+			}
+			openList.remove(current);
+			closedList.add(current);
+			for (int i = 0; i < 9; ++i) {
+				if (i == 4) {
+					continue;
+				}
+				int x = current.tile.getX();
+				int y = current.tile.getY();
+				int xDirection = (i % 3) - 1;
+				int yDirection = (i / 3) - 1;
+				Tile at = getTile(x + xDirection, y + yDirection);
+				if (at.isSolid()) {
+					continue;
+				}
+				Vector2i a = new Vector2i(x + xDirection, y + yDirection);
+				double gCost = current.gCost + (getDistance(current.tile, a) == 1 ? 1 : 0.95); // Either
+																								// 1
+																								// or
+																								// sqrt(2).
+				double hCost = getDistance(a, goal);
+				Node node = new Node(a, current, gCost, hCost);
+				if (vecInList(closedList, a) && gCost >= node.gCost) {
+					continue;
+				}
+				if (!vecInList(openList, a) || gCost < node.gCost) {
+					openList.add(node);
+				}
+			}
+		}
+		closedList.clear(); // Necessary?
+		return null;
+	}
+
+	private double getDistance(Vector2i a, Vector2i b) {
+		double dx = a.getX() - b.getX();
+		double dy = a.getY() - b.getY();
+		return Math.sqrt(dx * dx + dy * dy);
 	}
 
 	public Player getClientPlayer() {
@@ -46,7 +107,7 @@ public abstract class Battle implements EventListener {
 		}
 		return result;
 	}
-	
+
 	@Override
 	public void onEvent(Event event) {
 		getClientPlayer().onEvent(event);
@@ -73,7 +134,7 @@ public abstract class Battle implements EventListener {
 			players.get(i).render(screen);
 		}
 	}
-	
+
 	public void setOffset(Vector2i offset) {
 		this.offset = new Vector2i(offset);
 	}
@@ -113,6 +174,11 @@ public abstract class Battle implements EventListener {
 				entities.remove(i);
 			}
 		}
+		for (int i = 0; i < players.size(); ++i) {
+			if (players.get(i).isRemoved()) {
+				players.set(i, new Observer(this, players.get(i).getCoordinates(), players.get(i).getKeyboard()));
+			}
+		}
 	}
 
 	public Tile getTile(int x, int y) {
@@ -130,6 +196,27 @@ public abstract class Battle implements EventListener {
 		default:
 			return Tile.voidTile;
 		}
+	}
+
+	private Comparator<Node> nodeSorter = new Comparator<Node>() {
+		public int compare(Node a, Node b) {
+			if (b.fCost < a.fCost) {
+				return +1;
+			}
+			if (b.fCost > a.fCost) {
+				return -1;
+			}
+			return 0;
+		}
+	};
+
+	private boolean vecInList(List<Node> list, Vector2i vector) {
+		for (int i = 0; i < list.size(); ++i) {
+			if (list.get(i).tile.equals(vector)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }
