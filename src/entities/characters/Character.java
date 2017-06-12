@@ -9,8 +9,8 @@ import mathematics.Vector2d;
 
 public abstract class Character extends Entity {
 
-	protected Character(Battle battle, Vector2d position, Sprite sprite, AnimatedSpriteSet animatedSpriteSet) {
-		super(battle, position, sprite);
+	protected Character(Battle battle, Vector2d position, AnimatedSpriteSet animatedSpriteSet) {
+		super(battle, position, Sprite.getInvisible());
 		this.animatedSpriteSet = animatedSpriteSet;
 	}
 

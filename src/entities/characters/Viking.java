@@ -1,16 +1,15 @@
-package entities.characters.players;
+package entities.characters;
 
 import battles.Battle;
 import graphics.AnimatedSprite;
 import graphics.AnimatedSpriteSet;
 import graphics.SpriteSheet;
-import inputs.Keyboard;
 import mathematics.Vector2d;
 
-public class Viking extends Player {
+public class Viking extends Character {
 
-	public Viking(Battle battle, Vector2d position, Keyboard keyboard) {
-		super(battle, position, keyboard,
+	public Viking(Battle battle, Vector2d position) {
+		super(battle, position,
 				new AnimatedSpriteSet(new AnimatedSprite(SpriteSheet.warriorDimensions, SpriteSheet.warriorUp, 5),
 						new AnimatedSprite(SpriteSheet.warriorDimensions, SpriteSheet.warriorUpRight, 5),
 						new AnimatedSprite(SpriteSheet.warriorDimensions, SpriteSheet.warriorRight, 5),

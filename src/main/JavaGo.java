@@ -2,6 +2,7 @@ package main;
 
 import battles.Battle;
 import battles.TestBattle;
+import entities.characters.Viking;
 import entities.characters.players.FatNerd;
 import entities.characters.players.GladiatorCat;
 import entities.characters.players.Leprechaun;
@@ -35,7 +36,9 @@ import mathematics.Vector2i;
 		battle = new TestBattle("/textures/battles/test_level.png");
 		
 		// 把這臺電腦的玩家加入第一級。（Vector2d 是座標類別。）
-		battle.add(new GladiatorCat(battle, new Vector2d(1100, 900), keyboard));
+		final int PLAYER_X = 1100, PLAYER_Y = 900;
+		battle.add(new GladiatorCat(battle, new Vector2d(PLAYER_X, PLAYER_Y), keyboard));
+		battle.add(new Viking(battle, new Vector2d(PLAYER_X, PLAYER_Y - 100)));
 
 		// 初始化玩家。（Client player: 用戶玩家端。）
 		player = battle.getClientPlayer();

@@ -103,9 +103,6 @@ public abstract class Entity {
 		}
 	}
 
-	// TODO Collisions is broken.
-	// What if only part of sprite should be collidable?
-	// What if sprite has a lot of whitespace?
 	protected boolean collision(double deltaX, double deltaY) {
 		for (int i = 0; i < 4; ++i) {
 			double xt = ((x + deltaX) - i % 2 * sprite.getWidth()) / Tile.WIDTH;

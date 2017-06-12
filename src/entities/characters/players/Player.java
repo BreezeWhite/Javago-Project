@@ -15,13 +15,14 @@ import mathematics.Vector2d;
 public abstract class Player extends Character implements EventListener {
 
 	public Player(Battle battle, Vector2d position, Keyboard keyboard, AnimatedSpriteSet animatedSpriteSet) {
-		super(battle, position, Sprite.getInvisible(), animatedSpriteSet);
+		super(battle, position, animatedSpriteSet);
 		this.keyboard = keyboard;
 	}
 
 	// Player with static sprite.
 	public Player(Battle battle, Vector2d position, Keyboard keyboard, Sprite sprite) {
-		super(battle, position, sprite, null);
+		super(battle, position, null);
+		this.sprite = sprite;
 		this.keyboard = keyboard;
 	}
 

@@ -6,7 +6,6 @@ import battles.Battle;
 import battles.Node;
 import graphics.AnimatedSprite;
 import graphics.AnimatedSpriteSet;
-import graphics.Sprite;
 import graphics.SpriteSheet;
 import mathematics.Vector2d;
 import mathematics.Vector2i;
@@ -15,7 +14,7 @@ import tiles.Tile;
 public class Minion extends Character {
 
 	public Minion(Battle battle, Vector2d position) {
-		super(battle, position, Sprite.getInvisible(),
+		super(battle, position,
 				new AnimatedSpriteSet(new AnimatedSprite(SpriteSheet.minionDimensions, SpriteSheet.minionUp, 7),
 						new AnimatedSprite(SpriteSheet.minionDimensions, SpriteSheet.minionUpRight, 7),
 						new AnimatedSprite(SpriteSheet.minionDimensions, SpriteSheet.minionRight, 7),
