@@ -1,10 +1,7 @@
 package inputs;
 
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.io.Serializable;
-
-import network.Client;
 
 public class KeyboardServerCopy implements Serializable {
 

@@ -7,9 +7,14 @@ import java.io.ObjectInput;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
-public class KeyPress {
+public class KeyPress implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2167760213498813709L;
 	public int keyIndex;
 	public boolean keyPressed;
 	public int playerIndex;

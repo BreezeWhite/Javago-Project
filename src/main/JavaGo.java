@@ -52,12 +52,11 @@ public class JavaGo implements Runnable, EventListener, Serializable {
 
 		if (IS_SERVER) {
 			// 測試伺服器和用戶端的程式碼。
-			server = new Server(37855 /* 隨便挑的埠 */);
+			server = new Server(37856 /* 隨便挑的埠 */);
 			server.start();
 		} else {
 			client = new Client("localhost", 37856);
 			client.connect();
-			client.start();
 		}
 
 		// 初始化鍵盤事件監聽器。
@@ -82,6 +81,10 @@ public class JavaGo implements Runnable, EventListener, Serializable {
 		mouse = new Mouse(this);
 		screen.addMouseListener(mouse);
 		screen.addMouseMotionListener(mouse);
+
+		if (!IS_SERVER) {
+			client.start();
+		}
 	}
 
 	public static Battle getBattle() {

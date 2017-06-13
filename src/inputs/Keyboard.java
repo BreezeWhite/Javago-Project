@@ -39,7 +39,7 @@ public class Keyboard extends KeyboardServerCopy implements KeyListener, Seriali
 		KeyPress keyPress = new KeyPress();
 		keyPress.keyIndex = e.getKeyCode();
 		keyPress.keyPressed = false;
-		keys[e.getKeyCode()] = keyPress.keyPressed;
+		keys[keyPress.keyIndex] = keyPress.keyPressed;
 		if (!JavaGo.IS_SERVER) {
 			keyPress.playerIndex = playerIndex;
 			client.send(keyPress.serialise());

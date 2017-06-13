@@ -45,7 +45,6 @@ public class Client implements Serializable {
 			errorCode = Error.SOCKET_EXCEPTION;
 			return false;
 		}
-		sendConnectionPacket();
 		// 等伺服器的回應。
 		return true;
 	}

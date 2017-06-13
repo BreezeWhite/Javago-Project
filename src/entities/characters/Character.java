@@ -24,15 +24,22 @@ public abstract class Character extends Entity implements Serializable {
 	public Update generateUpdate() {
 		Update update = super.generateUpdate();
 		update.frame = animatedSpriteSet.getFrame();
+		update.usingAbility = usingAbility;
 		return update;
 	}
 	
 	@Override
 	public void processUpdate(Update update) {
 		super.processUpdate(update);
-		animatedSpriteSet.setDirection(direction);
-		animatedSpriteSet.setFrame(update.frame);
 		sprite = animatedSpriteSet.getSprite();
+		usingAbility = update.usingAbility;
+		if(usingAbility) {
+			abilityAnimation.setFrame(update.frame);
+		}
+		else {
+			animatedSpriteSet.setDirection(direction);
+			animatedSpriteSet.setFrame(update.frame);
+		}
 	}
 
 	@Override
