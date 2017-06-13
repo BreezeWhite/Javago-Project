@@ -29,11 +29,15 @@ public abstract class Character extends Entity implements Serializable {
 		update.usingAbility = usingAbility;
 		update.speed = speed;
 		if(usingAbility) {
+			update.abilityAnimationRepetitions = abilityAnimationRepetitions;
 			update.abilityAnimationIndex = abilityAnimationIndex;
 			update.frame = abilityAnimations.get(abilityAnimationIndex).getFrame();
 		}
-		else {
+		else if(animatedSpriteSet != null) {
 			update.frame = animatedSpriteSet.getFrame();
+		}
+		else {
+			update.frame = -1;
 		}
 		return update;
 	}
@@ -41,16 +45,21 @@ public abstract class Character extends Entity implements Serializable {
 	@Override
 	public void processUpdate(Update update) {
 		super.processUpdate(update);
-		sprite = animatedSpriteSet.getSprite();
 		speed = update.speed;
 		usingAbility = update.usingAbility;
 		if(usingAbility) {
+			abilityAnimationRepetitions = update.abilityAnimationRepetitions;
 			abilityAnimationIndex = update.abilityAnimationIndex;
 			abilityAnimations.get(abilityAnimationIndex).setFrame(update.frame);
+			sprite = abilityAnimations.get(abilityAnimationIndex).getSprite();
 		}
-		else {
+		else if(update.frame >= 0) {
 			animatedSpriteSet.setDirection(direction);
 			animatedSpriteSet.setFrame(update.frame);
+			sprite = animatedSpriteSet.getSprite();
+		}
+		else {
+			sprite = Sprite.getInvisible();
 		}
 	}
 
