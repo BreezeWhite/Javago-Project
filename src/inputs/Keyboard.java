@@ -65,6 +65,7 @@ public class Keyboard implements KeyListener, Serializable {
 		keyPress.keyPressed = true;
 		keys[keyPress.keyIndex] = keyPress.keyPressed;
 		if (!JavaGo.IS_SERVER) {
+			keyPress.playerIndex = playerIndex;
 			client.send(keyPress.serialise());
 		}
 	}
@@ -76,6 +77,7 @@ public class Keyboard implements KeyListener, Serializable {
 		keyPress.keyPressed = false;
 		keys[e.getKeyCode()] = keyPress.keyPressed;
 		if (!JavaGo.IS_SERVER) {
+			keyPress.playerIndex = playerIndex;
 			client.send(keyPress.serialise());
 		}
 	}

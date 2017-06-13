@@ -130,6 +130,10 @@ public abstract class Battle implements EventListener, Serializable {
 		return lists.entities;
 	}
 
+	public List<Player> getPlayers() {
+		return lists.players;
+	}
+
 	public List<Entity> getEntities(Entity entity, double radius) {
 		List<Entity> result = new ArrayList<Entity>();
 		final Vector2d coordinates = entity.getCoordinates();

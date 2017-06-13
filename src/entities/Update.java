@@ -17,6 +17,7 @@ public class Update implements Serializable {
 	private static final long serialVersionUID = 225755851940037352L;
 	public Direction direction;
 	public int frame, index;
+	public boolean player;
 	public double x, y;
 
 	public byte[] serialise() {

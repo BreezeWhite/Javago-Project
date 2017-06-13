@@ -51,7 +51,10 @@ public class JavaGo implements Runnable, EventListener, Serializable {
 
 		// 把這臺電腦的玩家加入第一級。（Vector2d 是座標類別。）
 		final int PLAYER_X = 1100, PLAYER_Y = 900;
-		battle.add(new GladiatorCat(new Vector2d(PLAYER_X, PLAYER_Y), keyboard));
+		battle.add(new GladiatorCat(new Vector2d(PLAYER_X - 200, PLAYER_Y), keyboard));
+		battle.add(new SharkPlane(new Vector2d(PLAYER_X - 100, PLAYER_Y), keyboard));
+		battle.add(new Leprechaun(new Vector2d(PLAYER_X, PLAYER_Y), keyboard));
+		battle.add(new FatNerd(new Vector2d(PLAYER_X + 100, PLAYER_Y), keyboard));
 		battle.add(new Viking(new Vector2d(PLAYER_X, PLAYER_Y - 100)));
 
 		// 初始化玩家。（Client player: 用戶玩家端。）
@@ -171,6 +174,14 @@ public class JavaGo implements Runnable, EventListener, Serializable {
 			for(int i = 0; i < entities.size(); ++i) {
 				Update update = entities.get(i).generateUpdate();
 				update.index = i;
+				update.player = false;
+				server.sendAll(update.serialise());
+			}
+			List<Player> players = battle.getPlayers();
+			for(int i = 0; i < players.size(); ++i) {
+				Update update = entities.get(i).generateUpdate();
+				update.index = i;
+				update.player = true;
 				server.sendAll(update.serialise());
 			}
 		}
