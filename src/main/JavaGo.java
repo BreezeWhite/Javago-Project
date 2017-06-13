@@ -44,36 +44,11 @@ public class JavaGo implements Runnable, EventListener, Serializable {
 
 	public JavaGo() {
 
-		// 初始化鍵盤事件監聽器。
-		keyboard = new Keyboard(client, 0);
-		for (int i = 0; i < NUM_PLAYERS; ++i) {
-			serverKeyboards.add(new KeyboardServerCopy());
-		}
-
 		// 初始化第一級。（以後不會直接開始跑遊戲，會先開使用者介面。）
 		battle = new TestBattle("/textures/battles/test_level.png");
 
-		// 把這臺電腦的玩家加入第一級。（Vector2d 是座標類別。）
-		final int PLAYER_X = 1100, PLAYER_Y = 900;
-		battle.add(new GladiatorCat(new Vector2d(PLAYER_X - 200, PLAYER_Y), keyboard));
-		battle.add(new SharkPlane(new Vector2d(PLAYER_X - 100, PLAYER_Y), serverKeyboards.get(1)));
-		battle.add(new Leprechaun(new Vector2d(PLAYER_X, PLAYER_Y), serverKeyboards.get(2)));
-		battle.add(new FatNerd(new Vector2d(PLAYER_X + 100, PLAYER_Y), serverKeyboards.get(3)));
-		battle.add(new Viking(new Vector2d(PLAYER_X, PLAYER_Y - 100)));
-
-		// 初始化玩家。（Client player: 用戶玩家端。）
-		player = battle.getClientPlayer();
-
 		// 初始化遊戲視窗。
 		screen = new Screen(defaultScreenWidth, defaultScreenHeight, 2);
-
-		// 把鍵盤事件監聽器它加入screen。
-		screen.addKeyListener(keyboard);
-
-		// 初始化滑鼠事件監聽器然後把它加入screen。
-		mouse = new Mouse(this);
-		screen.addMouseListener(mouse);
-		screen.addMouseMotionListener(mouse);
 
 		if (IS_SERVER) {
 			// 測試伺服器和用戶端的程式碼。
@@ -84,6 +59,29 @@ public class JavaGo implements Runnable, EventListener, Serializable {
 			client.connect();
 			client.start();
 		}
+
+		// 初始化鍵盤事件監聽器。
+		keyboard = new Keyboard(client, 0);
+		for (int i = 0; i < NUM_PLAYERS; ++i) {
+			serverKeyboards.add(new KeyboardServerCopy());
+		}
+
+		// 把這臺電腦的玩家加入第一級。（Vector2d 是座標類別。）
+		final int PLAYER_X = 1100, PLAYER_Y = 900;
+		player = new GladiatorCat(new Vector2d(PLAYER_X - 200, PLAYER_Y), keyboard);
+		battle.add(player);
+		battle.add(new SharkPlane(new Vector2d(PLAYER_X - 100, PLAYER_Y), serverKeyboards.get(1)));
+		battle.add(new Leprechaun(new Vector2d(PLAYER_X, PLAYER_Y), serverKeyboards.get(2)));
+		battle.add(new FatNerd(new Vector2d(PLAYER_X + 100, PLAYER_Y), serverKeyboards.get(3)));
+		battle.add(new Viking(new Vector2d(PLAYER_X, PLAYER_Y - 100)));
+
+		// 把鍵盤事件監聽器它加入screen。
+		screen.addKeyListener(keyboard);
+
+		// 初始化滑鼠事件監聽器然後把它加入screen。
+		mouse = new Mouse(this);
+		screen.addMouseListener(mouse);
+		screen.addMouseMotionListener(mouse);
 	}
 
 	public static Battle getBattle() {
