@@ -14,9 +14,11 @@ public class GladiatorCat extends Player implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -2234673269171418932L;
+
 	public GladiatorCat(Vector2d position, KeyboardServerCopy keyboard) {
 		super(position, keyboard,
-				new AnimatedSpriteSet(new AnimatedSprite(SpriteSheet.gladiatorCatDimensions, SpriteSheet.gladiatorCatUp, 4),
+				new AnimatedSpriteSet(
+						new AnimatedSprite(SpriteSheet.gladiatorCatDimensions, SpriteSheet.gladiatorCatUp, 4),
 						new AnimatedSprite(SpriteSheet.gladiatorCatDimensions, SpriteSheet.gladiatorCatUpRight, 4),
 						new AnimatedSprite(SpriteSheet.gladiatorCatDimensions, SpriteSheet.gladiatorCatRight, 4),
 						new AnimatedSprite(SpriteSheet.gladiatorCatDimensions, SpriteSheet.gladiatorCatDownRight, 4),
@@ -24,39 +26,43 @@ public class GladiatorCat extends Player implements Serializable {
 						new AnimatedSprite(SpriteSheet.gladiatorCatDimensions, SpriteSheet.gladiatorCatDownLeft, 4),
 						new AnimatedSprite(SpriteSheet.gladiatorCatDimensions, SpriteSheet.gladiatorCatLeft, 4),
 						new AnimatedSprite(SpriteSheet.gladiatorCatDimensions, SpriteSheet.gladiatorCatUpLeft, 4)));
+		abilityAnimations.add(new AnimatedSprite(SpriteSheet.gladiatorCatDimensions,
+				SpriteSheet.gladiatorCatPounceDown, 4));
+		abilityAnimations.add(new AnimatedSprite(SpriteSheet.gladiatorCatDimensions,
+				SpriteSheet.gladiatorCatLickDownRight, 4));
+		abilityAnimations.add(new AnimatedSprite(SpriteSheet.gladiatorCatDimensions,
+				SpriteSheet.gladiatorCatSleepDownLeft, 3));
+		abilityAnimations.add(new AnimatedSprite(SpriteSheet.gladiatorCatDimensions,
+				SpriteSheet.gladiatorCatPounceDown, 4));
 		defaultFrame = 1;
 	}
-	
+
 	@Override
 	public void update() {
-		if(speedBoostStart > 0) {
-			if(System.currentTimeMillis() - speedBoostStart > SPEED_BOOST_DURATION) {
+		if (speedBoostStart > 0) {
+			if (System.currentTimeMillis() - speedBoostStart > SPEED_BOOST_DURATION) {
 				speed = oldSpeed;
 				speedBoostStart = 0;
 			}
-		}
-		else if(!usingAbility) {
-			if(keyboard.rPressed()) { // Pounce.
-				abilityAnimation = new AnimatedSprite(SpriteSheet.gladiatorCatDimensions, SpriteSheet.gladiatorCatPounceDown, 4);
+		} else if (!usingAbility) {
+			if (keyboard.rPressed()) { // Pounce.
+				abilityAnimationIndex = 0;
 				abilityAnimationRepetitions = 1;
 				abilityDeltaY = speed;
 				usingAbility = true;
-			}
-			else if(keyboard.ePressed()) { // Purr.
-				abilityAnimation = new AnimatedSprite(SpriteSheet.gladiatorCatDimensions, SpriteSheet.gladiatorCatLickDownRight, 4);
-				abilityAnimation.setFrameRate(15);
+			} else if (keyboard.ePressed()) { // Purr.
+				abilityAnimationIndex = 1;
+				abilityAnimations.get(abilityAnimationIndex).setFrameRate(15);
 				abilityAnimationRepetitions = 5;
 				abilityDeltaY = 0;
 				usingAbility = true;
-			}
-			else if(keyboard.wPressed()) { // Sleep.
-				abilityAnimation = new AnimatedSprite(SpriteSheet.gladiatorCatDimensions, SpriteSheet.gladiatorCatSleepDownLeft, 3);
-				abilityAnimation.setFrameRate(30);
+			} else if (keyboard.wPressed()) { // Sleep.
+				abilityAnimationIndex = 2;
+				abilityAnimations.get(abilityAnimationIndex).setFrameRate(30);
 				abilityAnimationRepetitions = 15;
 				abilityDeltaY = 0;
 				usingAbility = true;
-			}
-			else if(keyboard.qPressed()) { // Flee.
+			} else if (keyboard.qPressed()) { // Flee.
 				oldSpeed = speed;
 				speed *= 5;
 				speedBoostStart = System.currentTimeMillis();

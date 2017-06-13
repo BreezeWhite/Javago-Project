@@ -27,6 +27,7 @@ public class SharkPlane extends Player implements Serializable {
 						new AnimatedSprite(SpriteSheet.sharkPlaneDimensions, SpriteSheet.sharkPlaneDownLeft, 3),
 						new AnimatedSprite(SpriteSheet.sharkPlaneDimensions, SpriteSheet.sharkPlaneLeft, 3),
 						new AnimatedSprite(SpriteSheet.sharkPlaneDimensions, SpriteSheet.sharkPlaneUpLeft, 3)));
+		abilityAnimations.add(new AnimatedSprite(SpriteSheet.explosionDimensions, SpriteSheet.explosion, 81));
 		defaultFrame = 1;
 		reloadTime = 30;
 		speed = 5;
@@ -35,6 +36,7 @@ public class SharkPlane extends Player implements Serializable {
 	@Override
 	public void update() {
 		if (!usingAbility) {
+			projectileIndex = -1;
 			if (kamikaze) {
 				removed = true;
 			} else if (timeToNextShot <= 0) {
@@ -60,8 +62,8 @@ public class SharkPlane extends Player implements Serializable {
 			}
 		}
 		if (keyboard.qPressed()) { // Kamikaze.
-			abilityAnimation = new AnimatedSprite(SpriteSheet.explosionDimensions, SpriteSheet.explosion, 81);
-			abilityAnimation.setFrameRate(4);
+			abilityAnimationIndex = 0;
+			abilityAnimations.get(abilityAnimationIndex).setFrameRate(4);
 			abilityAnimationRepetitions = 1;
 			abilityDeltaY = 0;
 			usingAbility = true;

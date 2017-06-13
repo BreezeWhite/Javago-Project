@@ -1,8 +1,11 @@
 package entities.characters;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import entities.Entity;
+import entities.Projectile;
 import entities.Update;
 import graphics.AnimatedSprite;
 import graphics.AnimatedSpriteSet;
@@ -23,8 +26,15 @@ public abstract class Character extends Entity implements Serializable {
 	@Override
 	public Update generateUpdate() {
 		Update update = super.generateUpdate();
-		update.frame = animatedSpriteSet.getFrame();
 		update.usingAbility = usingAbility;
+		update.speed = speed;
+		if(usingAbility) {
+			update.abilityAnimationIndex = abilityAnimationIndex;
+			update.frame = abilityAnimations.get(abilityAnimationIndex).getFrame();
+		}
+		else {
+			update.frame = animatedSpriteSet.getFrame();
+		}
 		return update;
 	}
 	
@@ -32,9 +42,11 @@ public abstract class Character extends Entity implements Serializable {
 	public void processUpdate(Update update) {
 		super.processUpdate(update);
 		sprite = animatedSpriteSet.getSprite();
+		speed = update.speed;
 		usingAbility = update.usingAbility;
 		if(usingAbility) {
-			abilityAnimation.setFrame(update.frame);
+			abilityAnimationIndex = update.abilityAnimationIndex;
+			abilityAnimations.get(abilityAnimationIndex).setFrame(update.frame);
 		}
 		else {
 			animatedSpriteSet.setDirection(direction);
@@ -48,9 +60,9 @@ public abstract class Character extends Entity implements Serializable {
 			--timeToNextShot;
 		}
 		if (usingAbility) {
-			sprite = abilityAnimation.getSprite();
+			sprite = abilityAnimations.get(abilityAnimationIndex).getSprite();
 			move(abilityDeltaX, abilityDeltaY);
-			if (abilityAnimation.update() >= abilityAnimationRepetitions) {
+			if (abilityAnimations.get(abilityAnimationIndex).update() >= abilityAnimationRepetitions) {
 				usingAbility = false;
 			}
 		} else {
@@ -76,7 +88,10 @@ public abstract class Character extends Entity implements Serializable {
 	}
 
 	protected AnimatedSpriteSet animatedSpriteSet;
-	protected AnimatedSprite abilityAnimation;
+	protected int abilityAnimationIndex = 0;
+	protected List<AnimatedSprite> abilityAnimations = new ArrayList<AnimatedSprite>();
+	protected int projectileIndex = -1;
+	protected List<Projectile> projectiles = new ArrayList<Projectile>();
 	protected int abilityAnimationRepetitions = 1;
 	protected double abilityDeltaX = 0, abilityDeltaY = 0;
 	protected int defaultFrame = 0;
