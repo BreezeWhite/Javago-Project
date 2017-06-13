@@ -6,7 +6,7 @@ import entities.Projectile;
 import graphics.AnimatedSprite;
 import graphics.AnimatedSpriteSet;
 import graphics.SpriteSheet;
-import inputs.Keyboard;
+import inputs.KeyboardServerCopy;
 import main.JavaGo;
 import mathematics.Vector2d;
 
@@ -17,7 +17,7 @@ public class SharkPlane extends Player implements Serializable {
 	 */
 	private static final long serialVersionUID = 2684957700193700335L;
 
-	public SharkPlane(Vector2d position, Keyboard keyboard) {
+	public SharkPlane(Vector2d position, KeyboardServerCopy keyboard) {
 		super(position, keyboard,
 				new AnimatedSpriteSet(new AnimatedSprite(SpriteSheet.sharkPlaneDimensions, SpriteSheet.sharkPlaneUp, 3),
 						new AnimatedSprite(SpriteSheet.sharkPlaneDimensions, SpriteSheet.sharkPlaneUpRight, 3),

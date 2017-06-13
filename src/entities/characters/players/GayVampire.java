@@ -5,7 +5,7 @@ import java.io.Serializable;
 import graphics.AnimatedSprite;
 import graphics.AnimatedSpriteSet;
 import graphics.SpriteSheet;
-import inputs.Keyboard;
+import inputs.KeyboardServerCopy;
 import mathematics.Vector2d;
 
 public class GayVampire extends Player implements Serializable {
@@ -15,7 +15,7 @@ public class GayVampire extends Player implements Serializable {
 	 */
 	private static final long serialVersionUID = -3353334571058132023L;
 
-	public GayVampire(Vector2d position, Keyboard keyboard) {
+	public GayVampire(Vector2d position, KeyboardServerCopy keyboard) {
 		super(position, keyboard,
 				new AnimatedSpriteSet(new AnimatedSprite(SpriteSheet.gayVampireDimensions, SpriteSheet.gayVampireUp, 6),
 						new AnimatedSprite(SpriteSheet.gayVampireDimensions, SpriteSheet.gayVampireUpRight, 6),

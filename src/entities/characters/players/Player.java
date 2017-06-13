@@ -10,7 +10,7 @@ import events.types.MousePressedEvent;
 import events.types.MouseReleasedEvent;
 import graphics.AnimatedSpriteSet;
 import graphics.Sprite;
-import inputs.Keyboard;
+import inputs.KeyboardServerCopy;
 import mathematics.Vector2d;
 
 public abstract class Player extends Character implements EventListener, Serializable {
@@ -20,19 +20,21 @@ public abstract class Player extends Character implements EventListener, Seriali
 	 */
 	private static final long serialVersionUID = 5295971602677458922L;
 
-	public Player(Vector2d position, Keyboard keyboard, AnimatedSpriteSet animatedSpriteSet) {
+	public Player(Vector2d position, KeyboardServerCopy keyboard, AnimatedSpriteSet animatedSpriteSet) {
 		super(position, animatedSpriteSet);
 		this.keyboard = keyboard;
+		CLIENT_PLAYER = (keyboard != null);
 	}
 
 	// Player with static sprite.
-	public Player(Vector2d position, Keyboard keyboard, Sprite sprite) {
+	public Player(Vector2d position, KeyboardServerCopy keyboard, Sprite sprite) {
 		super(position, null);
 		this.sprite = sprite;
 		this.keyboard = keyboard;
+		CLIENT_PLAYER = (keyboard != null);
 	}
 
-	public Keyboard getKeyboard() {
+	public KeyboardServerCopy getKeyboard() {
 		return keyboard;
 	}
 
@@ -70,6 +72,7 @@ public abstract class Player extends Character implements EventListener, Seriali
 		super.update();
 	}
 
-	protected Keyboard keyboard;
+	protected KeyboardServerCopy keyboard;
+	protected final boolean CLIENT_PLAYER;
 
 }

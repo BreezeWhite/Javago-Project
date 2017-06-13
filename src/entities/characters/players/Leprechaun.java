@@ -8,7 +8,7 @@ import entities.characters.Minion;
 import graphics.AnimatedSprite;
 import graphics.AnimatedSpriteSet;
 import graphics.SpriteSheet;
-import inputs.Keyboard;
+import inputs.KeyboardServerCopy;
 import main.JavaGo;
 import mathematics.Vector2d;
 
@@ -19,7 +19,7 @@ public class Leprechaun extends Player implements Serializable {
 	 */
 	private static final long serialVersionUID = -5342844826948025948L;
 
-	public Leprechaun(Vector2d position, Keyboard keyboard) {
+	public Leprechaun(Vector2d position, KeyboardServerCopy keyboard) {
 		super(position, keyboard,
 				new AnimatedSpriteSet(new AnimatedSprite(SpriteSheet.leprechaunDimensions, SpriteSheet.leprechaunUp, 4),
 						new AnimatedSprite(SpriteSheet.leprechaunDimensions, SpriteSheet.leprechaunUpRight, 4),

@@ -34,6 +34,7 @@ public class JavaGo implements Runnable, EventListener, Serializable {
 	private static final long serialVersionUID = 3423008129389712034L;
 	// 用來顯示在遊戲視窗的標題列。
 	public static final String TITLE = "JavaGo Project";
+	public static final int NUM_PLAYERS = 4;
 	public static final boolean IS_SERVER = true;
 
 	public static void main(String[] args) {
@@ -45,6 +46,9 @@ public class JavaGo implements Runnable, EventListener, Serializable {
 
 		// 初始化鍵盤事件監聽器。
 		keyboard = new Keyboard(client, 0);
+		for (int i = 0; i < NUM_PLAYERS; ++i) {
+			serverKeyboards.add(new KeyboardServerCopy());
+		}
 
 		// 初始化第一級。（以後不會直接開始跑遊戲，會先開使用者介面。）
 		battle = new TestBattle("/textures/battles/test_level.png");
@@ -52,9 +56,9 @@ public class JavaGo implements Runnable, EventListener, Serializable {
 		// 把這臺電腦的玩家加入第一級。（Vector2d 是座標類別。）
 		final int PLAYER_X = 1100, PLAYER_Y = 900;
 		battle.add(new GladiatorCat(new Vector2d(PLAYER_X - 200, PLAYER_Y), keyboard));
-		battle.add(new SharkPlane(new Vector2d(PLAYER_X - 100, PLAYER_Y), keyboard));
-		battle.add(new Leprechaun(new Vector2d(PLAYER_X, PLAYER_Y), keyboard));
-		battle.add(new FatNerd(new Vector2d(PLAYER_X + 100, PLAYER_Y), keyboard));
+		battle.add(new SharkPlane(new Vector2d(PLAYER_X - 100, PLAYER_Y), serverKeyboards.get(1)));
+		battle.add(new Leprechaun(new Vector2d(PLAYER_X, PLAYER_Y), serverKeyboards.get(2)));
+		battle.add(new FatNerd(new Vector2d(PLAYER_X + 100, PLAYER_Y), serverKeyboards.get(3)));
 		battle.add(new Viking(new Vector2d(PLAYER_X, PLAYER_Y - 100)));
 
 		// 初始化玩家。（Client player: 用戶玩家端。）
@@ -81,7 +85,7 @@ public class JavaGo implements Runnable, EventListener, Serializable {
 			client.start();
 		}
 	}
-	
+
 	public static Battle getBattle() {
 		return battle;
 	}
@@ -171,22 +175,21 @@ public class JavaGo implements Runnable, EventListener, Serializable {
 		if (IS_SERVER) {
 			battle.update();
 			List<Entity> entities = battle.getEntities();
-			for(int i = 0; i < entities.size(); ++i) {
+			for (int i = 0; i < entities.size(); ++i) {
 				Update update = entities.get(i).generateUpdate();
 				update.index = i;
 				update.player = false;
 				server.sendAll(update.serialise());
 			}
 			List<Player> players = battle.getPlayers();
-			for(int i = 0; i < players.size(); ++i) {
-				Update update = entities.get(i).generateUpdate();
+			for (int i = 0; i < players.size(); ++i) {
+				Update update = players.get(i).generateUpdate();
 				update.index = i;
 				update.player = true;
 				server.sendAll(update.serialise());
 			}
-		}
-		else {
-			
+		} else {
+
 		}
 	}
 

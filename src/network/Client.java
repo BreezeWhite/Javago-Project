@@ -82,7 +82,12 @@ public class Client implements Serializable {
 		// 確認封包和遊戲有關並把它並行化。
 		Update update = Update.deserialise(data);
 		if(update != null) {
-			JavaGo.getBattle().getEntities().get(update.index).processUpdate(update);
+			if(update.player == false) {
+				JavaGo.getBattle().getEntities().get(update.index).processUpdate(update);
+			}
+			else {
+				JavaGo.getBattle().getPlayers().get(update.index).processUpdate(update);
+			}
 		}
 		InetAddress address = packet.getAddress();
 		int port = packet.getPort();

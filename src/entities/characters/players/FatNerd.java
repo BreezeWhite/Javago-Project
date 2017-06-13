@@ -5,7 +5,7 @@ import java.io.Serializable;
 import graphics.AnimatedSprite;
 import graphics.AnimatedSpriteSet;
 import graphics.SpriteSheet;
-import inputs.Keyboard;
+import inputs.KeyboardServerCopy;
 import mathematics.Vector2d;
 
 public class FatNerd extends Player implements Serializable {
@@ -15,7 +15,7 @@ public class FatNerd extends Player implements Serializable {
 	 */
 	private static final long serialVersionUID = 4298294342287322566L;
 
-	public FatNerd(Vector2d position, Keyboard keyboard) {
+	public FatNerd(Vector2d position, KeyboardServerCopy keyboard) {
 		super(position, keyboard,
 				new AnimatedSpriteSet(new AnimatedSprite(SpriteSheet.fatNerdDimensions, SpriteSheet.fatNerdUp, 3),
 						new AnimatedSprite(SpriteSheet.fatNerdDimensions, SpriteSheet.fatNerdUpRight, 3),
