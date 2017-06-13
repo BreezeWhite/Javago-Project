@@ -1,17 +1,37 @@
 package entities.characters;
 
-import battles.Battle;
+import java.io.Serializable;
+
 import entities.Entity;
+import entities.Update;
 import graphics.AnimatedSprite;
 import graphics.AnimatedSpriteSet;
 import graphics.Sprite;
 import mathematics.Vector2d;
 
-public abstract class Character extends Entity {
+public abstract class Character extends Entity implements Serializable {
 
-	protected Character(Battle battle, Vector2d position, AnimatedSpriteSet animatedSpriteSet) {
-		super(battle, position, Sprite.getInvisible());
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2108415205526717196L;
+	protected Character(Vector2d position, AnimatedSpriteSet animatedSpriteSet) {
+		super(position, Sprite.getInvisible());
 		this.animatedSpriteSet = animatedSpriteSet;
+	}
+	
+	@Override
+	public Update generateUpdate() {
+		Update update = super.generateUpdate();
+		update.frame = animatedSpriteSet.getFrame();
+		return update;
+	}
+	
+	@Override
+	public void processUpdate(Update update) {
+		super.processUpdate(update);
+		animatedSpriteSet.setDirection(direction);
+		animatedSpriteSet.setFrame(update.frame);
 	}
 
 	@Override

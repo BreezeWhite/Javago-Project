@@ -1,6 +1,7 @@
 package entities.characters.players;
 
-import battles.Battle;
+import java.io.Serializable;
+
 import entities.characters.Character;
 import events.Event;
 import events.EventDespatcher;
@@ -12,16 +13,21 @@ import graphics.Sprite;
 import inputs.Keyboard;
 import mathematics.Vector2d;
 
-public abstract class Player extends Character implements EventListener {
+public abstract class Player extends Character implements EventListener, Serializable {
 
-	public Player(Battle battle, Vector2d position, Keyboard keyboard, AnimatedSpriteSet animatedSpriteSet) {
-		super(battle, position, animatedSpriteSet);
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5295971602677458922L;
+
+	public Player(Vector2d position, Keyboard keyboard, AnimatedSpriteSet animatedSpriteSet) {
+		super(position, animatedSpriteSet);
 		this.keyboard = keyboard;
 	}
 
 	// Player with static sprite.
-	public Player(Battle battle, Vector2d position, Keyboard keyboard, Sprite sprite) {
-		super(battle, position, null);
+	public Player(Vector2d position, Keyboard keyboard, Sprite sprite) {
+		super(position, null);
 		this.sprite = sprite;
 		this.keyboard = keyboard;
 	}

@@ -1,16 +1,22 @@
 package entities.characters.players;
 
-import battles.Battle;
+import java.io.Serializable;
+
 import graphics.AnimatedSprite;
 import graphics.AnimatedSpriteSet;
 import graphics.SpriteSheet;
 import inputs.Keyboard;
 import mathematics.Vector2d;
 
-public class FatNerd extends Player {
+public class FatNerd extends Player implements Serializable {
 
-	public FatNerd(Battle battle, Vector2d position, Keyboard keyboard) {
-		super(battle, position, keyboard,
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4298294342287322566L;
+
+	public FatNerd(Vector2d position, Keyboard keyboard) {
+		super(position, keyboard,
 				new AnimatedSpriteSet(new AnimatedSprite(SpriteSheet.fatNerdDimensions, SpriteSheet.fatNerdUp, 3),
 						new AnimatedSprite(SpriteSheet.fatNerdDimensions, SpriteSheet.fatNerdUpRight, 3),
 						new AnimatedSprite(SpriteSheet.fatNerdDimensions, SpriteSheet.fatNerdRight, 3),

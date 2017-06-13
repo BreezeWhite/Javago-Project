@@ -1,9 +1,15 @@
 package battles;
 
+import java.io.Serializable;
+
 import mathematics.Vector2i;
 
-public class Node {
+public class Node implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5146909891992966061L;
 	public Vector2i tile;
 	public Node parent;
 	public double fCost, gCost, hCost;

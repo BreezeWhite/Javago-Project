@@ -1,9 +1,16 @@
 package events.types;
 
+import java.io.Serializable;
+
 import events.Event;
 
-public class MouseButtonEvent extends Event {
+public class MouseButtonEvent extends Event implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 968132208998873511L;
+
 	public int getButton() {
 		return button;
 	}

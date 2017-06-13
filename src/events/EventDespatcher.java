@@ -1,7 +1,14 @@
 package events;
 
-public class EventDespatcher {
+import java.io.Serializable;
+
+public class EventDespatcher implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6102758858918203012L;
+
 	public EventDespatcher(Event event) {
 		this.event = event;
 	}

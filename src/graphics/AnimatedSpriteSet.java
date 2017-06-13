@@ -1,8 +1,15 @@
 package graphics;
 
+import java.io.Serializable;
+
 import entities.Direction;
 
-public class AnimatedSpriteSet {
+public class AnimatedSpriteSet implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3521052758018396316L;
 
 	public AnimatedSpriteSet(AnimatedSprite up, AnimatedSprite upRight, AnimatedSprite right, AnimatedSprite downRight,
 			AnimatedSprite down, AnimatedSprite downLeft, AnimatedSprite left, AnimatedSprite upLeft) {
@@ -59,5 +66,9 @@ public class AnimatedSpriteSet {
 	private AnimatedSprite upLeft;
 	
 	private AnimatedSprite current;
+
+	public int getFrame() {
+		return current.getFrame();
+	}
 
 }

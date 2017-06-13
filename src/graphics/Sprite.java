@@ -1,10 +1,16 @@
 package graphics;
 
+import java.io.Serializable;
+
 import mathematics.Vector2i;
 import tiles.Tile;
 
-public class Sprite {
+public class Sprite implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8952199770448952886L;
 	public static Sprite getVoid() {
 		return voidSprite;
 	}

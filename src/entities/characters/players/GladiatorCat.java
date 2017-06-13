@@ -1,16 +1,21 @@
 package entities.characters.players;
 
-import battles.Battle;
+import java.io.Serializable;
+
 import graphics.AnimatedSprite;
 import graphics.AnimatedSpriteSet;
 import graphics.SpriteSheet;
 import inputs.Keyboard;
 import mathematics.Vector2d;
 
-public class GladiatorCat extends Player {
+public class GladiatorCat extends Player implements Serializable {
 
-	public GladiatorCat(Battle battle, Vector2d position, Keyboard keyboard) {
-		super(battle, position, keyboard,
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2234673269171418932L;
+	public GladiatorCat(Vector2d position, Keyboard keyboard) {
+		super(position, keyboard,
 				new AnimatedSpriteSet(new AnimatedSprite(SpriteSheet.gladiatorCatDimensions, SpriteSheet.gladiatorCatUp, 4),
 						new AnimatedSprite(SpriteSheet.gladiatorCatDimensions, SpriteSheet.gladiatorCatUpRight, 4),
 						new AnimatedSprite(SpriteSheet.gladiatorCatDimensions, SpriteSheet.gladiatorCatRight, 4),

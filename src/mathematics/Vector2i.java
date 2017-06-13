@@ -1,9 +1,15 @@
 package mathematics;
 
 import java.awt.Dimension;
+import java.io.Serializable;
 
-public class Vector2i {
+public class Vector2i implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2440908644340829238L;
+
 	public Vector2i() {
 		set(0, 0);
 	}

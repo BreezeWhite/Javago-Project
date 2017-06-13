@@ -1,7 +1,13 @@
 package main;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 import battles.Battle;
 import battles.TestBattle;
+import entities.Entity;
+import entities.Update;
 import entities.characters.Viking;
 import entities.characters.players.FatNerd;
 import entities.characters.players.GladiatorCat;
@@ -12,6 +18,7 @@ import events.Event;
 import events.EventListener;
 import graphics.Screen;
 import inputs.Keyboard;
+import inputs.KeyboardServerCopy;
 import inputs.Mouse;
 import mathematics.Vector2d;
 import mathematics.Vector2i;
@@ -19,8 +26,12 @@ import network.Client;
 import server.Server;
 
 // 這個類別包含 main 方法，這裡的程式碼不要寫太多以保持主類別的簡潔。
-public class JavaGo implements Runnable, EventListener {
+public class JavaGo implements Runnable, EventListener, Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3423008129389712034L;
 	// 用來顯示在遊戲視窗的標題列。
 	public static final String TITLE = "JavaGo Project";
 	public static final boolean IS_SERVER = true;
@@ -33,25 +44,25 @@ public class JavaGo implements Runnable, EventListener {
 	public JavaGo() {
 		if (IS_SERVER) {
 			// 測試伺服器和用戶端的程式碼。
-			Server server = new Server(37855 /* 隨便挑的埠 */);
+			server = new Server(37855 /* 隨便挑的埠 */);
 			server.start();
-			Client client = new Client("localhost", 37855);
-			client.connect();
+			client = new Client("localhost", 37856);
 		} else {
-			Client client = new Client("localhost", 37855);
-			client.connect();
+			client = new Client("localhost", 37856);
 		}
+		client.connect();
+		client.start();
 
 		// 初始化鍵盤事件監聽器。
-		keyboard = new Keyboard();
+		keyboard = new Keyboard(client, 0);
 
 		// 初始化第一級。（以後不會直接開始跑遊戲，會先開使用者介面。）
 		battle = new TestBattle("/textures/battles/test_level.png");
 
 		// 把這臺電腦的玩家加入第一級。（Vector2d 是座標類別。）
 		final int PLAYER_X = 1100, PLAYER_Y = 900;
-		battle.add(new GladiatorCat(battle, new Vector2d(PLAYER_X, PLAYER_Y), keyboard));
-		battle.add(new Viking(battle, new Vector2d(PLAYER_X, PLAYER_Y - 100)));
+		battle.add(new GladiatorCat(new Vector2d(PLAYER_X, PLAYER_Y), keyboard));
+		battle.add(new Viking(new Vector2d(PLAYER_X, PLAYER_Y - 100)));
 
 		// 初始化玩家。（Client player: 用戶玩家端。）
 		player = battle.getClientPlayer();
@@ -66,6 +77,10 @@ public class JavaGo implements Runnable, EventListener {
 		mouse = new Mouse(this);
 		screen.addMouseListener(mouse);
 		screen.addMouseMotionListener(mouse);
+	}
+	
+	public static Battle getBattle() {
+		return battle;
 	}
 
 	// 從最上面的那一層開始，把事件傳到所有的層次。
@@ -129,13 +144,16 @@ public class JavaGo implements Runnable, EventListener {
 	}
 
 	private boolean executing = false;
-	private Battle battle;
+	private static Battle battle;
+	private Client client;
 	private static final int defaultScreenWidth = 500,
 			defaultScreenHeight = (int) ((double) defaultScreenWidth * 9.0 / 16.0);
 	private Keyboard keyboard;
+	public static List<KeyboardServerCopy> serverKeyboards = new ArrayList<KeyboardServerCopy>();
 	private Mouse mouse;
 	private Player player;
 	private Screen screen;
+	private Server server;
 	private Thread thread;
 
 	private Vector2i getPlayerCentricOffset() {
@@ -147,7 +165,18 @@ public class JavaGo implements Runnable, EventListener {
 		if (player.isRemoved()) {
 			player = battle.getClientPlayer();
 		}
-		battle.update();
+		if (IS_SERVER) {
+			battle.update();
+			List<Entity> entities = battle.getEntities();
+			for(int i = 0; i < entities.size(); ++i) {
+				Update update = entities.get(i).generateUpdate();
+				update.index = i;
+				server.sendAll(update.serialise());
+			}
+		}
+		else {
+			
+		}
 	}
 
 }

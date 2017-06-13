@@ -6,21 +6,17 @@ import java.io.Serializable;
 
 import network.Client;
 
-public class Keyboard implements KeyListener, Serializable {
+public class KeyboardServerCopy implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -8443362919547855603L;
-	private int playerIndex;
 	
-	public Keyboard(Client client, int playerIndex) {
-		this.client = client;
-		this.playerIndex = playerIndex;
+	public KeyboardServerCopy() {
 	}
 	
-	private boolean[] keys = new boolean[65535];
-	private Client client;
+	public boolean[] keys = new boolean[65535];
 	
 	public boolean downPressed() {
 		return keys[KeyEvent.VK_DOWN];
@@ -55,23 +51,6 @@ public class Keyboard implements KeyListener, Serializable {
 	
 	public boolean upPressed() {
 		return keys[KeyEvent.VK_UP];
-	}
-	
-	@Override
-	public void keyPressed(KeyEvent e) {
-		KeyPress keyPress = new KeyPress();
-		keyPress.keyIndex = e.getKeyCode();
-		keys[keyPress.keyIndex] = true;
-		client.send(keyPress.serialise());
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-		keys[e.getKeyCode()] = false;
-	}
-
-	@Override
-	public void keyTyped(KeyEvent e) {
 	}
 
 }

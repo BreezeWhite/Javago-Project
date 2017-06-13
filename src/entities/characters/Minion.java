@@ -1,5 +1,6 @@
 package entities.characters;
 
+import java.io.Serializable;
 import java.util.List;
 
 import battles.Battle;
@@ -7,14 +8,20 @@ import battles.Node;
 import graphics.AnimatedSprite;
 import graphics.AnimatedSpriteSet;
 import graphics.SpriteSheet;
+import main.JavaGo;
 import mathematics.Vector2d;
 import mathematics.Vector2i;
 import tiles.Tile;
 
-public class Minion extends Character {
+public class Minion extends Character implements Serializable {
 
-	public Minion(Battle battle, Vector2d position) {
-		super(battle, position,
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4319235316303050550L;
+
+	public Minion(Vector2d position) {
+		super(position,
 				new AnimatedSpriteSet(new AnimatedSprite(SpriteSheet.minionDimensions, SpriteSheet.minionUp, 7),
 						new AnimatedSprite(SpriteSheet.minionDimensions, SpriteSheet.minionUpRight, 7),
 						new AnimatedSprite(SpriteSheet.minionDimensions, SpriteSheet.minionRight, 7),
@@ -33,6 +40,7 @@ public class Minion extends Character {
 		time = ++time % 600000;
 		deltaX = 0;
 		deltaY = 0;
+		Battle battle = JavaGo.getBattle();
 		int playerX = (int) battle.getClientPlayer().getCoordinates().getX();
 		int playerY = (int) battle.getClientPlayer().getCoordinates().getY();
 		Vector2i start = new Vector2i(((int) x) / Tile.WIDTH, ((int) y) / Tile.HEIGHT);

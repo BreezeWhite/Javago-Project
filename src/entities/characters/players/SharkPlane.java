@@ -1,17 +1,24 @@
 package entities.characters.players;
 
-import battles.Battle;
+import java.io.Serializable;
+
 import entities.Projectile;
 import graphics.AnimatedSprite;
 import graphics.AnimatedSpriteSet;
 import graphics.SpriteSheet;
 import inputs.Keyboard;
+import main.JavaGo;
 import mathematics.Vector2d;
 
-public class SharkPlane extends Player {
+public class SharkPlane extends Player implements Serializable {
 
-	public SharkPlane(Battle battle, Vector2d position, Keyboard keyboard) {
-		super(battle, position, keyboard,
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2684957700193700335L;
+
+	public SharkPlane(Vector2d position, Keyboard keyboard) {
+		super(position, keyboard,
 				new AnimatedSpriteSet(new AnimatedSprite(SpriteSheet.sharkPlaneDimensions, SpriteSheet.sharkPlaneUp, 3),
 						new AnimatedSprite(SpriteSheet.sharkPlaneDimensions, SpriteSheet.sharkPlaneUpRight, 3),
 						new AnimatedSprite(SpriteSheet.sharkPlaneDimensions, SpriteSheet.sharkPlaneRight, 3),
@@ -32,22 +39,22 @@ public class SharkPlane extends Player {
 				removed = true;
 			} else if (timeToNextShot <= 0) {
 				if (keyboard.rPressed()) { // Machine gun.
-					Projectile projectile = new Projectile(battle, new Vector2d(x + 24, y + 24),
+					Projectile projectile = new Projectile(new Vector2d(x + 24, y + 24),
 							SpriteSheet.miscellaneousProjectiles.getSprites()[1], direction.getDirectionAngleRadians(),
 							speed + 5, 300, 5);
-					battle.add(projectile);
+					JavaGo.getBattle().add(projectile);
 					timeToNextShot = reloadTime;
 				} else if (keyboard.ePressed()) { // Missile.
-					Projectile projectile = new Projectile(battle, new Vector2d(x + 24, y + 24),
+					Projectile projectile = new Projectile(new Vector2d(x + 24, y + 24),
 							SpriteSheet.redMissile.getSprites()[direction.getIndex()],
 							direction.getDirectionAngleRadians(), speed + 5, 300, 5);
-					battle.add(projectile);
+					JavaGo.getBattle().add(projectile);
 					timeToNextShot = MISSILE_RELOAD_TIME;
 				} else if (keyboard.wPressed()) { // Homing missile.
-					Projectile projectile = new Projectile(battle, new Vector2d(x + 24, y + 24),
+					Projectile projectile = new Projectile(new Vector2d(x + 24, y + 24),
 							SpriteSheet.blueMissile.getSprites()[direction.getIndex()],
 							direction.getDirectionAngleRadians(), speed + 5, 300, 5);
-					battle.add(projectile);
+					JavaGo.getBattle().add(projectile);
 					timeToNextShot = MISSILE_RELOAD_TIME;
 				}
 			}

@@ -1,7 +1,13 @@
 package events;
 
-public abstract class Event {
+import java.io.Serializable;
+
+public abstract class Event implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 842310542408879986L;
 	public enum Type {
 		MOUSE_PRESSED,
 		MOUSE_RELEASED,

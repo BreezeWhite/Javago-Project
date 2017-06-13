@@ -1,7 +1,14 @@
 package battles;
 
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -15,17 +22,45 @@ import entities.characters.players.Player;
 import events.Event;
 import events.EventListener;
 import graphics.Screen;
+import main.JavaGo;
 import mathematics.Vector2d;
 import mathematics.Vector2i;
 import tiles.Tile;
 
-public abstract class Battle implements EventListener {
+public abstract class Battle implements EventListener, Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7744245026248872327L;
 
 	public void add(Entity entity) {
 		if (entity instanceof Player) {
-			players.add((Player) entity);
+			lists.players.add((Player) entity);
 		} else {
-			entities.add(entity);
+			lists.entities.add(entity);
+		}
+	}
+
+	public byte[] exportEntities() {
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		ObjectOutput out = null;
+		try {
+			try {
+				out = new ObjectOutputStream(bos);
+				out.writeObject(lists.players.get(0));
+				out.flush();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			byte[] data = bos.toByteArray();
+			return data;
+		} finally {
+			try {
+				bos.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -35,7 +70,7 @@ public abstract class Battle implements EventListener {
 		Node current = new Node(start, null, 0, getDistance(start, goal));
 		openList.add(current);
 		while (openList.size() > 0) {
-			Collections.sort(openList, nodeSorter);
+			Collections.sort(openList, new NodeComparator());
 			current = openList.get(0);
 			if (current.tile.equals(goal)) {
 				// Reconstruct path.
@@ -88,24 +123,53 @@ public abstract class Battle implements EventListener {
 	}
 
 	public Player getClientPlayer() {
-		return players.get(0);
+		return lists.players.get(0);
 	}
 
 	public List<Entity> getEntities() {
-		return entities;
+		return lists.entities;
 	}
 
 	public List<Entity> getEntities(Entity entity, double radius) {
 		List<Entity> result = new ArrayList<Entity>();
 		final Vector2d coordinates = entity.getCoordinates();
 		final double relRadius = radius * radius;
-		for (int i = 0; i < entities.size(); ++i) {
-			Entity currentEntity = entities.get(i);
+		for (int i = 0; i < lists.entities.size(); ++i) {
+			Entity currentEntity = lists.entities.get(i);
 			if (Vector2d.getRelDistance(coordinates, currentEntity.getCoordinates()) < relRadius) {
 				result.add(currentEntity);
 			}
 		}
 		return result;
+	}
+
+	public void importEntities(byte[] data) {
+		ByteArrayInputStream bis = new ByteArrayInputStream(data);
+		ObjectInput in = null;
+		try {
+			try {
+				in = new ObjectInputStream(bis);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			try {
+				Object obj = in.readObject();
+				if (obj instanceof EntityContainer) {
+					lists = (EntityContainer) obj;
+				}
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} finally {
+			try {
+				if (in != null) {
+					in.close();
+				}
+			} catch (IOException ex) {
+			}
+		}
 	}
 
 	@Override
@@ -127,11 +191,11 @@ public abstract class Battle implements EventListener {
 				getTile(x, y).render(screen, new Vector2i(x, y));
 			}
 		}
-		for (int i = 0; i < entities.size(); ++i) {
-			entities.get(i).render(screen);
+		for (int i = 0; i < lists.entities.size(); ++i) {
+			lists.entities.get(i).render(screen);
 		}
-		for (int i = 0; i < players.size(); ++i) {
-			players.get(i).render(screen);
+		for (int i = 0; i < lists.players.size(); ++i) {
+			lists.players.get(i).render(screen);
 		}
 	}
 
@@ -140,11 +204,13 @@ public abstract class Battle implements EventListener {
 	}
 
 	public void update() {
-		for (int i = 0; i < players.size(); ++i) {
-			players.get(i).update();
-		}
-		for (int i = 0; i < entities.size(); ++i) {
-			entities.get(i).update();
+		if (JavaGo.IS_SERVER) {
+			for (int i = 0; i < lists.players.size(); ++i) {
+				lists.players.get(i).update();
+			}
+			for (int i = 0; i < lists.entities.size(); ++i) {
+				lists.entities.get(i).update();
+			}
 		}
 		remove();
 	}
@@ -164,19 +230,19 @@ public abstract class Battle implements EventListener {
 		}
 	}
 
-	private List<Entity> entities = new ArrayList<Entity>();
+	private EntityContainer lists = new EntityContainer();
 	Vector2i offset = new Vector2i();
-	private List<Player> players = new ArrayList<Player>();
 
 	private void remove() {
-		for (int i = 0; i < entities.size(); ++i) {
-			if (entities.get(i).isRemoved()) {
-				entities.remove(i);
+		for (int i = 0; i < lists.entities.size(); ++i) {
+			if (lists.entities.get(i).isRemoved()) {
+				lists.entities.remove(i);
 			}
 		}
-		for (int i = 0; i < players.size(); ++i) {
-			if (players.get(i).isRemoved()) {
-				players.set(i, new Observer(this, players.get(i).getCoordinates(), players.get(i).getKeyboard()));
+		for (int i = 0; i < lists.players.size(); ++i) {
+			if (lists.players.get(i).isRemoved()) {
+				lists.players.set(i,
+						new Observer(lists.players.get(i).getCoordinates(), lists.players.get(i).getKeyboard()));
 			}
 		}
 	}
@@ -198,7 +264,13 @@ public abstract class Battle implements EventListener {
 		}
 	}
 
-	private Comparator<Node> nodeSorter = new Comparator<Node>() {
+	private static class NodeComparator implements Comparator<Node>, Serializable {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -1809872804838930284L;
+
+		@Override
 		public int compare(Node a, Node b) {
 			if (b.fCost < a.fCost) {
 				return +1;
@@ -208,7 +280,7 @@ public abstract class Battle implements EventListener {
 			}
 			return 0;
 		}
-	};
+	}
 
 	private boolean vecInList(List<Node> list, Vector2i vector) {
 		for (int i = 0; i < list.size(); ++i) {

@@ -1,16 +1,22 @@
 package entities.characters.players;
 
-import battles.Battle;
+import java.io.Serializable;
+
 import graphics.AnimatedSprite;
 import graphics.AnimatedSpriteSet;
 import graphics.SpriteSheet;
 import inputs.Keyboard;
 import mathematics.Vector2d;
 
-public class GayVampire extends Player {
+public class GayVampire extends Player implements Serializable {
 
-	public GayVampire(Battle battle, Vector2d position, Keyboard keyboard) {
-		super(battle, position, keyboard,
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3353334571058132023L;
+
+	public GayVampire(Vector2d position, Keyboard keyboard) {
+		super(position, keyboard,
 				new AnimatedSpriteSet(new AnimatedSprite(SpriteSheet.gayVampireDimensions, SpriteSheet.gayVampireUp, 6),
 						new AnimatedSprite(SpriteSheet.gayVampireDimensions, SpriteSheet.gayVampireUpRight, 6),
 						new AnimatedSprite(SpriteSheet.gayVampireDimensions, SpriteSheet.gayVampireRight, 6),

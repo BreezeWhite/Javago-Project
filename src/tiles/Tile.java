@@ -1,12 +1,18 @@
 package tiles;
 
+import java.io.Serializable;
+
 import graphics.Screen;
 import graphics.Sprite;
 import graphics.SpriteSheet;
 import mathematics.Vector2i;
 
-public class Tile {
+public class Tile implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6833582773069525270L;
 	// SIZE is measured in powers of two.
 	// E.g., SIZE = 4 means that WIDTH and HEIGHT are both 2^4 pixels.
 	public static final int SIZE = 5;

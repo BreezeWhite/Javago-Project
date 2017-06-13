@@ -1,18 +1,23 @@
 package entities;
 
-import battles.Battle;
+import java.io.Serializable;
+
 import graphics.Sprite;
 import mathematics.Vector2d;
 
-public class Projectile extends Entity {
+public class Projectile extends Entity implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5235161348603860561L;
 	protected final double xOrigin, yOrigin;
 	protected double angle;
 	protected double nx, ny;
 	protected double speed, range, damage;
 
-	public Projectile(Battle battle, Vector2d position, Sprite sprite, double angle, double speed, int range,
+	public Projectile(Vector2d position, Sprite sprite, double angle, double speed, int range,
 			int damage) {
-		super(battle, position, sprite);
+		super(position, sprite);
 		xOrigin = position.getX();
 		yOrigin = position.getY();
 		this.angle = angle;
@@ -42,4 +47,5 @@ public class Projectile extends Entity {
 		final double deltaY = y - yOrigin;
 		return Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 	}
+
 }

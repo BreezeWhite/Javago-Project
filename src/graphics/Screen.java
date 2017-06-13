@@ -9,6 +9,7 @@ import java.awt.event.ComponentListener;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
+import java.io.Serializable;
 
 import javax.swing.JFrame;
 
@@ -16,8 +17,12 @@ import main.JavaGo;
 import mathematics.Vector2d;
 import mathematics.Vector2i;
 
-public class Screen extends Canvas {
+public class Screen extends Canvas implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4658050286714842228L;
 	public Screen(int width, int height, int scale) {
 		this.scale = scale;
 		// Height is calculated to obtain a 16:9 aspect ratio.
@@ -175,7 +180,6 @@ public class Screen extends Canvas {
 	private BufferedImage image;
 	private int[] pixelMap;
 	private int scale;
-	private static final long serialVersionUID = 1L;
 	private Vector2i offset;
 
 }

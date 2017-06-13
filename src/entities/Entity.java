@@ -1,23 +1,35 @@
 package entities;
 
+import java.io.Serializable;
 import java.util.Random;
 
-import battles.Battle;
 import graphics.Screen;
 import graphics.Sprite;
+import main.JavaGo;
 import mathematics.Vector2d;
 import mathematics.Vector2i;
 import tiles.Tile;
 
-public abstract class Entity {
+public abstract class Entity implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7298163289896153316L;
 	public Direction direction = Direction.DOWN;
 
-	protected Entity(Battle battle, Vector2d position, Sprite sprite) {
+	protected Entity(Vector2d position, Sprite sprite) {
 		x = position.getX();
 		y = position.getY();
 		this.sprite = sprite;
-		this.battle = battle;
+	}
+	
+	public Update generateUpdate() {
+		Update update = new Update();
+		update.x = x;
+		update.y = y;
+		update.direction = direction;
+		return update;
 	}
 
 	public Vector2d getCoordinates() {
@@ -35,6 +47,12 @@ public abstract class Entity {
 	public boolean isRemoved() {
 		return removed;
 	}
+	
+	public void processUpdate(Update update) {
+		x = update.x;
+		y = update.y;
+		direction = update.direction;
+	}
 
 	public void remove() {
 		removed = true;
@@ -46,7 +64,6 @@ public abstract class Entity {
 
 	public abstract void update();
 
-	protected Battle battle;
 	protected final Random random = new Random();
 	protected Sprite sprite;
 	protected double x, y;
@@ -109,7 +126,7 @@ public abstract class Entity {
 			double yt = ((y + deltaY) - i / 2 * sprite.getHeight()) / Tile.HEIGHT;
 			int xi = (i % 2 == 0) ? (int) Math.floor(xt) : (int) Math.ceil(xt);
 			int yi = (i / 2 == 0) ? (int) Math.floor(yt) : (int) Math.ceil(yt);
-			if (battle.getTile(xi, yi).isSolid()) {
+			if (JavaGo.getBattle().getTile(xi, yi).isSolid()) {
 				return true;
 			}
 		}

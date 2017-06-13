@@ -1,8 +1,15 @@
 package graphics;
 
+import java.io.Serializable;
+
 import mathematics.Vector2i;
 
-public class AnimatedSprite {
+public class AnimatedSprite implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4672645496995301586L;
 
 	public AnimatedSprite(Vector2i dimensions, SpriteSheet spriteSheet, int length) {
 		this.length = length;
@@ -12,6 +19,10 @@ public class AnimatedSprite {
 			System.err.println("Error! Length of animation exceeds sprite sheet's length.");
 			length = spriteSheet.getSprites().length;
 		}
+	}
+
+	public int getFrame() {
+		return frame;
 	}
 
 	public Sprite getSprite() {
@@ -33,7 +44,7 @@ public class AnimatedSprite {
 		if ((time = (time + 1) % frameRate) == 0) {
 			frame = (frame + 1) % length;
 			sprite = spriteSheet.getSprites()[frame];
-			if(frame == 0) {
+			if (frame == 0) {
 				++counter;
 			}
 		}

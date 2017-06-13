@@ -1,15 +1,21 @@
 package entities.characters;
 
-import battles.Battle;
+import java.io.Serializable;
+
 import graphics.AnimatedSprite;
 import graphics.AnimatedSpriteSet;
 import graphics.SpriteSheet;
 import mathematics.Vector2d;
 
-public class Viking extends Character {
+public class Viking extends Character implements Serializable {
 
-	public Viking(Battle battle, Vector2d position) {
-		super(battle, position,
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5619303498906885253L;
+
+	public Viking(Vector2d position) {
+		super(position,
 				new AnimatedSpriteSet(new AnimatedSprite(SpriteSheet.warriorDimensions, SpriteSheet.warriorUp, 5),
 						new AnimatedSprite(SpriteSheet.warriorDimensions, SpriteSheet.warriorUpRight, 5),
 						new AnimatedSprite(SpriteSheet.warriorDimensions, SpriteSheet.warriorRight, 5),

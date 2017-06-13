@@ -2,13 +2,19 @@ package graphics;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.Serializable;
 
 import javax.imageio.ImageIO;
 
 import mathematics.Vector2i;
 import tiles.Tile;
 
-public class SpriteSheet {
+public class SpriteSheet implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3695301900442899286L;
 
 	public static final SpriteSheet faerieIsland = new SpriteSheet(new SpriteSheet("/textures/sheets/islands/faerie_island.png"), new Vector2i(0, 0), new Vector2i(23, 29), new Vector2i(Tile.WIDTH, Tile.HEIGHT));
 

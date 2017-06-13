@@ -1,14 +1,20 @@
 package entities.characters.players;
 
-import battles.Battle;
+import java.io.Serializable;
+
 import graphics.Sprite;
 import inputs.Keyboard;
 import mathematics.Vector2d;
 
-public class Observer extends Player {
+public class Observer extends Player implements Serializable {
 
-	public Observer(Battle battle, Vector2d position, Keyboard keyboard) {
-		super(battle, position, keyboard, Sprite.getInvisible());
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5417554807413499448L;
+
+	public Observer(Vector2d position, Keyboard keyboard) {
+		super(position, keyboard, Sprite.getInvisible());
 	}
 	
 	@Override

@@ -3,14 +3,19 @@ package inputs;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.io.Serializable;
 
 import events.EventListener;
 import events.types.MouseMovedEvent;
 import events.types.MousePressedEvent;
 import events.types.MouseReleasedEvent;
 
-public class Mouse implements MouseListener, MouseMotionListener {
+public class Mouse implements MouseListener, MouseMotionListener, Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1563733756268165357L;
 	public Mouse(EventListener eventListener) {
 		this.eventListener = eventListener;
 	}
