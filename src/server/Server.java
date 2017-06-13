@@ -58,7 +58,7 @@ public class Server {
 		listener.start();
 	}
 
-	private final String[] ADDRESSES = { "localhost", "172.16.1.200" };
+	private final String[] ADDRESSES = { "172.16.7.129" };
 	private final int[] PORTS = {37856};
 	private List<InetAddress> ipAddresses = new ArrayList<InetAddress>();
 	private final int MAX_PACKET_SIZE = 1024;

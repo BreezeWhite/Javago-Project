@@ -8,6 +8,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.io.StreamCorruptedException;
 
 public class Update implements Serializable {
 	/**
@@ -53,6 +54,9 @@ public class Update implements Serializable {
 				Object obj = in.readObject();
 				if (obj instanceof Update) {
 					return (Update) obj;
+				}
+				else {
+					return null;
 				}
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
