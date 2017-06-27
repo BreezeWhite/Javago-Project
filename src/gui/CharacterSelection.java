@@ -11,8 +11,6 @@ import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import main.JavaGo;
-
 public class CharacterSelection extends JPanel{
 	public static CharacterSelection getInstance(){
 		return theCharacterSelection;
@@ -22,6 +20,7 @@ public class CharacterSelection extends JPanel{
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.drawImage(swordsman, 70, 50, 300, 284, this);
+		g.drawImage(fighter, 400, 40, 246, 320, this);
 	}
 
 	
@@ -34,7 +33,7 @@ public class CharacterSelection extends JPanel{
 		int buttonX = 170, offset = 320;
 		for(int i=0;i<3;i+=1){
 			select[i] = new JButton("選擇");
-			select[i].setBounds(buttonX+i*offset,350,100,50);
+			select[i].setBounds(buttonX+i*offset,380,100,50);
 			select[i].addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -49,12 +48,13 @@ public class CharacterSelection extends JPanel{
 	private void LoadCharacterImages(){
 		try {
 			swordsman = ImageIO.read(IslandSelector.class.getResource("/textures/sheets/characters/sword.png"));
+            fighter = ImageIO.read(IslandSelector.class.getResource("/textures/sheets/characters/fighter.png"));		
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
 	}
 	
 	private static CharacterSelection theCharacterSelection = new CharacterSelection();;
-    private BufferedImage swordsman;
+    private BufferedImage swordsman, fighter;
     private static final long serialVersionUID = 1L;
 }
