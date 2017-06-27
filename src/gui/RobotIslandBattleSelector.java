@@ -40,8 +40,8 @@ public class RobotIslandBattleSelector extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//Window.getInstance().changeToScreen();
-				Window.getInstance().changeTo(WaitingRoom.getInstance());
-				JavaGo.getInstance().start();
+				Window.getInstance().changeTo(CharacterSelection.getInstance());
+				//JavaGo.getInstance().start();
 			}
 		});
 		add(level1);
