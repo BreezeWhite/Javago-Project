@@ -2,13 +2,12 @@ package main;
 
 import battles.Battle;
 import battles.TestBattle;
-import entities.characters.Player;
+import entities.characters.players.Player;
 import events.Event;
 import events.EventListener;
 import graphics.Screen;
 import gui.IslandSelector;
 import gui.Window;
-import inputs.Keyboard;
 import inputs.Mouse;
 import mathematics.Vector2d;
 import mathematics.Vector2i;
@@ -20,39 +19,33 @@ public class JavaGo implements Runnable, EventListener {
 	public static final String TITLE = "JavaGo Project";
 
 	public static void main(String[] args) {
+		JavaGo javaGo = JavaGo.getInstance();
+		Mouse.setEventListener(javaGo);
+		JavaGo.setScreen(Screen.getInstance());
 	}
-	
+
 	public static JavaGo getInstance() {
+		if (theJavaGo == null) {
+			theJavaGo = new JavaGo();
+		}
 		return theJavaGo;
 	}
 
 	private JavaGo() {
-		// 初始化遊戲視窗。
-		window = Window.getInstance();
-		window.changeTo(IslandSelector.getInstance(), true);
-		screen = window.getScreen();
-
-		// 初始化鍵盤事件監聽器然後把它加入screen。
-		keyboard = new Keyboard();
-		screen.addKeyListener(keyboard);
-
-		// 初始化滑鼠事件監聽器然後把它加入screen。
-		mouse = new Mouse(this);
-		screen.addMouseListener(mouse);
-		screen.addMouseMotionListener(mouse);
 
 		// 初始化第一級。（以後不會直接開始跑遊戲，會先開使用者介面。）
 		battle = new TestBattle("/textures/battles/test_level.png");
 
-		// 把這臺電腦的玩家加入第一級。（Vector2d 是座標類別。）
-		battle.add(new Player(battle, new Vector2d(1100, 900), keyboard));
-
 		// 初始化玩家。（Client player: 用戶玩家端。）
 		player = battle.getClientPlayer();
 
+		// 初始化遊戲視窗。
+		window = Window.getInstance();
+		window.changeTo(IslandSelector.getInstance(), true);
+
 	}
-	
-	public boolean isExecuting () {
+
+	public boolean isExecuting() {
 		return executing;
 	}
 
@@ -67,6 +60,9 @@ public class JavaGo implements Runnable, EventListener {
 	// 接下來，screen會把所有可畫物件的像素資料複製到它的成員 pixelMap[]。
 	// 最後，以 screen.render() 叫 screen 把 pixelMap[] 裡的資料畫到螢幕上。
 	public void render() {
+		if (screen == null) {
+			return;
+		}
 		battle.setOffset(getPlayerCentricOffset());
 		battle.render(screen);
 		screen.render();
@@ -100,6 +96,10 @@ public class JavaGo implements Runnable, EventListener {
 		}
 	}
 
+	public static void setScreen(Screen screen) {
+		JavaGo.screen = screen;
+	}
+
 	public synchronized void start() {
 		executing = true;
 		thread = new Thread(this, "Display");
@@ -117,11 +117,9 @@ public class JavaGo implements Runnable, EventListener {
 
 	private boolean executing = false;
 	private Battle battle;
-	private static JavaGo theJavaGo = new JavaGo();
-	private Keyboard keyboard;
-	private Mouse mouse;
+	private static JavaGo theJavaGo;
 	private Player player;
-	private Screen screen;
+	private static Screen screen;
 	private Thread thread;
 	private Window window;
 

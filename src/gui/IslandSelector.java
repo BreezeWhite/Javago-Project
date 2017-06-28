@@ -21,14 +21,14 @@ public class IslandSelector extends JPanel {
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		g.drawImage(islands, 0, 0, 1080, 496, this);
+		g.drawImage(islands, 0, 0, 259, 154, this);
 	}
 
 	private IslandSelector() {
 		super(null);
-		setPreferredSize(new Dimension(1080, 496));
+		setPreferredSize(new Dimension(259, 154));
 		try {
-			islands = ImageIO.read(IslandSelector.class.getResource("/textures/ui/islands_ver2.jpg"));
+			islands = ImageIO.read(IslandSelector.class.getResource("/textures/ui/islands.jpg"));
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
@@ -37,8 +37,7 @@ public class IslandSelector extends JPanel {
 		spiritIsland.setOpaque(false);
 		spiritIsland.setContentAreaFilled(false);
 		spiritIsland.setBorderPainted(false);
-		//spiritIsland.setBounds(5, 15, 85, 85); //for ver1 islands
-		spiritIsland.setBounds(54, 150, 250, 200); //for ver2 islands
+		spiritIsland.setBounds(5, 15, 85, 85);
 		spiritIsland.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -51,8 +50,7 @@ public class IslandSelector extends JPanel {
 		robotIsland.setOpaque(false);
 		robotIsland.setContentAreaFilled(false);
 		robotIsland.setBorderPainted(false);
-		//robotIsland.setBounds(130, 20, 60, 30);
-		robotIsland.setBounds(700, 210, 380, 280);
+		robotIsland.setBounds(130, 20, 60, 30);
 		robotIsland.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -65,8 +63,7 @@ public class IslandSelector extends JPanel {
 		beastIsland.setOpaque(false);
 		beastIsland.setContentAreaFilled(false);
 		beastIsland.setBorderPainted(false);
-		//beastIsland.setBounds(125, 70, 115, 70);
-		beastIsland.setBounds(380, 0, 250, 200);
+		beastIsland.setBounds(125, 70, 115, 70);
 		beastIsland.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

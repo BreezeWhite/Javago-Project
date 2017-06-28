@@ -20,17 +20,68 @@ import javax.swing.JPanel;
 import graphics.Screen;
 import main.JavaGo;
 
-public class Window extends JFrame {
+public class Window extends JFrame implements ComponentListener {
+
+	public static final int DEFAULT_SCALE = 2, DEFAULT_SCREEN_WIDTH = 500,
+			DEFAULT_SCREEN_HEIGHT = (int) ((double) DEFAULT_SCREEN_WIDTH * 9.0 / 16.0), INFO_PANEL_WIDTH = 100;
+
+	public void changeTo(Component nextComponent) {
+		changeTo(nextComponent, false);
+	}
+
+	public void changeTo(Component nextComponent, boolean centre) {
+		screenOn = false;
+		if (curComponent != null) {
+			getContentPane().remove(curComponent);
+		}
+		curComponent = nextComponent;
+		getContentPane().add(curComponent, BorderLayout.CENTER);
+		pack();
+		if (centre) {
+			setLocationRelativeTo(null); // Centre window.
+		}
+	}
+
+	public void changeToScreen() {
+		gamePanel = new JPanel(new BorderLayout());
+		infoPanel = new JPanel(new GridBagLayout());
+		infoPanel.setPreferredSize(new Dimension(INFO_PANEL_WIDTH, DEFAULT_SCREEN_HEIGHT * DEFAULT_SCALE));
+		GridBagConstraints c = new GridBagConstraints();
+		c.gridx = 0;
+		c.gridy = 0;
+		c.anchor = GridBagConstraints.LINE_END;
+		infoPanel.add(new JLabel("HP: 1000"), c);
+		screenPanel = new JPanel();
+		screen = Screen.getInstance();
+		screenPanel.add(screen);
+		gamePanel.add(screenPanel, BorderLayout.CENTER);
+		gamePanel.add(infoPanel, BorderLayout.EAST);
+		changeTo(gamePanel);
+		setSize(new Dimension(DEFAULT_SCREEN_WIDTH * DEFAULT_SCALE + INFO_PANEL_WIDTH,
+				DEFAULT_SCREEN_HEIGHT * DEFAULT_SCALE));
+		setLocationRelativeTo(null);
+		screenOn = true;
+		screen.requestFocus();
+	}
 
 	public static Window getInstance() {
+		if (theWindow == null) {
+			theWindow = new Window(JavaGo.TITLE, DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT, DEFAULT_SCALE);
+		}
 		return theWindow;
 	}
 
-	public Screen getScreen() {
-		return screen;
-	}
+	private Component curComponent = null;
+	JPanel gamePanel;
+	JPanel infoPanel;
+	Screen screen;
+	private boolean screenOn = false;
+	JPanel screenPanel;
+	private static final long serialVersionUID = 1L;
+	private static Window theWindow;
 
 	private Window(String title, int width, int height, int scale) {
+		setLayout(new BorderLayout());
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		JMenu menuFile = new JMenu("檔案");
@@ -59,7 +110,6 @@ public class Window extends JFrame {
 			}
 		});
 		menuFile.add(menuFileExit);
-		screen = new Screen(width, height, scale);
 		setResizable(true);
 		setTitle(title);
 		// add(screen); // Fills from with this instance of Screen, which is a
@@ -67,71 +117,42 @@ public class Window extends JFrame {
 		// of Component.
 		pack(); // Resizes frame to be same size as Component added above.
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		addComponentListener(this);
 		setVisible(true);
 	}
 
-	public void changeTo(Component nextComponent) {
-		changeTo(nextComponent, false);
+	@Override
+	public void componentHidden(ComponentEvent e) {
+		// TODO Auto-generated method stub
+
 	}
 
-	public void changeTo(Component nextComponent, boolean centre) {
-		if (curComponent != null) {
-			remove(curComponent);
+	@Override
+	public void componentMoved(ComponentEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void componentResized(ComponentEvent e) {
+		if (screenOn) {
+			Component c = (Component) e.getSource();
+			Dimension newSize = c.getSize();
+			infoPanel.setPreferredSize(new Dimension(INFO_PANEL_WIDTH, (int) newSize.getHeight()));
+			infoPanel.revalidate();
+			screen.resize(new Dimension((int) newSize.getWidth() - infoPanel.getWidth(), (int) newSize.getHeight()));
+			screen.revalidate();
+			screenPanel.revalidate();
+			gamePanel.revalidate();
+			getContentPane().revalidate();
+			revalidate();
 		}
-		curComponent = nextComponent;
-		add(curComponent);
-		pack();
-		if (centre) {
-			setLocationRelativeTo(null); // Centre window.
-		}
 	}
 
-	public void changeToScreen() {
-		JPanel gamePanel = new JPanel(new BorderLayout());
-		gamePanel.add(screen, BorderLayout.CENTER);
-		JPanel screenPanel = new JPanel();
-		screenPanel.add(screen);
-		screenPanel.addComponentListener(new ComponentListener() {
-			// This method is called after the component's size changes
-			public void componentResized(ComponentEvent e) {
-				Component c = (Component) e.getSource();
+	@Override
+	public void componentShown(ComponentEvent e) {
+		// TODO Auto-generated method stub
 
-				// Get new size
-				Dimension newSize = c.getSize();
-				screen.resize(newSize);
-			}
-
-			@Override
-			public void componentHidden(ComponentEvent e) {
-			}
-
-			@Override
-			public void componentMoved(ComponentEvent e) {
-			}
-
-			@Override
-			public void componentShown(ComponentEvent e) {
-			}
-		});
-		JPanel infoPanel = new JPanel(new GridBagLayout());
-		infoPanel.setPreferredSize(new Dimension(INFO_PANEL_WIDTH, defaultScreenHeight * defaultScale));
-		GridBagConstraints c = new GridBagConstraints();
-		c.gridx = 0;
-		c.gridy = 0;
-		c.anchor = GridBagConstraints.LINE_END;
-		infoPanel.add(new JLabel("HP: 1000"), c);
-		gamePanel.add(screenPanel, BorderLayout.CENTER);
-		gamePanel.add(infoPanel, BorderLayout.EAST);
-		changeTo(gamePanel);
-		setSize(new Dimension(defaultScreenWidth * defaultScale + INFO_PANEL_WIDTH, defaultScreenHeight * defaultScale));
-		setLocationRelativeTo(null);
 	}
-
-	private Component curComponent = null;
-	private static final int defaultScale = 2, defaultScreenWidth = 500,
-			defaultScreenHeight = (int) ((double) defaultScreenWidth * 9.0 / 16.0), INFO_PANEL_WIDTH = 100;
-	private Screen screen;
-	private static final long serialVersionUID = 1L;
-	private static Window theWindow = new Window(JavaGo.TITLE, defaultScreenWidth, defaultScreenHeight, defaultScale);
 
 }

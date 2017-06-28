@@ -7,17 +7,13 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 
+import gui.Window;
+import inputs.Keyboard;
+import inputs.Mouse;
 import mathematics.Vector2d;
 import mathematics.Vector2i;
 
 public class Screen extends Canvas {
-
-	public Screen(int width, int height, int scale) {
-		this.scale = scale;
-		// Height is calculated to obtain a 16:9 aspect ratio.
-		resize(new Dimension(width * scale, height * scale));
-		requestFocus();
-	}
 
 	public void clear(int colour) {
 		for (int i = 0; i < pixelMap.length; ++i) {
@@ -32,11 +28,18 @@ public class Screen extends Canvas {
 	public Vector2d getDimensionsD() {
 		return new Vector2d(dimensions);
 	}
-	
+
 	public int getHeight() {
 		return scaledDimensions.height;
 	}
-	
+
+	public static Screen getInstance() {
+		if (theScreen == null) {
+			theScreen = new Screen(Window.DEFAULT_SCREEN_WIDTH, Window.DEFAULT_SCREEN_HEIGHT, Window.DEFAULT_SCALE);
+		}
+		return theScreen;
+	}
+
 	public int getWidth() {
 		return scaledDimensions.width;
 	}
@@ -66,7 +69,7 @@ public class Screen extends Canvas {
 				for (int x = 0; x < spriteWidth; ++x) {
 					int xAbsolute = x + position.getX();
 					if (xAbsolute >= -sprite.getWidth() && xAbsolute < dimensions.width) {
-						if(xAbsolute < 0) {
+						if (xAbsolute < 0) {
 							xAbsolute = 0;
 						}
 						final int index = yAbsolute * dimensions.width + xAbsolute;
@@ -92,12 +95,26 @@ public class Screen extends Canvas {
 		this.offset = offset;
 	}
 
+	private BufferedImage image;
 	private Dimension dimensions;
 	private Dimension scaledDimensions;
-	private BufferedImage image;
 	private int[] pixelMap;
 	private int scale;
 	private static final long serialVersionUID = 1L;
 	private Vector2i offset;
+	private static Screen theScreen;
+
+	private Screen(int width, int height, int scale) {
+		this.scale = scale;
+		// 初始化鍵盤事件監聽器然後把它加入screen。
+		addKeyListener(Keyboard.getInstance());
+
+		// 初始化滑鼠事件監聽器然後把它加入screen。
+		addMouseListener(Mouse.getInstance());
+		addMouseMotionListener(Mouse.getInstance());
+
+		// Height is calculated to obtain a 16:9 aspect ratio.
+		resize(new Dimension(width * scale, height * scale));
+	}
 
 }

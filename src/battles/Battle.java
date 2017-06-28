@@ -8,7 +8,7 @@ import java.util.List;
 import javax.imageio.ImageIO;
 
 import entities.Entity;
-import entities.characters.Player;
+import entities.characters.players.Player;
 import events.Event;
 import events.EventListener;
 import graphics.Screen;
