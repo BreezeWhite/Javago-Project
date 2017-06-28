@@ -1,9 +1,12 @@
-/gui/
 /battles/
-/graphics/
-/main/
 /entities/
 /events/
+/graphics/
+/gui/
 /inputs/
+/main/
 /mathematics/
 /tiles/
+/network/
+/server/
+/settings/

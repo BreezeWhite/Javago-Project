@@ -3,50 +3,55 @@ package inputs;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class Keyboard implements KeyListener {
+import network.Client;
 
-	private boolean[] keys = new boolean[65535];
-
-	public boolean downPressed() {
-		return keys[KeyEvent.VK_DOWN] || keys[KeyEvent.VK_S];
-	}
+public class Keyboard extends KeyboardServerCopy implements KeyListener {
 
 	public static Keyboard getInstance() {
-		if(theKeyboard == null) {
-			theKeyboard = new Keyboard();
+		if (keyboard == null) {
+			keyboard = new Keyboard();
 		}
-		return theKeyboard;
+		return keyboard;
 	}
 
-	public boolean leftPressed() {
-		return keys[KeyEvent.VK_LEFT] || keys[KeyEvent.VK_A];
-	}
-
-	public boolean rightPressed() {
-		return keys[KeyEvent.VK_RIGHT] || keys[KeyEvent.VK_D];
-	}
-
-	public void update() {
-	}
-
-	public boolean upPressed() {
-		return keys[KeyEvent.VK_UP] || keys[KeyEvent.VK_W];
+	public static void initKeyboard(Client client, int playerIndex) {
+		Keyboard.client = client;
+		Keyboard.playerIndex = playerIndex;
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		keys[e.getKeyCode()] = true;
+		KeyPress keyPress = new KeyPress();
+		keyPress.keyIndex = e.getKeyCode();
+		keyPress.keyPressed = true;
+		keys[keyPress.keyIndex] = keyPress.keyPressed;
+		if (client != null) {
+			keyPress.playerIndex = playerIndex;
+			client.send(keyPress.serialise());
+		}
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		keys[e.getKeyCode()] = false;
+		KeyPress keyPress = new KeyPress();
+		keyPress.keyIndex = e.getKeyCode();
+		keyPress.keyPressed = false;
+		keys[keyPress.keyIndex] = keyPress.keyPressed;
+		if (client != null) {
+			keyPress.playerIndex = playerIndex;
+			client.send(keyPress.serialise());
+		}
 	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
 	}
 
-	private static Keyboard theKeyboard;
+	private static Client client;
+	private static Keyboard keyboard;
+	private static int playerIndex;
+
+	private Keyboard() {
+	}
 
 }

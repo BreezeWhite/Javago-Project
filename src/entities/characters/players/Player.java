@@ -1,23 +1,34 @@
 package entities.characters.players;
 
-import battles.Battle;
 import entities.characters.Character;
 import events.Event;
 import events.EventDespatcher;
 import events.EventListener;
 import events.types.MousePressedEvent;
 import events.types.MouseReleasedEvent;
-import graphics.AnimatedSprite;
+import graphics.AnimatedSpriteSet;
 import graphics.Sprite;
-import graphics.SpriteSheet;
-import inputs.Keyboard;
+import inputs.KeyboardServerCopy;
 import mathematics.Vector2d;
 
 public abstract class Player extends Character implements EventListener {
 
-	public Player(Battle battle, Vector2d position) {
-		super(battle, position, Sprite.getVoid());
-		keyboard = Keyboard.getInstance();
+	public Player(Vector2d position, KeyboardServerCopy keyboard, AnimatedSpriteSet animatedSpriteSet) {
+		super(position, animatedSpriteSet);
+		this.keyboard = keyboard;
+		CLIENT_PLAYER = (keyboard != null);
+	}
+
+	// Player with static sprite.
+	public Player(Vector2d position, KeyboardServerCopy keyboard, Sprite sprite) {
+		super(position, null);
+		this.sprite = sprite;
+		this.keyboard = keyboard;
+		CLIENT_PLAYER = (keyboard != null);
+	}
+
+	public KeyboardServerCopy getKeyboard() {
+		return keyboard;
 	}
 
 	@Override
@@ -37,32 +48,8 @@ public abstract class Player extends Character implements EventListener {
 
 	@Override
 	public void update() {
-		if (walking) {
-			animatedSprite.update();
-		} else {
-			animatedSprite.setFrame(0);
-		}
-		if (direction == Direction.UP) {
-			animatedSprite = up;
-		} else if (direction == Direction.UP_RIGHT) {
-			animatedSprite = upRight;
-		} else if (direction == Direction.RIGHT) {
-			animatedSprite = right;
-		} else if (direction == Direction.DOWN_RIGHT) {
-			animatedSprite = downRight;
-		} else if (direction == Direction.DOWN) {
-			animatedSprite = down;
-		} else if (direction == Direction.DOWN_LEFT) {
-			animatedSprite = downLeft;
-		} else if (direction == Direction.LEFT) {
-			animatedSprite = left;
-		} else if (direction == Direction.UP_LEFT) {
-			animatedSprite = upLeft;
-		}
-		if (reloadTime > 0) {
-			--reloadTime;
-		}
-		double deltaX = 0, deltaY = 0;
+		deltaX = 0;
+		deltaY = 0;
 		if (keyboard.upPressed()) {
 			deltaY -= speed;
 		}
@@ -75,29 +62,10 @@ public abstract class Player extends Character implements EventListener {
 		if (keyboard.rightPressed()) {
 			deltaX += speed;
 		}
-		if (deltaX != 0 || deltaY != 0) {
-			move(deltaX, deltaY);
-			if (!walking) {
-				walking = true;
-			}
-		} else {
-			walking = false;
-		}
-		sprite = animatedSprite.getSprite();
+		super.update();
 	}
 
-	private AnimatedSprite up = new AnimatedSprite(SpriteSheet.warriorDimensions, SpriteSheet.warriorUp, 5);
-	private AnimatedSprite upRight = new AnimatedSprite(SpriteSheet.warriorDimensions, SpriteSheet.warriorUpRight, 5);
-	private AnimatedSprite right = new AnimatedSprite(SpriteSheet.warriorDimensions, SpriteSheet.warriorRight, 5);
-	private AnimatedSprite downRight = new AnimatedSprite(SpriteSheet.warriorDimensions, SpriteSheet.warriorDownRight, 5);
-	private AnimatedSprite down = new AnimatedSprite(SpriteSheet.warriorDimensions, SpriteSheet.warriorDown, 5);
-	private AnimatedSprite downLeft = new AnimatedSprite(SpriteSheet.warriorDimensions, SpriteSheet.warriorDownLeft, 5);
-	private AnimatedSprite left = new AnimatedSprite(SpriteSheet.warriorDimensions, SpriteSheet.warriorLeft, 5);
-	private AnimatedSprite upLeft = new AnimatedSprite(SpriteSheet.warriorDimensions, SpriteSheet.warriorUpLeft, 5);
-
-	private AnimatedSprite animatedSprite = down;
-
-	private Keyboard keyboard;
-	private boolean walking = false;
+	protected KeyboardServerCopy keyboard;
+	protected final boolean CLIENT_PLAYER;
 
 }

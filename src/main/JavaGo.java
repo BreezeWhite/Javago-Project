@@ -8,9 +8,13 @@ import events.EventListener;
 import graphics.Screen;
 import gui.IslandSelector;
 import gui.Window;
+import inputs.Keyboard;
 import inputs.Mouse;
 import mathematics.Vector2d;
 import mathematics.Vector2i;
+import network.Client;
+import server.Server;
+import settings.Settings;
 
 // 這個類別包含 main 方法，這裡的程式碼不要寫太多以保持主類別的簡潔。
 public class JavaGo implements Runnable, EventListener {
@@ -24,6 +28,21 @@ public class JavaGo implements Runnable, EventListener {
 		JavaGo.setScreen(Screen.getInstance());
 	}
 
+	public Battle getBattle() {
+		return battle;
+	}
+
+	public void connect() {
+		if (Settings.isServer()) {
+			// 測試伺服器和用戶端的程式碼。
+			server = new Server();
+			server.start();
+		} else {
+			client = new Client();
+			client.connect();
+		}
+	}
+
 	public static JavaGo getInstance() {
 		if (theJavaGo == null) {
 			theJavaGo = new JavaGo();
@@ -32,6 +51,7 @@ public class JavaGo implements Runnable, EventListener {
 	}
 
 	private JavaGo() {
+		Settings.getInstance();
 
 		// 初始化第一級。（以後不會直接開始跑遊戲，會先開使用者介面。）
 		battle = new TestBattle("/textures/battles/test_level.png");
@@ -39,10 +59,13 @@ public class JavaGo implements Runnable, EventListener {
 		// 初始化玩家。（Client player: 用戶玩家端。）
 		player = battle.getClientPlayer();
 
+		connect();
+
+		Keyboard.initKeyboard(client, 0);
+
 		// 初始化遊戲視窗。
 		window = Window.getInstance();
 		window.changeTo(IslandSelector.getInstance(), true);
-
 	}
 
 	public boolean isExecuting() {
@@ -115,11 +138,13 @@ public class JavaGo implements Runnable, EventListener {
 		}
 	}
 
+	private Client client = null;
 	private boolean executing = false;
 	private Battle battle;
 	private static JavaGo theJavaGo;
 	private Player player;
 	private static Screen screen;
+	private Server server = null;
 	private Thread thread;
 	private Window window;
 

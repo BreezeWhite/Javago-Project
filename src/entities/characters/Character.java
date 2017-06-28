@@ -1,98 +1,106 @@
 package entities.characters;
 
-import battles.Battle;
+import java.util.ArrayList;
+import java.util.List;
+
 import entities.Entity;
+import entities.Projectile;
+import entities.Update;
+import graphics.AnimatedSprite;
+import graphics.AnimatedSpriteSet;
 import graphics.Sprite;
 import mathematics.Vector2d;
-import tiles.Tile;
 
 public abstract class Character extends Entity {
 
-	protected enum Direction {
-		UP, UP_RIGHT, RIGHT, DOWN_RIGHT, DOWN, DOWN_LEFT, LEFT, UP_LEFT
-	}
-
-	protected Direction direction;
-
-	protected Character(Battle battle, Vector2d position, Sprite sprite) {
-		super(battle, position, sprite);
-	}
-
-	public void move(double deltaX, double deltaY) {
-		if (deltaX > 0) {
-			if (deltaY > 0) {
-				direction = Direction.DOWN_RIGHT;
-			} else if (deltaY < 0) {
-				direction = Direction.UP_RIGHT;
-			} else {
-				direction = Direction.RIGHT;
-			}
-		} else if (deltaX < 0) {
-			if (deltaY > 0) {
-				direction = Direction.DOWN_LEFT;
-			} else if (deltaY < 0) {
-				direction = Direction.UP_LEFT;
-			} else {
-				direction = Direction.LEFT;
-			}
-		} else if (deltaY > 0) {
-			direction = Direction.DOWN;
-		} else if (deltaY < 0) {
-			direction = Direction.UP;
-		}
-		while (deltaX != 0) {
-			if (Math.abs(deltaX) > 1) {
-				if (!collision(sign(deltaX), deltaY)) {
-					this.x += sign(deltaX);
-				}
-				deltaX -= sign(deltaX);
-			} else {
-				if (!collision(sign(deltaX), deltaY)) {
-					this.x += deltaX;
-				}
-				deltaX = 0;
-			}
-		}
-		while (deltaY != 0) {
-			if (Math.abs(deltaY) > 1) {
-				if (!collision(deltaX, sign(deltaY))) {
-					this.y += sign(deltaY);
-				}
-				deltaY -= sign(deltaY);
-			} else {
-				if (!collision(deltaX, sign(deltaY))) {
-					this.y += deltaY;
-				}
-				deltaY = 0;
-			}
-		}
-	}
-
-	// TODO Collisions is broken.
-	// What if only part of sprite should be collidable?
-	// What if sprite has a lot of whitespace?
-	private boolean collision(double deltaX, double deltaY) {
-		for (int i = 0; i < 4; ++i) {
-			double xt = ((x + deltaX) - i % 2 * sprite.getWidth()) / Tile.WIDTH;
-			double yt = ((y + deltaY) - i / 2 * sprite.getHeight()) / Tile.HEIGHT;
-			int xi = (i % 2 == 0) ? (int) Math.floor(xt) : (int) Math.ceil(xt);
-			int yi = (i / 2 == 0) ? (int) Math.floor(yt) : (int) Math.ceil(yt);
-			if (battle.getTile(xi, yi).isSolid()) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	private int sign(double value) {
-		return (value < 0) ? -1 : 1;
+	protected Character(Vector2d position, AnimatedSpriteSet animatedSpriteSet) {
+		super(position, Sprite.getInvisible());
+		this.animatedSpriteSet = animatedSpriteSet;
 	}
 
 	@Override
-	public abstract void update();
+	public Update generateUpdate() {
+		Update update = super.generateUpdate();
+		update.usingAbility = usingAbility;
+		update.speed = speed;
+		if (usingAbility) {
+			update.abilityAnimationRepetitions = abilityAnimationRepetitions;
+			update.abilityAnimationIndex = abilityAnimationIndex;
+			update.frame = abilityAnimations.get(abilityAnimationIndex).getFrame();
+		} else if (animatedSpriteSet != null) {
+			update.frame = animatedSpriteSet.getFrame();
+		} else {
+			update.frame = -1;
+		}
+		return update;
+	}
 
-	protected int reloadTime = 0;
+	@Override
+	public void processUpdate(Update update) {
+		super.processUpdate(update);
+		speed = update.speed;
+		usingAbility = update.usingAbility;
+		if (usingAbility) {
+			abilityAnimationRepetitions = update.abilityAnimationRepetitions;
+			abilityAnimationIndex = update.abilityAnimationIndex;
+			abilityAnimations.get(abilityAnimationIndex).setFrame(update.frame);
+			sprite = abilityAnimations.get(abilityAnimationIndex).getSprite();
+		} else if (update.frame >= 0) {
+			animatedSpriteSet.setDirection(direction);
+			animatedSpriteSet.setFrame(update.frame);
+			sprite = animatedSpriteSet.getSprite();
+		} else {
+			sprite = Sprite.getInvisible();
+		}
+	}
+
+	@Override
+	public void update() {
+		if (timeToNextShot > 0) {
+			--timeToNextShot;
+		}
+		if (usingAbility) {
+			sprite = abilityAnimations.get(abilityAnimationIndex).getSprite();
+			move(abilityDeltaX, abilityDeltaY);
+			if (abilityAnimations.get(abilityAnimationIndex).update() >= abilityAnimationRepetitions) {
+				usingAbility = false;
+			}
+		} else {
+			animatedSpriteSet.setDirection(direction);
+			if (walking) {
+				animatedSpriteSet.update();
+			} else {
+				animatedSpriteSet.setFrame(defaultFrame);
+			}
+			if (timeToNextShot > 0) {
+				--timeToNextShot;
+			}
+			if (deltaX != 0 || deltaY != 0) {
+				move(deltaX, deltaY);
+				if (!walking) {
+					walking = true;
+				}
+			} else {
+				walking = false;
+			}
+			sprite = animatedSpriteSet.getSprite();
+		}
+	}
+
+	protected AnimatedSpriteSet animatedSpriteSet;
+	protected int abilityAnimationIndex = 0;
+	protected List<AnimatedSprite> abilityAnimations = new ArrayList<AnimatedSprite>();
+	protected int projectileIndex = -1;
+	protected List<Projectile> projectiles = new ArrayList<Projectile>();
+	protected int abilityAnimationRepetitions = 1;
+	protected double abilityDeltaX = 0, abilityDeltaY = 0;
+	protected int defaultFrame = 0;
+	protected double deltaX = 0, deltaY = 0;
+	protected int hp = 100;
+	protected int reloadTime = 20;
 	protected double speed = 2;
+	protected int timeToNextShot = 0;
+	protected boolean usingAbility = false;
 	protected boolean walking = false;
 
 }
