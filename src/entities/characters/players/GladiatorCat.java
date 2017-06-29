@@ -42,6 +42,7 @@ public class GladiatorCat extends Player {
 				abilityAnimationIndex = 0;
 				abilityAnimationRepetitions = 1;
 				abilityDeltaY = speed;
+				damage = 50;
 				usingAbility = true;
 			} else if (keyboard.ePressed()) { // Purr.
 				abilityAnimationIndex = 1;

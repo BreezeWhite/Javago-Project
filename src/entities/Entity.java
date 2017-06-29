@@ -20,7 +20,7 @@ public abstract class Entity {
 		this.sprite = sprite;
 		id = Settings.rand.nextInt();
 	}
-	
+
 	public Update generateUpdate() {
 		Update update = new Update();
 		update.x = x;
@@ -45,7 +45,7 @@ public abstract class Entity {
 	public int getWidth() {
 		return sprite.getWidth();
 	}
-	
+
 	public boolean isSolid() {
 		return solid;
 	}
@@ -53,7 +53,7 @@ public abstract class Entity {
 	public boolean isRemoved() {
 		return removed;
 	}
-	
+
 	public void processUpdate(Update update) {
 		x = update.x;
 		y = update.y;
@@ -130,9 +130,15 @@ public abstract class Entity {
 	}
 
 	protected boolean collision(double deltaX, double deltaY) {
-		return JavaGo.getInstance().getBattle().isSolid((int)(x + deltaX), (int)(y + deltaY), sprite.getWidth(), sprite.getHeight(), damage, solid, id);
+		if (JavaGo.getInstance().getBattle().isSolid((int) (x + deltaX), (int) (y + deltaY), sprite.getWidth(),
+				sprite.getHeight(), damage, solid, id)) {
+			damage = 0;
+			return true;
+		} else {
+			return false;
+		}
 	}
-	
+
 	public int id;
 
 	private int sign(double value) {

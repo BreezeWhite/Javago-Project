@@ -65,6 +65,7 @@ public abstract class Character extends Entity {
 			sprite = abilityAnimations.get(abilityAnimationIndex).getSprite();
 			move(abilityDeltaX, abilityDeltaY);
 			if (abilityAnimations.get(abilityAnimationIndex).update() >= abilityAnimationRepetitions) {
+				damage = 0;
 				usingAbility = false;
 			}
 		} else {

@@ -8,6 +8,7 @@ public class Observer extends Player {
 
 	public Observer(Vector2d position, KeyboardServerCopy keyboard) {
 		super(position, keyboard, Sprite.getInvisible());
+		hp = 9999999;
 	}
 	
 	@Override

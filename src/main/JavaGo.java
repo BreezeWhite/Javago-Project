@@ -8,6 +8,7 @@ import battles.Battle;
 import battles.TestBattle;
 import entities.Entity;
 import entities.Update;
+import entities.characters.players.Observer;
 import entities.characters.players.Player;
 import events.Event;
 import events.EventListener;
@@ -82,8 +83,8 @@ public class JavaGo implements Runnable, EventListener {
 		// 初始化遊戲視窗。
 		window = Window.getInstance();
 		window.changeTo(IslandSelector.getInstance(), true);
-		
-		if(!Settings.isServer()) {
+
+		if (!Settings.isServer()) {
 			client.start();
 		}
 	}
@@ -178,8 +179,11 @@ public class JavaGo implements Runnable, EventListener {
 		if (player.isRemoved()) {
 			player = battle.getClientPlayer();
 		}
-		List<Player> players = battle.getPlayers();
-		stats.setText("HP: " + players.get(Settings.getPlayerIndex()).hp);
+		if (player instanceof Observer) {
+			stats.setText("You have died.");
+		} else {
+			stats.setText("HP: " + player.hp);
+		}
 		if (Settings.isServer()) {
 			battle.update();
 			List<Entity> entities = battle.getEntities();
@@ -190,6 +194,7 @@ public class JavaGo implements Runnable, EventListener {
 				update.newProjectile = false;
 				server.sendAll(update.serialise());
 			}
+			List<Player> players = battle.getPlayers();
 			for (int i = 0; i < players.size(); ++i) {
 				Update update = players.get(i).generateUpdate();
 				update.index = i;
