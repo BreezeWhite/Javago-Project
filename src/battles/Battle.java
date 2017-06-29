@@ -258,6 +258,12 @@ public abstract class Battle implements EventListener {
 	private void remove() {
 		for (int i = 0; i < lists.entities.size(); ++i) {
 			if (lists.entities.get(i).isRemoved()) {
+				Update update = new Update();
+				update.player = false;
+				update.newProjectile = false;
+				update.removed = true;
+				update.index = lists.entities.get(i).getID();
+				JavaGo.getInstance().server.sendAll(update.serialise());
 				lists.entities.remove(i);
 			}
 		}
