@@ -178,6 +178,8 @@ public class JavaGo implements Runnable, EventListener {
 		if (player.isRemoved()) {
 			player = battle.getClientPlayer();
 		}
+		List<Player> players = battle.getPlayers();
+		stats.setText("HP: " + players.get(Settings.getPlayerIndex()).hp);
 		if (Settings.isServer()) {
 			battle.update();
 			List<Entity> entities = battle.getEntities();
@@ -188,18 +190,12 @@ public class JavaGo implements Runnable, EventListener {
 				update.newProjectile = false;
 				server.sendAll(update.serialise());
 			}
-			List<Player> players = battle.getPlayers();
 			for (int i = 0; i < players.size(); ++i) {
 				Update update = players.get(i).generateUpdate();
 				update.index = i;
 				update.player = true;
 				server.sendAll(update.serialise());
-				if(i == Settings.getPlayerIndex()) {
-					stats.setText("HP: " + players.get(i).hp);
-				}
 			}
-		} else {
-
 		}
 	}
 
