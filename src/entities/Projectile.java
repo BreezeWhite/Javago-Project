@@ -1,23 +1,22 @@
 package entities;
 
-import java.io.Serializable;
-
-import graphics.Sprite;
+import graphics.SpriteSheet;
 import mathematics.Vector2d;
 
-public class Projectile extends Entity implements Serializable {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -5235161348603860561L;
+public class Projectile extends Entity {
+
 	protected final double xOrigin, yOrigin;
 	protected double angle;
+	protected int damage, range;
 	protected double nx, ny;
-	protected double speed, range, damage;
+	protected double speed;
+	private int spriteSheetIndex, spriteIndex;
 
-	public Projectile(Vector2d position, Sprite sprite, double angle, double speed, int range,
+	public Projectile(Vector2d position, int spriteSheetIndex, int spriteIndex, double angle, double speed, int range,
 			int damage) {
-		super(position, sprite);
+		super(position, SpriteSheet.projectiles.get(spriteSheetIndex).getSprites()[spriteIndex]);
+		this.spriteSheetIndex = spriteSheetIndex;
+		this.spriteIndex = spriteIndex;
 		xOrigin = position.getX();
 		yOrigin = position.getY();
 		this.angle = angle;
@@ -26,6 +25,30 @@ public class Projectile extends Entity implements Serializable {
 		this.damage = damage;
 		nx = this.speed * Math.cos(angle);
 		ny = this.speed * Math.sin(angle);
+	}
+
+	public double getAngle() {
+		return angle;
+	}
+
+	public int getRange() {
+		return range;
+	}
+
+	public int getDamage() {
+		return damage;
+	}
+
+	public double getSpeed() {
+		return speed;
+	}
+
+	public int getSpriteSheetIndex() {
+		return spriteSheetIndex;
+	}
+
+	public int getSpriteIndex() {
+		return spriteIndex;
 	}
 
 	@Override

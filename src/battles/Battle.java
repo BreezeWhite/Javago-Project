@@ -17,11 +17,14 @@ import java.util.List;
 import javax.imageio.ImageIO;
 
 import entities.Entity;
+import entities.Projectile;
+import entities.Update;
 import entities.characters.players.Observer;
 import entities.characters.players.Player;
 import events.Event;
 import events.EventListener;
 import graphics.Screen;
+import main.JavaGo;
 import mathematics.Vector2d;
 import mathematics.Vector2i;
 import settings.Settings;
@@ -32,6 +35,21 @@ public abstract class Battle implements EventListener {
 	public void add(Entity entity) {
 		if (entity instanceof Player) {
 			lists.players.add((Player) entity);
+		} else if (entity instanceof Projectile) {
+			Projectile projectile = (Projectile) entity;
+			Update update = new Update();
+			update.player = false;
+			update.newProjectile = true;
+			update.x = projectile.getCoordinates().getX();
+			update.y = projectile.getCoordinates().getY();
+			update.spriteSheetIndex = projectile.getSpriteSheetIndex();
+			update.spriteIndex = projectile.getSpriteIndex();
+			update.angle = projectile.getAngle();
+			update.speed = projectile.getSpeed();
+			update.range = projectile.getRange();
+			update.damage = projectile.getDamage();
+			JavaGo.getInstance().server.sendAll(update.serialise());
+			lists.entities.add(entity);
 		} else {
 			lists.entities.add(entity);
 		}
@@ -124,7 +142,7 @@ public abstract class Battle implements EventListener {
 	public List<Entity> getEntities() {
 		return lists.entities;
 	}
-	
+
 	public static int getNumPlayers() {
 		return 4;
 	}

@@ -6,9 +6,13 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.List;
 
+import entities.Entity;
+import entities.Projectile;
 import entities.Update;
 import main.JavaGo;
+import mathematics.Vector2d;
 import settings.Settings;
 
 public class Client {
@@ -75,14 +79,24 @@ public class Client {
 		// 確認封包和遊戲有關並把它並行化。
 		Update update = Update.deserialise(data);
 		if (update != null) {
-			if (update.player == false) {
-				JavaGo.getInstance().getBattle().getEntities().get(update.index).processUpdate(update);
+			if (!update.player) {
+				if (update.newProjectile) {
+					JavaGo.getInstance().getBattle().add(new Projectile(new Vector2d(update.x, update.y), update.spriteSheetIndex, update.spriteIndex, update.angle, update.speed, update.range, update.damage));
+				} else {
+					List<Entity> entities = JavaGo.getInstance().getBattle().getEntities();
+					for (int i = 0; i < entities.size(); ++i) {
+						if (entities.get(i).getID() == update.index) {
+							entities.get(i).processUpdate(update);
+							break;
+						}
+					}
+				}
 			} else {
 				JavaGo.getInstance().getBattle().getPlayers().get(update.index).processUpdate(update);
 			}
 		}
-		//InetAddress address = packet.getAddress();
-		//int port = packet.getPort();
+		// InetAddress address = packet.getAddress();
+		// int port = packet.getPort();
 	}
 
 	@SuppressWarnings("unused")

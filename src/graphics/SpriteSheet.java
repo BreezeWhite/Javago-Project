@@ -2,6 +2,8 @@ package graphics;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 
@@ -15,6 +17,7 @@ public class SpriteSheet {
 	public static final SpriteSheet miscellaneousProjectiles = new SpriteSheet(new SpriteSheet("/textures/sheets/projectiles/miscellaneous.png"), new Vector2i(0, 0), new Vector2i(3, 3), new Vector2i(16, 16));
 	public static final SpriteSheet redMissile = new SpriteSheet(new SpriteSheet("/textures/sheets/projectiles/red_missile.png"), new Vector2i(0, 0), new Vector2i(3, 3), new Vector2i(16, 16));
 	public static final SpriteSheet blueMissile = new SpriteSheet(new SpriteSheet("/textures/sheets/projectiles/blue_missile.png"), new Vector2i(0, 0), new Vector2i(3, 3), new Vector2i(16, 16));
+	public static List<SpriteSheet> projectiles = new ArrayList<SpriteSheet>();
 
 	public static final Vector2i explosionDimensions = new Vector2i(100, 100);
 	public static final SpriteSheet explosion = new SpriteSheet(new SpriteSheet("/textures/sheets/players/explosion.png"), new Vector2i(0, 0), new Vector2i(9, 9), explosionDimensions);
@@ -150,6 +153,12 @@ public class SpriteSheet {
 
 	public Sprite[] getSprites() {
 		return sprites;
+	}
+	
+	public static void initSpriteSheetLists() {
+		projectiles.add(miscellaneousProjectiles);
+		projectiles.add(redMissile);
+		projectiles.add(blueMissile);
 	}
 
 	private final int HEIGHT, WIDTH;

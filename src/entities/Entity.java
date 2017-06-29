@@ -7,6 +7,7 @@ import graphics.Sprite;
 import main.JavaGo;
 import mathematics.Vector2d;
 import mathematics.Vector2i;
+import settings.Settings;
 import tiles.Tile;
 
 public abstract class Entity {
@@ -17,6 +18,7 @@ public abstract class Entity {
 		x = position.getX();
 		y = position.getY();
 		this.sprite = sprite;
+		id = Settings.rand.nextInt();
 	}
 	
 	public Update generateUpdate() {
@@ -29,6 +31,10 @@ public abstract class Entity {
 
 	public Vector2d getCoordinates() {
 		return new Vector2d(x, y);
+	}
+
+	public int getID() {
+		return id;
 	}
 
 	public int getHeight() {
@@ -127,6 +133,8 @@ public abstract class Entity {
 		}
 		return false;
 	}
+	
+	private int id;
 
 	private int sign(double value) {
 		return (value < 0) ? -1 : 1;

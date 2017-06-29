@@ -10,6 +10,7 @@ import entities.characters.players.Player;
 import events.Event;
 import events.EventListener;
 import graphics.Screen;
+import graphics.SpriteSheet;
 import gui.IslandSelector;
 import gui.Window;
 import inputs.Keyboard;
@@ -57,6 +58,7 @@ public class JavaGo implements Runnable, EventListener {
 
 	private JavaGo() {
 		Settings.getInstance();
+		SpriteSheet.initSpriteSheetLists();
 
 		connect();
 
@@ -160,7 +162,7 @@ public class JavaGo implements Runnable, EventListener {
 	private static JavaGo theJavaGo;
 	private Player player;
 	private static Screen screen;
-	private Server server = null;
+	public Server server = null;
 	private Thread thread;
 	private Window window;
 
@@ -178,7 +180,7 @@ public class JavaGo implements Runnable, EventListener {
 			List<Entity> entities = battle.getEntities();
 			for (int i = 0; i < entities.size(); ++i) {
 				Update update = entities.get(i).generateUpdate();
-				update.index = i;
+				update.index = entities.get(i).getID();
 				update.player = false;
 				server.sendAll(update.serialise());
 			}

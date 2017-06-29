@@ -43,6 +43,12 @@ public class Server {
 	}
 
 	public void sendAll(byte[] data) {
+		for (int i = 0; i < ipAddresses.size(); ++i) {
+			send(ipAddresses.get(i), PORTS[0], data);
+		}
+	}
+
+	public void sendBroadcast(byte[] data) {
 		send(broadcast, PORTS[0], data);
 	}
 

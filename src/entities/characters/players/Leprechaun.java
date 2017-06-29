@@ -33,7 +33,7 @@ public class Leprechaun extends Player {
 			if (timeToNextShot <= 0) {
 				if (keyboard.rPressed()) { // Four-leaf clover.
 					Projectile projectile = new Projectile(new Vector2d(x + 10, y + 16),
-							SpriteSheet.miscellaneousProjectiles.getSprites()[2], direction.getDirectionAngleRadians(),
+							0, 2, direction.getDirectionAngleRadians(),
 							speed + 5, 300, 5);
 					JavaGo.getInstance().getBattle().add(projectile);
 					timeToNextShot = reloadTime;
