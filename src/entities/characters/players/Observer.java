@@ -1,17 +1,10 @@
 package entities.characters.players;
 
-import java.io.Serializable;
-
 import graphics.Sprite;
 import inputs.KeyboardServerCopy;
 import mathematics.Vector2d;
 
 public class Observer extends Player {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -5417554807413499448L;
 
 	public Observer(Vector2d position, KeyboardServerCopy keyboard) {
 		super(position, keyboard, Sprite.getInvisible());

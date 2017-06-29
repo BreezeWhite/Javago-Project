@@ -9,6 +9,7 @@ import graphics.Screen;
 import gui.IslandSelector;
 import gui.Window;
 import inputs.Keyboard;
+import inputs.KeyboardServerCopy;
 import inputs.Mouse;
 import mathematics.Vector2d;
 import mathematics.Vector2i;
@@ -53,19 +54,30 @@ public class JavaGo implements Runnable, EventListener {
 	private JavaGo() {
 		Settings.getInstance();
 
+		connect();
+
+		Keyboard.initKeyboard(client, Settings.getPlayerIndex());
+		for (int i = 0; i < Battle.getNumPlayers(); ++i) {
+			if (i == Settings.getPlayerIndex()) {
+				KeyboardServerCopy.serverKeyboards.add(Keyboard.getInstance());
+			} else {
+				KeyboardServerCopy.serverKeyboards.add(new KeyboardServerCopy());
+			}
+		}
+
 		// 初始化第一級。（以後不會直接開始跑遊戲，會先開使用者介面。）
 		battle = new TestBattle("/textures/battles/test_level.png");
 
 		// 初始化玩家。（Client player: 用戶玩家端。）
 		player = battle.getClientPlayer();
 
-		connect();
-
-		Keyboard.initKeyboard(client, 0);
-
 		// 初始化遊戲視窗。
 		window = Window.getInstance();
 		window.changeTo(IslandSelector.getInstance(), true);
+		
+		if(!Settings.isServer()) {
+			client.start();
+		}
 	}
 
 	public boolean isExecuting() {

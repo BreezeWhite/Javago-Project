@@ -111,18 +111,22 @@ public abstract class Battle implements EventListener {
 		return null;
 	}
 
+	public Player getClientPlayer() {
+		return lists.players.get(0);
+	}
+
 	private double getDistance(Vector2i a, Vector2i b) {
 		double dx = a.getX() - b.getX();
 		double dy = a.getY() - b.getY();
 		return Math.sqrt(dx * dx + dy * dy);
 	}
 
-	public Player getClientPlayer() {
-		return lists.players.get(0);
-	}
-
 	public List<Entity> getEntities() {
 		return lists.entities;
+	}
+	
+	public static int getNumPlayers() {
+		return 4;
 	}
 
 	public List<Player> getPlayers() {

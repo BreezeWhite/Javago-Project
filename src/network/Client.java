@@ -1,14 +1,11 @@
 package network;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.List;
 
 import entities.Update;
 import main.JavaGo;
@@ -83,10 +80,11 @@ public class Client {
 				JavaGo.getInstance().getBattle().getPlayers().get(update.index).processUpdate(update);
 			}
 		}
-		InetAddress address = packet.getAddress();
-		int port = packet.getPort();
+		//InetAddress address = packet.getAddress();
+		//int port = packet.getPort();
 	}
 
+	@SuppressWarnings("unused")
 	private void sendConnectionPacket() {
 		byte[] data = "ConnectionPacket".getBytes();
 		send(data);

@@ -101,8 +101,8 @@ public class Server {
 		if (keyPress != null) {
 			KeyboardServerCopy.serverKeyboards.get(keyPress.playerIndex).keys[keyPress.keyIndex] = keyPress.keyPressed;
 		}
-		InetAddress address = packet.getAddress();
-		int port = packet.getPort();
+		//InetAddress address = packet.getAddress();
+		//int port = packet.getPort();
 	}
 
 }

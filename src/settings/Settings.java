@@ -23,6 +23,10 @@ public class Settings {
 		return theSettings;
 	}
 
+	public static int getPlayerIndex() {
+		return playerIndex;
+	}
+
 	public static String getServerIP() {
 		return serverIP;
 	}
@@ -37,6 +41,7 @@ public class Settings {
 
 	private static String clientIP;
 	private static String clientPort;
+	private static int playerIndex;
 	private static boolean server = false;
 	private static String serverIP;
 	private static String serverPort;
@@ -66,6 +71,8 @@ public class Settings {
 					clientIP = reader.readLine();
 				} else if (text.equals("clientport")) {
 					clientPort = reader.readLine();
+				} else if (text.equals("playerindex")) {
+					playerIndex = Integer.parseInt(reader.readLine());
 				}
 			}
 		} catch (FileNotFoundException e1) {
