@@ -8,7 +8,6 @@ import battles.Battle;
 import battles.TestBattle;
 import entities.Entity;
 import entities.Update;
-import entities.characters.players.Observer;
 import entities.characters.players.Player;
 import events.Event;
 import events.EventListener;
