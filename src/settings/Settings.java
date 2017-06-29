@@ -16,8 +16,8 @@ public class Settings {
 		return clientPort;
 	}
 	
-	public static String getGroup() {
-		return group;
+	public static String getBroadcast() {
+		return broadcast;
 	}
 
 	public static Settings getInstance() {
@@ -45,7 +45,7 @@ public class Settings {
 
 	private static String clientIP;
 	private static String clientPort;
-	private static String group;
+	private static String broadcast;
 	private static int playerIndex;
 	private static boolean server = false;
 	private static String serverIP;
@@ -78,8 +78,8 @@ public class Settings {
 					clientPort = reader.readLine();
 				} else if (text.equals("playerindex")) {
 					playerIndex = Integer.parseInt(reader.readLine());
-				} else if(text.equals("group")) {
-					group = reader.readLine();
+				} else if(text.equals("broadcast")) {
+					broadcast = reader.readLine();
 				}
 			}
 		} catch (FileNotFoundException e1) {

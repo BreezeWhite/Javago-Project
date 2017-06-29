@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.net.MulticastSocket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -19,14 +18,13 @@ public class Server {
 	public Server() {
 		port = Integer.parseInt(Settings.getServerPort());
 		try {
-			group = InetAddress.getByName(Settings.getGroup());
+			broadcast = InetAddress.getByName(Settings.getBroadcast());
 			for (int i = 0; i < ADDRESSES.length; ++i) {
 				ipAddresses.add(InetAddress.getByName(ADDRESSES[i]));
 			}
-		} catch (
-
-		UnknownHostException e) {
-			e.printStackTrace();
+		} catch (UnknownHostException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
 	}
 
@@ -45,13 +43,7 @@ public class Server {
 	}
 
 	public void sendAll(byte[] data) {
-		assert (multicastSocket.isConnected());
-		DatagramPacket packet = new DatagramPacket(data, data.length, group, PORTS[0]);
-		try {
-			multicastSocket.send(packet);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		send(broadcast, PORTS[0], data);
 	}
 
 	public void start() {
@@ -61,32 +53,22 @@ public class Server {
 			e.printStackTrace();
 			return; // 如果發生例外，不要開始跑伺服器。
 		}
-		try {
-			multicastSocket = new MulticastSocket(port + 1);
-		} catch (SocketException e) {
-			e.printStackTrace();
-			return; // 如果發生例外，不要開始跑伺服器。
-		} catch (IOException e) {
-			e.printStackTrace();
-			return;
-		}
 		listening = true;
 		listener = new Thread(() -> listen());
 		listener.start();
 	}
 
 	private final String[] ADDRESSES = { "192.168.43.77" };
+	private InetAddress broadcast;
 	private final int[] PORTS = { 35676 };
 	private List<InetAddress> ipAddresses = new ArrayList<InetAddress>();
 	private final int MAX_PACKET_SIZE = 1024;
 	private final int DATA_BUFFER_SIZE = 1024;
-	InetAddress group;
 	private byte[] incomingData = new byte[MAX_PACKET_SIZE * DATA_BUFFER_SIZE];
 	private boolean listening = false;
 	private int port;
 	private Thread listener;
 	private DatagramSocket socket;
-	private MulticastSocket multicastSocket;
 
 	@SuppressWarnings("unused")
 	private void dumpPacket(DatagramPacket packet) {
