@@ -112,7 +112,7 @@ public abstract class Battle implements EventListener {
 	}
 
 	public Player getClientPlayer() {
-		return lists.players.get(0);
+		return lists.players.get(Settings.getPlayerIndex());
 	}
 
 	private double getDistance(Vector2i a, Vector2i b) {
