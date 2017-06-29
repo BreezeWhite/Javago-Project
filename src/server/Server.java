@@ -58,8 +58,8 @@ public class Server {
 		listener.start();
 	}
 
-	private final String[] ADDRESSES = { "172.16.7.129" };
-	private final int[] PORTS = { 37856 };
+	private final String[] ADDRESSES = { "192.168.43.77" };
+	private final int[] PORTS = { 35676 };
 	private List<InetAddress> ipAddresses = new ArrayList<InetAddress>();
 	private final int MAX_PACKET_SIZE = 1024;
 	private final int DATA_BUFFER_SIZE = 1024;

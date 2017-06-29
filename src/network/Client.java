@@ -19,6 +19,7 @@ public class Client {
 	public Client() {
 		serverIPString = Settings.getServerIP();
 		port = Integer.parseInt(Settings.getClientPort());
+		serverPort = Integer.parseInt(Settings.getServerPort());
 	}
 
 	public boolean connect() {
@@ -61,7 +62,7 @@ public class Client {
 
 	public void send(byte[] data) {
 		assert (socket.isConnected());
-		DatagramPacket packet = new DatagramPacket(data, data.length, serverIP, port);
+		DatagramPacket packet = new DatagramPacket(data, data.length, serverIP, serverPort);
 		try {
 			socket.send(packet);
 		} catch (IOException e) {
@@ -110,6 +111,7 @@ public class Client {
 	private int port;
 	private InetAddress serverIP;
 	private String serverIPString;
+	private int serverPort;
 	private DatagramSocket socket;
 	private boolean listening = false;
 
