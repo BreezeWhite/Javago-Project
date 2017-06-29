@@ -45,7 +45,7 @@ public class Leprechaun extends Player {
 					Battle battle = JavaGo.getInstance().getBattle();
 					for(int i = 0; i < NUM_MINIONS / 3; ++i) {
 						for(int j = 0; j < NUM_MINIONS / 3; ++j) {
-							battle.add(new Minion(new Vector2d(x + (i - 2.7) * 150, y + (j - 1) * 150)));
+							battle.add(new Minion(new Vector2d(x + (i - 2.7) * 150, y + (j - 1) * 150), i * 3 + j + 5000));
 						}
 					}
 					timeToNextShot = reloadTime;

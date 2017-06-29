@@ -14,7 +14,7 @@ import tiles.Tile;
 
 public class Minion extends Character {
 
-	public Minion(Vector2d position) {
+	public Minion(Vector2d position, int id) {
 		super(position,
 				new AnimatedSpriteSet(new AnimatedSprite(SpriteSheet.minionDimensions, SpriteSheet.minionUp, 7),
 						new AnimatedSprite(SpriteSheet.minionDimensions, SpriteSheet.minionUpRight, 7),
@@ -26,6 +26,7 @@ public class Minion extends Character {
 						new AnimatedSprite(SpriteSheet.minionDimensions, SpriteSheet.minionUpLeft, 7)));
 		hp = 5;
 		safeID = -1;
+		this.id = id;
 	}
 
 	private int time = 0;

@@ -64,7 +64,7 @@ public class Server {
 		listener.start();
 	}
 
-	private final String[] ADDRESSES = { "192.168.43.77" };
+	private final String[] ADDRESSES = { "192.168.0.101", "192.168.0.102", "192.168.0.103" };
 	private InetAddress broadcast;
 	private final int[] PORTS = { 35676 };
 	private List<InetAddress> ipAddresses = new ArrayList<InetAddress>();
