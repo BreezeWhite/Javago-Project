@@ -1,7 +1,11 @@
 package main;
 
+import java.util.List;
+
 import battles.Battle;
 import battles.TestBattle;
+import entities.Entity;
+import entities.Update;
 import entities.characters.players.Player;
 import events.Event;
 import events.EventListener;
@@ -166,7 +170,28 @@ public class JavaGo implements Runnable, EventListener {
 	}
 
 	private void tick() {
-		battle.update();
+		if (player.isRemoved()) {
+			player = battle.getClientPlayer();
+		}
+		if (Settings.isServer()) {
+			battle.update();
+			List<Entity> entities = battle.getEntities();
+			for (int i = 0; i < entities.size(); ++i) {
+				Update update = entities.get(i).generateUpdate();
+				update.index = i;
+				update.player = false;
+				server.sendAll(update.serialise());
+			}
+			List<Player> players = battle.getPlayers();
+			for (int i = 0; i < players.size(); ++i) {
+				Update update = players.get(i).generateUpdate();
+				update.index = i;
+				update.player = true;
+				server.sendAll(update.serialise());
+			}
+		} else {
+
+		}
 	}
 
 }

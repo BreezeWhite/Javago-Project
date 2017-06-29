@@ -5,7 +5,6 @@ import entities.characters.players.FatNerd;
 import entities.characters.players.GladiatorCat;
 import entities.characters.players.Leprechaun;
 import entities.characters.players.SharkPlane;
-import inputs.Keyboard;
 import inputs.KeyboardServerCopy;
 import mathematics.Vector2d;
 
