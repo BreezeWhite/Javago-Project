@@ -35,7 +35,7 @@ public abstract class Battle implements EventListener {
 	public void add(Entity entity) {
 		if (entity instanceof Player) {
 			lists.players.add((Player) entity);
-		} else if (entity instanceof Projectile) {
+		} else if (Settings.isServer() && entity instanceof Projectile) {
 			Projectile projectile = (Projectile) entity;
 			Update update = new Update();
 			update.player = false;

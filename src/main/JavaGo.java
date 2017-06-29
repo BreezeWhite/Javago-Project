@@ -182,6 +182,7 @@ public class JavaGo implements Runnable, EventListener {
 				Update update = entities.get(i).generateUpdate();
 				update.index = entities.get(i).getID();
 				update.player = false;
+				update.newProjectile = false;
 				server.sendAll(update.serialise());
 			}
 			List<Player> players = battle.getPlayers();

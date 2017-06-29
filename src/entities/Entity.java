@@ -134,7 +134,7 @@ public abstract class Entity {
 		return false;
 	}
 	
-	private int id;
+	public int id;
 
 	private int sign(double value) {
 		return (value < 0) ? -1 : 1;

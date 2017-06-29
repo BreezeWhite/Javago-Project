@@ -81,7 +81,9 @@ public class Client {
 		if (update != null) {
 			if (!update.player) {
 				if (update.newProjectile) {
-					JavaGo.getInstance().getBattle().add(new Projectile(new Vector2d(update.x, update.y), update.spriteSheetIndex, update.spriteIndex, update.angle, update.speed, update.range, update.damage));
+					Projectile projectile = new Projectile(new Vector2d(update.x, update.y), update.spriteSheetIndex, update.spriteIndex, update.angle, update.speed, update.range, update.damage);
+					projectile.id = update.index;
+					JavaGo.getInstance().getBattle().add(projectile);
 				} else {
 					List<Entity> entities = JavaGo.getInstance().getBattle().getEntities();
 					for (int i = 0; i < entities.size(); ++i) {
