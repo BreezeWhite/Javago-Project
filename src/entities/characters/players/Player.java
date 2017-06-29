@@ -17,6 +17,7 @@ public abstract class Player extends Character implements EventListener {
 		super(position, animatedSpriteSet);
 		this.keyboard = keyboard;
 		CLIENT_PLAYER = (keyboard != null);
+		safeID = -2;
 	}
 
 	// Player with static sprite.
@@ -25,6 +26,7 @@ public abstract class Player extends Character implements EventListener {
 		this.sprite = sprite;
 		this.keyboard = keyboard;
 		CLIENT_PLAYER = (keyboard != null);
+		safeID = -2;
 	}
 
 	public KeyboardServerCopy getKeyboard() {

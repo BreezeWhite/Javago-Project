@@ -49,6 +49,7 @@ public abstract class Battle implements EventListener {
 			update.speed = projectile.getSpeed();
 			update.range = projectile.getRange();
 			update.damage = projectile.getDamage();
+			update.safeID = projectile.getSafeID();
 			JavaGo.getInstance().server.sendAll(update.serialise());
 			lists.entities.add(entity);
 		} else {
@@ -300,7 +301,7 @@ public abstract class Battle implements EventListener {
 		}
 	}
 
-	public boolean isSolid(int a_x1, int a_y1, int width, int height, int hpDeduction, boolean aIsSolid, int id) {
+	public boolean isSolid(int a_x1, int a_y1, int width, int height, int hpDeduction, boolean aIsSolid, int id1, int id2) {
 		int a_x2 = a_x1 + width, a_y2 = a_y1 + height;
 		if (getTile(a_x1 / Tile.WIDTH, a_y1 / Tile.HEIGHT).isSolid()
 				|| getTile(a_x2 / Tile.WIDTH, a_y1 / Tile.HEIGHT).isSolid()
@@ -311,28 +312,28 @@ public abstract class Battle implements EventListener {
 		if (aIsSolid) {
 			for (int i = 0; i < lists.entities.size(); ++i) {
 				Entity b = lists.entities.get(i);
-				if(b.id == id) {
+				if(b.id == id1 || b.id == id2) {
 					continue;
 				}
 				if (b.isSolid()) {
 					Vector2d bxy = b.getCoordinates();
 					if (a_x1 < bxy.getX() + b.getWidth() && a_x2 > bxy.getX() && a_y1 < bxy.getY() + b.getHeight()
 							&& a_y2 > bxy.getY()) {
-						b.hp -= hpDeduction;
+						if(id2 != -1) b.hp -= hpDeduction;
 						return true;
 					}
 				}
 			}
 			for (int i = 0; i < lists.players.size(); ++i) {
 				Player b = lists.players.get(i);
-				if(b.id == id) {
+				if(b.id == id1 || b.id == id2) {
 					continue;
 				}
 				if (b.isSolid()) {
 					Vector2d bxy = b.getCoordinates();
 					if (a_x1 < bxy.getX() + b.getWidth() && a_x2 > bxy.getX() && a_y1 < bxy.getY() + b.getHeight()
 							&& a_y2 > bxy.getY()) {
-						b.hp -= hpDeduction;
+						if(id2 != -2) b.hp -= hpDeduction;
 						return true;
 					}
 				}

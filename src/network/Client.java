@@ -82,7 +82,7 @@ public class Client {
 			if (!update.player) {
 				if (update.newProjectile) {
 					Projectile projectile = new Projectile(new Vector2d(update.x, update.y), update.spriteSheetIndex,
-							update.spriteIndex, update.angle, update.speed, update.range, update.damage);
+							update.spriteIndex, update.angle, update.speed, update.range, update.damage, update.safeID);
 					projectile.id = update.index;
 					JavaGo.getInstance().getBattle().add(projectile);
 				} else {

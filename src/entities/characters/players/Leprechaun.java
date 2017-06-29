@@ -34,7 +34,7 @@ public class Leprechaun extends Player {
 				if (keyboard.rPressed()) { // Four-leaf clover.
 					Projectile projectile = new Projectile(new Vector2d(x + 10, y + 16),
 							0, 2, direction.getDirectionAngleRadians(),
-							speed + 5, 300, 5);
+							speed + 5, 300, 10, id);
 					JavaGo.getInstance().getBattle().add(projectile);
 					timeToNextShot = reloadTime;
 				} else if (keyboard.ePressed()) { // Luck o' the Irish.
@@ -44,8 +44,8 @@ public class Leprechaun extends Player {
 				} else if (keyboard.qPressed()) { // Summon minions.
 					Battle battle = JavaGo.getInstance().getBattle();
 					for(int i = 0; i < NUM_MINIONS / 3; ++i) {
-						for(int j = 0; j < NUM_MINIONS / 6; ++j) {
-							battle.add(new Minion(new Vector2d(x + (i - 2.7) * 75, y + (j - 1) * 75)));
+						for(int j = 0; j < NUM_MINIONS / 3; ++j) {
+							battle.add(new Minion(new Vector2d(x + (i - 2.7) * 150, y + (j - 1) * 150)));
 						}
 					}
 					timeToNextShot = reloadTime;
@@ -55,6 +55,6 @@ public class Leprechaun extends Player {
 		super.update();
 	}
 	
-	private final int NUM_MINIONS = 18;
+	private final int NUM_MINIONS = 9;
 
 }

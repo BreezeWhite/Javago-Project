@@ -13,7 +13,7 @@ public class Projectile extends Entity {
 	private int spriteSheetIndex, spriteIndex;
 
 	public Projectile(Vector2d position, int spriteSheetIndex, int spriteIndex, double angle, double speed, int range,
-			int damage) {
+			int damage, int safeID) {
 		super(position, SpriteSheet.projectiles.get(spriteSheetIndex).getSprites()[spriteIndex]);
 		this.spriteSheetIndex = spriteSheetIndex;
 		this.spriteIndex = spriteIndex;
@@ -23,6 +23,7 @@ public class Projectile extends Entity {
 		this.range = range;
 		this.speed = speed;
 		this.damage = damage;
+		this.safeID = safeID;
 		nx = this.speed * Math.cos(angle);
 		ny = this.speed * Math.sin(angle);
 	}
@@ -37,6 +38,10 @@ public class Projectile extends Entity {
 
 	public int getDamage() {
 		return damage;
+	}
+
+	public int getSafeID() {
+		return safeID;
 	}
 
 	public double getSpeed() {

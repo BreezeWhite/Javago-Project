@@ -80,16 +80,16 @@ public class SpriteSheet {
 	public static final SpriteSheet fatNerdLeft = new SpriteSheet(fatNerd, new Vector2i(0, 3), new Vector2i(3, 1), fatNerdDimensions);
 	public static final SpriteSheet fatNerdUpLeft = new SpriteSheet(fatNerd, new Vector2i(0, 3), new Vector2i(3, 1), fatNerdDimensions);
 
-	public static final Vector2i gayVampireDimensions = new Vector2i(32, 32);
-	public static final SpriteSheet gayVampire = new SpriteSheet(new SpriteSheet("/textures/sheets/players/gay_vampire.png"), new Vector2i(0, 0), new Vector2i(6, 8), gayVampireDimensions);
-	public static final SpriteSheet gayVampireUp = new SpriteSheet(gayVampire, new Vector2i(0, 3), new Vector2i(6, 1), gayVampireDimensions);
-	public static final SpriteSheet gayVampireUpRight = new SpriteSheet(gayVampire, new Vector2i(0, 7), new Vector2i(6, 1), gayVampireDimensions);
-	public static final SpriteSheet gayVampireRight = new SpriteSheet(gayVampire, new Vector2i(0, 2), new Vector2i(6, 1), gayVampireDimensions);
-	public static final SpriteSheet gayVampireDownRight = new SpriteSheet(gayVampire, new Vector2i(0, 5), new Vector2i(6, 1), gayVampireDimensions);
-	public static final SpriteSheet gayVampireDown = new SpriteSheet(gayVampire, new Vector2i(0, 0), new Vector2i(6, 1), gayVampireDimensions);
-	public static final SpriteSheet gayVampireDownLeft = new SpriteSheet(gayVampire, new Vector2i(0, 4), new Vector2i(6, 1), gayVampireDimensions);
-	public static final SpriteSheet gayVampireLeft = new SpriteSheet(gayVampire, new Vector2i(0, 1), new Vector2i(6, 1), gayVampireDimensions);
-	public static final SpriteSheet gayVampireUpLeft = new SpriteSheet(gayVampire, new Vector2i(0, 6), new Vector2i(6, 1), gayVampireDimensions);
+	public static final Vector2i vampireDimensions = new Vector2i(32, 32);
+	public static final SpriteSheet vampire = new SpriteSheet(new SpriteSheet("/textures/sheets/players/vampire.png"), new Vector2i(0, 0), new Vector2i(6, 8), vampireDimensions);
+	public static final SpriteSheet vampireUp = new SpriteSheet(vampire, new Vector2i(0, 3), new Vector2i(6, 1), vampireDimensions);
+	public static final SpriteSheet vampireUpRight = new SpriteSheet(vampire, new Vector2i(0, 7), new Vector2i(6, 1), vampireDimensions);
+	public static final SpriteSheet vampireRight = new SpriteSheet(vampire, new Vector2i(0, 2), new Vector2i(6, 1), vampireDimensions);
+	public static final SpriteSheet vampireDownRight = new SpriteSheet(vampire, new Vector2i(0, 5), new Vector2i(6, 1), vampireDimensions);
+	public static final SpriteSheet vampireDown = new SpriteSheet(vampire, new Vector2i(0, 0), new Vector2i(6, 1), vampireDimensions);
+	public static final SpriteSheet vampireDownLeft = new SpriteSheet(vampire, new Vector2i(0, 4), new Vector2i(6, 1), vampireDimensions);
+	public static final SpriteSheet vampireLeft = new SpriteSheet(vampire, new Vector2i(0, 1), new Vector2i(6, 1), vampireDimensions);
+	public static final SpriteSheet vampireUpLeft = new SpriteSheet(vampire, new Vector2i(0, 6), new Vector2i(6, 1), vampireDimensions);
 
 	public static final Vector2i minionDimensions = new Vector2i(64, 64);
 	public static final SpriteSheet minion = new SpriteSheet(new SpriteSheet("/textures/sheets/players/minion.png"), new Vector2i(0, 0), new Vector2i(7, 8), minionDimensions);

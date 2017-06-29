@@ -55,6 +55,7 @@ public class GladiatorCat extends Player {
 				abilityAnimations.get(abilityAnimationIndex).setFrameRate(30);
 				abilityAnimationRepetitions = 15;
 				abilityDeltaY = 0;
+				hp += 50;
 				usingAbility = true;
 			} else if (keyboard.qPressed()) { // Flee.
 				oldSpeed = speed;

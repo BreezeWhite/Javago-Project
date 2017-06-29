@@ -24,6 +24,8 @@ public class Minion extends Character {
 						new AnimatedSprite(SpriteSheet.minionDimensions, SpriteSheet.minionDownLeft, 7),
 						new AnimatedSprite(SpriteSheet.minionDimensions, SpriteSheet.minionLeft, 7),
 						new AnimatedSprite(SpriteSheet.minionDimensions, SpriteSheet.minionUpLeft, 7)));
+		hp = 5;
+		safeID = -1;
 	}
 
 	private int time = 0;
@@ -41,6 +43,9 @@ public class Minion extends Character {
 		Vector2i destination = new Vector2i(playerX / Tile.WIDTH, playerY / Tile.HEIGHT);
 		if (time % 3 == 0) {
 			path = battle.findPath(start, destination);
+		}
+		if (time % 20 == 0) {
+			damage = 1;
 		}
 		if (path != null && path.size() > 0) {
 			Vector2i vector = path.get(path.size() - 1).tile;
