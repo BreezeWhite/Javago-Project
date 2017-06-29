@@ -258,7 +258,7 @@ public abstract class Battle implements EventListener {
 	private void remove() {
 		for (int i = 0; i < lists.entities.size(); ++i) {
 			Entity entity = lists.entities.get(i);
-			if(entity.hp <= 0) {
+			if (entity.hp <= 0) {
 				entity.remove();
 			}
 			if (entity.isRemoved()) {
@@ -273,7 +273,7 @@ public abstract class Battle implements EventListener {
 		}
 		for (int i = 0; i < lists.players.size(); ++i) {
 			Player player = lists.players.get(i);
-			if(player.hp <= 0) {
+			if (player.hp <= 0) {
 				player.remove();
 			}
 			if (player.isRemoved()) {
@@ -300,7 +300,7 @@ public abstract class Battle implements EventListener {
 		}
 	}
 
-	public boolean isSolid(int a_x1, int a_y1, int width, int height, int hpDeduction) {
+	public boolean isSolid(int a_x1, int a_y1, int width, int height, int hpDeduction, boolean aIsSolid, int id) {
 		int a_x2 = a_x1 + width, a_y2 = a_y1 + height;
 		if (getTile(a_x1 / Tile.WIDTH, a_y1 / Tile.HEIGHT).isSolid()
 				|| getTile(a_x2 / Tile.WIDTH, a_y1 / Tile.HEIGHT).isSolid()
@@ -308,28 +308,33 @@ public abstract class Battle implements EventListener {
 				|| getTile(a_x2 / Tile.WIDTH, a_y2 / Tile.HEIGHT).isSolid()) {
 			return true;
 		}
-		for (int i = 0; i < lists.entities.size(); ++i) {
-			Entity b = lists.entities.get(i);
-			if (b.isSolid()) {
-				Vector2d bxy = b.getCoordinates();
-				if (a_x1 < bxy.getX() + b.getWidth() && a_x2 > bxy.getX() && a_y1 < bxy.getY() + b.getHeight()
-						&& a_y2 > bxy.getY()) {
-					b.hp -= hpDeduction;
-					return true;
+		if (aIsSolid) {
+			for (int i = 0; i < lists.entities.size(); ++i) {
+				Entity b = lists.entities.get(i);
+				if(b.id == id) {
+					continue;
+				}
+				if (b.isSolid()) {
+					Vector2d bxy = b.getCoordinates();
+					if (a_x1 < bxy.getX() + b.getWidth() && a_x2 > bxy.getX() && a_y1 < bxy.getY() + b.getHeight()
+							&& a_y2 > bxy.getY()) {
+						b.hp -= hpDeduction;
+						return true;
+					}
 				}
 			}
-		}
-		for (int i = 0; i < lists.players.size(); ++i) {
-			if (i == Settings.getPlayerIndex()) {
-				continue;
-			}
-			Player b = lists.players.get(i);
-			if (b.isSolid()) {
-				Vector2d bxy = b.getCoordinates();
-				if (a_x1 < bxy.getX() + b.getWidth() && a_x2 > bxy.getX() && a_y1 < bxy.getY() + b.getHeight()
-						&& a_y2 > bxy.getY()) {
-					b.hp -= hpDeduction;
-					return true;
+			for (int i = 0; i < lists.players.size(); ++i) {
+				Player b = lists.players.get(i);
+				if(b.id == id) {
+					continue;
+				}
+				if (b.isSolid()) {
+					Vector2d bxy = b.getCoordinates();
+					if (a_x1 < bxy.getX() + b.getWidth() && a_x2 > bxy.getX() && a_y1 < bxy.getY() + b.getHeight()
+							&& a_y2 > bxy.getY()) {
+						b.hp -= hpDeduction;
+						return true;
+					}
 				}
 			}
 		}

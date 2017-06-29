@@ -130,7 +130,7 @@ public abstract class Entity {
 	}
 
 	protected boolean collision(double deltaX, double deltaY) {
-		return JavaGo.getInstance().getBattle().isSolid((int)(x + deltaX), (int)(y + deltaY), sprite.getWidth(), sprite.getHeight(), damage);
+		return JavaGo.getInstance().getBattle().isSolid((int)(x + deltaX), (int)(y + deltaY), sprite.getWidth(), sprite.getHeight(), damage, solid, id);
 	}
 	
 	public int id;

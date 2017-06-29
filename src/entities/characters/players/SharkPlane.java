@@ -24,6 +24,7 @@ public class SharkPlane extends Player {
 		defaultFrame = 1;
 		reloadTime = 30;
 		speed = 5;
+		solid = false;
 	}
 
 	@Override
