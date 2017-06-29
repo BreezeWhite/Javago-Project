@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.MulticastSocket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
@@ -20,6 +21,11 @@ public class Client {
 		serverIPString = Settings.getServerIP();
 		port = Integer.parseInt(Settings.getClientPort());
 		serverPort = Integer.parseInt(Settings.getServerPort());
+		try {
+			group = InetAddress.getByName(Settings.getGroup());
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public boolean connect() {
@@ -51,7 +57,7 @@ public class Client {
 		while (listening) {
 			DatagramPacket packet = new DatagramPacket(incomingData, MAX_PACKET_SIZE);
 			try {
-				socket.receive(packet);
+				multicastSocket.receive(packet);
 			} catch (IOException e) {
 				e.printStackTrace();
 				return;
@@ -93,10 +99,13 @@ public class Client {
 
 	public void start() {
 		try {
-			socket = new DatagramSocket(port);
+			socket = new DatagramSocket(port - 1);
+			multicastSocket = new MulticastSocket(port);
 		} catch (SocketException e) {
 			e.printStackTrace();
 			return; // 如果發生例外，不要開始跑伺服器。
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 		listening = true;
 		listener = new Thread(() -> listen());
@@ -107,7 +116,9 @@ public class Client {
 	private final int DATA_BUFFER_SIZE = 1024;
 	private byte[] incomingData = new byte[MAX_PACKET_SIZE * DATA_BUFFER_SIZE];
 	private Error errorCode = Error.NONE;
+	InetAddress group;
 	private Thread listener;
+	MulticastSocket multicastSocket;
 	private int port;
 	private InetAddress serverIP;
 	private String serverIPString;

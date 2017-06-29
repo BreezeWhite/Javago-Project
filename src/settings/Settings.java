@@ -15,6 +15,10 @@ public class Settings {
 	public static String getClientPort() {
 		return clientPort;
 	}
+	
+	public static String getGroup() {
+		return group;
+	}
 
 	public static Settings getInstance() {
 		if (theSettings == null) {
@@ -41,6 +45,7 @@ public class Settings {
 
 	private static String clientIP;
 	private static String clientPort;
+	private static String group;
 	private static int playerIndex;
 	private static boolean server = false;
 	private static String serverIP;
@@ -73,6 +78,8 @@ public class Settings {
 					clientPort = reader.readLine();
 				} else if (text.equals("playerindex")) {
 					playerIndex = Integer.parseInt(reader.readLine());
+				} else if(text.equals("group")) {
+					group = reader.readLine();
 				}
 			}
 		} catch (FileNotFoundException e1) {
