@@ -257,7 +257,11 @@ public abstract class Battle implements EventListener {
 
 	private void remove() {
 		for (int i = 0; i < lists.entities.size(); ++i) {
-			if (lists.entities.get(i).isRemoved()) {
+			Entity entity = lists.entities.get(i);
+			if(entity.hp <= 0) {
+				entity.remove();
+			}
+			if (entity.isRemoved()) {
 				Update update = new Update();
 				update.player = false;
 				update.newProjectile = false;
@@ -268,7 +272,11 @@ public abstract class Battle implements EventListener {
 			}
 		}
 		for (int i = 0; i < lists.players.size(); ++i) {
-			if (lists.players.get(i).isRemoved()) {
+			Player player = lists.players.get(i);
+			if(player.hp <= 0) {
+				player.remove();
+			}
+			if (player.isRemoved()) {
 				lists.players.set(i,
 						new Observer(lists.players.get(i).getCoordinates(), lists.players.get(i).getKeyboard()));
 			}
@@ -290,6 +298,42 @@ public abstract class Battle implements EventListener {
 		default:
 			return Tile.voidTile;
 		}
+	}
+
+	public boolean isSolid(int a_x1, int a_y1, int width, int height, int hpDeduction) {
+		int a_x2 = a_x1 + width, a_y2 = a_y1 + height;
+		if (getTile(a_x1 / Tile.WIDTH, a_y1 / Tile.HEIGHT).isSolid()
+				|| getTile(a_x2 / Tile.WIDTH, a_y1 / Tile.HEIGHT).isSolid()
+				|| getTile(a_x1 / Tile.WIDTH, a_y2 / Tile.HEIGHT).isSolid()
+				|| getTile(a_x2 / Tile.WIDTH, a_y2 / Tile.HEIGHT).isSolid()) {
+			return true;
+		}
+		for (int i = 0; i < lists.entities.size(); ++i) {
+			Entity b = lists.entities.get(i);
+			if (b.isSolid()) {
+				Vector2d bxy = b.getCoordinates();
+				if (a_x1 < bxy.getX() + b.getWidth() && a_x2 > bxy.getX() && a_y1 < bxy.getY() + b.getHeight()
+						&& a_y2 > bxy.getY()) {
+					b.hp -= hpDeduction;
+					return true;
+				}
+			}
+		}
+		for (int i = 0; i < lists.players.size(); ++i) {
+			if (i == Settings.getPlayerIndex()) {
+				continue;
+			}
+			Player b = lists.players.get(i);
+			if (b.isSolid()) {
+				Vector2d bxy = b.getCoordinates();
+				if (a_x1 < bxy.getX() + b.getWidth() && a_x2 > bxy.getX() && a_y1 < bxy.getY() + b.getHeight()
+						&& a_y2 > bxy.getY()) {
+					b.hp -= hpDeduction;
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	private static class NodeComparator implements Comparator<Node>, Serializable {

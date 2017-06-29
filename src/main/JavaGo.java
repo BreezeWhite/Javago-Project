@@ -2,6 +2,8 @@ package main;
 
 import java.util.List;
 
+import javax.swing.JLabel;
+
 import battles.Battle;
 import battles.TestBattle;
 import entities.Entity;
@@ -163,6 +165,7 @@ public class JavaGo implements Runnable, EventListener {
 	private Player player;
 	private static Screen screen;
 	public Server server = null;
+	public static JLabel stats = new JLabel();
 	private Thread thread;
 	private Window window;
 
@@ -191,6 +194,9 @@ public class JavaGo implements Runnable, EventListener {
 				update.index = i;
 				update.player = true;
 				server.sendAll(update.serialise());
+				if(i == Settings.getPlayerIndex()) {
+					stats.setText("HP: " + players.get(i).hp);
+				}
 			}
 		} else {
 

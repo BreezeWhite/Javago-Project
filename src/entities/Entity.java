@@ -8,11 +8,11 @@ import main.JavaGo;
 import mathematics.Vector2d;
 import mathematics.Vector2i;
 import settings.Settings;
-import tiles.Tile;
 
 public abstract class Entity {
 
 	public Direction direction = Direction.DOWN;
+	public int hp = 100;
 
 	protected Entity(Vector2d position, Sprite sprite) {
 		x = position.getX();
@@ -45,6 +45,10 @@ public abstract class Entity {
 	public int getWidth() {
 		return sprite.getWidth();
 	}
+	
+	public boolean isSolid() {
+		return solid;
+	}
 
 	public boolean isRemoved() {
 		return removed;
@@ -67,7 +71,9 @@ public abstract class Entity {
 
 	public abstract void update();
 
+	protected int damage = 0;
 	protected final Random random = new Random();
+	protected boolean solid = true;
 	protected Sprite sprite;
 	protected double x, y;
 
@@ -124,16 +130,7 @@ public abstract class Entity {
 	}
 
 	protected boolean collision(double deltaX, double deltaY) {
-		for (int i = 0; i < 4; ++i) {
-			double xt = ((x + deltaX) - i % 2 * sprite.getWidth()) / Tile.WIDTH;
-			double yt = ((y + deltaY) - i / 2 * sprite.getHeight()) / Tile.HEIGHT;
-			int xi = (i % 2 == 0) ? (int) Math.floor(xt) : (int) Math.ceil(xt);
-			int yi = (i / 2 == 0) ? (int) Math.floor(yt) : (int) Math.ceil(yt);
-			if (JavaGo.getInstance().getBattle().getTile(xi, yi).isSolid()) {
-				return true;
-			}
-		}
-		return false;
+		return JavaGo.getInstance().getBattle().isSolid((int)(x + deltaX), (int)(y + deltaY), sprite.getWidth(), sprite.getHeight(), damage);
 	}
 	
 	public int id;

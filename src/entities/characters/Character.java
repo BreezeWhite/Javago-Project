@@ -23,6 +23,7 @@ public abstract class Character extends Entity {
 		Update update = super.generateUpdate();
 		update.usingAbility = usingAbility;
 		update.speed = speed;
+		update.hp = hp;
 		if (usingAbility) {
 			update.abilityAnimationRepetitions = abilityAnimationRepetitions;
 			update.abilityAnimationIndex = abilityAnimationIndex;
@@ -39,6 +40,7 @@ public abstract class Character extends Entity {
 	public void processUpdate(Update update) {
 		super.processUpdate(update);
 		speed = update.speed;
+		hp = update.hp;
 		usingAbility = update.usingAbility;
 		if (usingAbility) {
 			abilityAnimationRepetitions = update.abilityAnimationRepetitions;
@@ -96,7 +98,6 @@ public abstract class Character extends Entity {
 	protected double abilityDeltaX = 0, abilityDeltaY = 0;
 	protected int defaultFrame = 0;
 	protected double deltaX = 0, deltaY = 0;
-	protected int hp = 100;
 	protected int reloadTime = 20;
 	protected double speed = 2;
 	protected int timeToNextShot = 0;

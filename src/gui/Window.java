@@ -11,7 +11,6 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -50,7 +49,7 @@ public class Window extends JFrame implements ComponentListener {
 		c.gridx = 0;
 		c.gridy = 0;
 		c.anchor = GridBagConstraints.LINE_END;
-		infoPanel.add(new JLabel("HP: 1000"), c);
+		infoPanel.add(JavaGo.stats, c);
 		screenPanel = new JPanel();
 		screen = Screen.getInstance();
 		screenPanel.add(screen);

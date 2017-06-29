@@ -40,12 +40,12 @@ public class SharkPlane extends Player {
 					timeToNextShot = reloadTime;
 				} else if (keyboard.ePressed()) { // Missile.
 					Projectile projectile = new Projectile(new Vector2d(x + 24, y + 24), 1, direction.getIndex(),
-							direction.getDirectionAngleRadians(), speed + 5, 300, 5);
+							direction.getDirectionAngleRadians(), speed + 5, 300, 20);
 					JavaGo.getInstance().getBattle().add(projectile);
 					timeToNextShot = MISSILE_RELOAD_TIME;
 				} else if (keyboard.wPressed()) { // Homing missile.
 					Projectile projectile = new Projectile(new Vector2d(x + 24, y + 24), 2, direction.getIndex(),
-							direction.getDirectionAngleRadians(), speed + 5, 300, 5);
+							direction.getDirectionAngleRadians(), speed + 5, 300, 20);
 					JavaGo.getInstance().getBattle().add(projectile);
 					timeToNextShot = MISSILE_RELOAD_TIME;
 				}

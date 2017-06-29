@@ -7,7 +7,7 @@ public class Projectile extends Entity {
 
 	protected final double xOrigin, yOrigin;
 	protected double angle;
-	protected int damage, range;
+	protected int range;
 	protected double nx, ny;
 	protected double speed;
 	private int spriteSheetIndex, spriteIndex;
@@ -60,7 +60,6 @@ public class Projectile extends Entity {
 				remove();
 			}
 		} else {
-			// battle.add(new ParticleSpawner((int)x, (int)y, 50, 10, level));
 			remove();
 		}
 	}
