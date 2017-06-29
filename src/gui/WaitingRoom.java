@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -15,6 +16,7 @@ public class WaitingRoom extends JPanel{
     	return waitingRoom;
     }
     
+	
 	public void selectedCharacter(String character){
 		characterSelected = character;
 	}
@@ -22,6 +24,8 @@ public class WaitingRoom extends JPanel{
     private WaitingRoom(){
     	super(null);
 		setPreferredSize(new Dimension(1080, 496));
+		
+		
 		
 		JButton startBattle = new JButton("開始遊戲");
 		startBattle.setBounds(400,400,100,50);

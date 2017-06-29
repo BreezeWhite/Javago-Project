@@ -35,10 +35,12 @@ public class CharacterSelection extends JPanel{
 		for(int i=0;i<3;i+=1){
 			select[i] = new JButton("選擇");
 			select[i].setBounds(buttonX+i*offset,380,100,50);
+			WaitingRoom tmpWaiting = WaitingRoom.getInstance(theCharacterSelection);
+			tmpWaiting.selectedCharacter(Character(i));
 			select[i].addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					Window.getInstance().changeTo(WaitingRoom.getInstance(theCharacterSelection));
+					Window.getInstance().changeTo(tmpWaiting);
 				}
 			});
 			add(select[i]);
@@ -46,6 +48,17 @@ public class CharacterSelection extends JPanel{
 		
 	}
 	
+	private String Character(int i){
+		switch(i){
+		case 0:
+			return "sword";
+		case 1:
+			return "fighter";
+		case 2:
+			return "archer";
+		}
+		return null;
+	}
 	private void LoadCharacterImages(){
 		try {
 			swordsman = ImageIO.read(IslandSelector.class.getResource("/textures/sheets/characters/sword.png"));
