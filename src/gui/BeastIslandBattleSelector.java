@@ -11,7 +11,6 @@ import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import main.JavaGo;
 
 public class BeastIslandBattleSelector extends JPanel {
 
@@ -39,8 +38,8 @@ public class BeastIslandBattleSelector extends JPanel {
 		level1.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Window.getInstance().changeToScreen();
-				JavaGo.getInstance().start();
+				//Window.getInstance().changeToScreen();
+				Window.getInstance().changeTo(CharacterSelection.getInstance());
 			}
 		});
 		add(level1);
@@ -51,9 +50,8 @@ public class BeastIslandBattleSelector extends JPanel {
 		level2.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Window.getInstance().changeToScreen();
-				JavaGo.getInstance().start();
-			}
+				//Window.getInstance().changeToScreen();
+				Window.getInstance().changeTo(CharacterSelection.getInstance());			}
 		});
 		add(level2);
 		
@@ -63,9 +61,8 @@ public class BeastIslandBattleSelector extends JPanel {
 		level3.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Window.getInstance().changeToScreen();
-				JavaGo.getInstance().start();
-			}
+				//Window.getInstance().changeToScreen();
+				Window.getInstance().changeTo(CharacterSelection.getInstance());			}
 		});
 		add(level3);
 	}

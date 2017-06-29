@@ -15,6 +15,10 @@ public class WaitingRoom extends JPanel{
     	return waitingRoom;
     }
     
+	public void selectedCharacter(String character){
+		characterSelected = character;
+	}
+	
     private WaitingRoom(){
     	super(null);
 		setPreferredSize(new Dimension(1080, 496));
@@ -44,4 +48,5 @@ public class WaitingRoom extends JPanel{
     private static WaitingRoom waitingRoom = new WaitingRoom();
     private static final long serialVersionUID = 1L;
     private static JPanel lastPanel = null;
+    private String characterSelected;
 }

@@ -21,6 +21,7 @@ public class CharacterSelection extends JPanel{
 		super.paintComponent(g);
 		g.drawImage(swordsman, 70, 50, 300, 284, this);
 		g.drawImage(fighter, 400, 40, 246, 320, this);
+		g.drawImage(archer, 750, 40, 242, 320, this);
 	}
 
 	
@@ -48,13 +49,14 @@ public class CharacterSelection extends JPanel{
 	private void LoadCharacterImages(){
 		try {
 			swordsman = ImageIO.read(IslandSelector.class.getResource("/textures/sheets/characters/sword.png"));
-            fighter = ImageIO.read(IslandSelector.class.getResource("/textures/sheets/characters/fighter.png"));		
+			archer = ImageIO.read(IslandSelector.class.getResource("/textures/sheets/characters/archer.png"));		
+			fighter = ImageIO.read(IslandSelector.class.getResource("/textures/sheets/characters/fighter.png"));		
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
 	}
 	
 	private static CharacterSelection theCharacterSelection = new CharacterSelection();;
-    private BufferedImage swordsman, fighter;
+    private BufferedImage swordsman, fighter, archer;
     private static final long serialVersionUID = 1L;
 }

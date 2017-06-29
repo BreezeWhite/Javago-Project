@@ -11,8 +11,6 @@ import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import main.JavaGo;
-
 public class RobotIslandBattleSelector extends JPanel {
 
 	public static RobotIslandBattleSelector getInstance() {
@@ -41,7 +39,6 @@ public class RobotIslandBattleSelector extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				//Window.getInstance().changeToScreen();
 				Window.getInstance().changeTo(CharacterSelection.getInstance());
-				//JavaGo.getInstance().start();
 			}
 		});
 		add(level1);
@@ -52,8 +49,8 @@ public class RobotIslandBattleSelector extends JPanel {
 		level2.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Window.getInstance().changeToScreen();
-				JavaGo.getInstance().start();
+				//Window.getInstance().changeToScreen();
+				Window.getInstance().changeTo(CharacterSelection.getInstance());
 			}
 		});
 		add(level2);
@@ -64,8 +61,8 @@ public class RobotIslandBattleSelector extends JPanel {
 		level3.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Window.getInstance().changeToScreen();
-				JavaGo.getInstance().start();
+				//Window.getInstance().changeToScreen();
+				Window.getInstance().changeTo(CharacterSelection.getInstance());
 			}
 		});
 		add(level3);
