@@ -179,7 +179,7 @@ public class JavaGo implements Runnable, EventListener {
 		if (player.isRemoved()) {
 			player = battle.getClientPlayer();
 		}
-		if (player instanceof Observer) {
+		if (player.hp > 999999) {
 			stats.setText("You have died.");
 		} else {
 			stats.setText("HP: " + player.hp);
