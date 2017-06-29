@@ -16,7 +16,7 @@ public class Update implements Serializable {
 	private static final long serialVersionUID = 225755851940037352L;
 	public Direction direction;
 	public int frame, index, abilityAnimationIndex, damage, range, spriteSheetIndex, spriteIndex, abilityAnimationRepetitions;
-	public boolean newProjectile, player, usingAbility;
+	public boolean newProjectile, player, removed, usingAbility;
 	public double angle, x, y, speed;
 
 	public byte[] serialise() {

@@ -26,6 +26,7 @@ public abstract class Entity {
 		update.x = x;
 		update.y = y;
 		update.direction = direction;
+		update.removed = removed;
 		return update;
 	}
 
@@ -53,6 +54,7 @@ public abstract class Entity {
 		x = update.x;
 		y = update.y;
 		direction = update.direction;
+		removed = update.removed;
 	}
 
 	public void remove() {

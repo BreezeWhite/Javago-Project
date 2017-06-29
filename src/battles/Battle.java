@@ -40,6 +40,7 @@ public abstract class Battle implements EventListener {
 			Update update = new Update();
 			update.player = false;
 			update.newProjectile = true;
+			update.index = projectile.getID();
 			update.x = projectile.getCoordinates().getX();
 			update.y = projectile.getCoordinates().getY();
 			update.spriteSheetIndex = projectile.getSpriteSheetIndex();
